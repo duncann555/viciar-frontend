@@ -1,9 +1,13 @@
+import Menu from './components/shared/Menu.jsx'
+import Footer from './components/shared/Footer.jsx'
 
 function App() {
 
   return (
     <>
-      <h1>HOLA</h1>
+      <Menu/>
+      <main><h1>HOLA</h1></main>
+      <Footer/>
     </>
   )
 }
