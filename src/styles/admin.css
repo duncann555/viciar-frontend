@@ -34,14 +34,15 @@
    BOTONES PERSONALIZADOS
 ======================================= */
 .btn-admin-primary {
-  background-color: #27187e;
+  background-color: #27187e !important;
   border-color: #27187e;
   color: white;
   font-weight: 500;
 }
 
 .btn-admin-primary:hover {
-  background-color: #1d125f;
+  background-color: #f2f2ff!important;
+  color: #27187e !important;
   border-color: #1d125f;
 }
 

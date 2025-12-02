@@ -125,6 +125,11 @@ function Admin() {
                       >
                         Editar
                       </Button>
+
+                      <Button variant="outline-danger me-2" size="sm">
+                        Suspender
+                      </Button>
+
                       <Button variant="outline-danger" size="sm">
                         Eliminar
                       </Button>
@@ -149,6 +154,11 @@ function Admin() {
                       >
                         Editar
                       </Button>
+
+                      <Button variant="outline-danger me-2" size="sm">
+                        Suspender
+                      </Button>
+
                       <Button variant="outline-danger" size="sm">
                         Eliminar
                       </Button>
