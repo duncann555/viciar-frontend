@@ -287,10 +287,17 @@ function Admin() {
               <Form.Control type="text" placeholder="Ej: Play Station 5" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="productoCategoria">
-              <Form.Label>Categoría</Form.Label>
-              <Form.Control type="text" placeholder="Ej: Consola" />
-            </Form.Group>
+            <Form.Select>
+              <option value="">Seleccioná una categoría</option>
+              <option value="juego-pc">Juego PC</option>
+              <option value="juego-ps5">Juego PS5</option>
+              <option value="juego-ps4">Juego PS4</option>
+              <option value="juego-ps3">Juego PS3</option>
+              <option value="juego-ps2">Juego PS2</option>
+              <option value="consola">Consola</option>
+              <option value="accesorio">Accesorio</option>
+              <option value="coleccionable">Coleccionable</option>
+            </Form.Select>
 
             <Form.Group className="mb-3" controlId="productoStock">
               <Form.Label>Stock</Form.Label>
@@ -359,7 +366,6 @@ function Admin() {
                 <option>Suspendido</option>
               </Form.Select>
             </Form.Group>
-
           </Form>
         </Modal.Body>
 
