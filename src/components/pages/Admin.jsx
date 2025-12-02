@@ -12,7 +12,6 @@ import Table from "react-bootstrap/Table";
 import { useState } from "react";
 import "../../styles/admin.css";
 
-
 function Admin() {
   const [mostrarProductoModal, setMostrarProductoModal] = useState(false);
   const [mostrarUsuarioModal, setMostrarUsuarioModal] = useState(false);
@@ -87,6 +86,74 @@ function Admin() {
               </InputGroup>
             </Col>
           </Row>
+
+          <Card className="admin-table-card">
+            <Card.Body>
+              <Card.Title>Listado de productos</Card.Title>
+              <Table responsive striped hover className="mt-3">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Stock</th>
+                    <th>Descripción</th>
+                    <th>Último control</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>PS5 Slim</td>
+                    <td>Consolas</td>
+                    <td>
+                      <Badge bg="success">25</Badge>
+                    </td>
+                    <td>Descripción corta del producto.</td>
+                    <td>2025-11-30</td>
+                    <td>$800.000</td>
+                    <td>
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        className="me-2"
+                      >
+                        Editar
+                      </Button>
+                      <Button variant="outline-danger" size="sm">
+                        Eliminar
+                      </Button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Red Dead Redemtion 2</td>
+                    <td>Juego PC</td>
+                    <td>
+                      <Badge bg="danger">0</Badge>
+                    </td>
+                    <td>Otro producto de prueba.</td>
+                    <td>2025-11-15</td>
+                    <td>$30.000</td>
+                    <td>
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        className="me-2"
+                      >
+                        Editar
+                      </Button>
+                      <Button variant="outline-danger" size="sm">
+                        Eliminar
+                      </Button>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
         </Tab>
 
         <Tab eventKey="usuarios" title="Usuarios">
@@ -112,7 +179,76 @@ function Admin() {
               </Col>
             </Row>
 
-            
+            <Card className="admin-table-card shadow-sm">
+              <Card.Body>
+                <Card.Title className="fw-semibold text-primary">
+                  Listado de usuarios
+                </Card.Title>
+
+                <Table responsive striped hover className="mt-3">
+                  <thead className="table-primary">
+                    <tr className="text-center">
+                      <th>#</th>
+                      <th>Nombre</th>
+                      <th>Email</th>
+                      <th>Rol</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="text-center">
+                    <tr>
+                      <td>1</td>
+                      <td>Admin Demo</td>
+                      <td>admin@demo.com</td>
+                      <td>
+                        <Badge bg="dark">admin</Badge>
+                      </td>
+                      <td>
+                        <Badge bg="success">Activo</Badge>
+                      </td>
+                      <td>
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="me-2"
+                        >
+                          Editar
+                        </Button>
+                        <Button variant="outline-danger" size="sm">
+                          Suspender
+                        </Button>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>2</td>
+                      <td>Usuario Demo</td>
+                      <td>user@demo.com</td>
+                      <td>
+                        <Badge bg="secondary">usuario</Badge>
+                      </td>
+                      <td>
+                        <Badge bg="warning">Pendiente</Badge>
+                      </td>
+                      <td>
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="me-2"
+                        >
+                          Editar
+                        </Button>
+                        <Button variant="outline-danger" size="sm">
+                          Eliminar
+                        </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
           </div>
         </Tab>
       </Tabs>
