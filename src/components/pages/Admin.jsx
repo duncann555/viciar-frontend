@@ -10,6 +10,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+
 import "../../styles/admin.css";
 
 function Admin() {
@@ -252,6 +254,57 @@ function Admin() {
           </div>
         </Tab>
       </Tabs>
+
+      <Modal
+        show={mostrarProductoModal}
+        onHide={() => setMostrarProductoModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Producto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="productoNombre">
+              <Form.Label>Nombre del producto</Form.Label>
+              <Form.Control type="text" placeholder="Ej: Play Station 5" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="productoCategoria">
+              <Form.Label>Categoría</Form.Label>
+              <Form.Control type="text" placeholder="Ej: Consola" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="productoStock">
+              <Form.Label>Stock</Form.Label>
+              <Form.Control type="number" min="0" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="productoDescripcion">
+              <Form.Label>Descripción</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Descripción breve del producto"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="productoFechaControl">
+              <Form.Label>Fecha de último control</Form.Label>
+              <Form.Control type="date" />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setMostrarProductoModal(false)}
+          >
+            Cancelar
+          </Button>
+          <Button className="btn-primary-admin">Guardar</Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
