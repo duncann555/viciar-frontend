@@ -101,7 +101,7 @@ function Admin() {
     }));
   };
 
-    const abrirModalProductoCrear = () => {
+  const abrirModalProductoCrear = () => {
     setModoProducto("crear");
     setProductoSeleccionadoId(null);
     setProductoForm({
@@ -129,7 +129,7 @@ function Admin() {
     setMostrarProductoModal(true);
   };
 
-   const cerrarModalProducto = () => {
+  const cerrarModalProducto = () => {
     setMostrarProductoModal(false);
   };
 
@@ -143,6 +143,22 @@ function Admin() {
       estado: "Activo",
     });
     setMostrarUsuarioModal(true);
+  };
+
+  const abrirModalUsuarioEditar = (usuario) => {
+    setModoUsuario("editar");
+    setUsuarioSeleccionadoId(usuario.id);
+    setUsuarioForm({
+      nombre: usuario.nombre,
+      email: usuario.email,
+      rol: usuario.rol,
+      estado: usuario.estado,
+    });
+    setMostrarUsuarioModal(true);
+  };
+
+  const cerrarModalUsuario = () => {
+    setMostrarUsuarioModal(false);
   };
 
   return (
