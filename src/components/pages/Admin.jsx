@@ -225,6 +225,24 @@ function Admin() {
     cerrarModalUsuario();
   };
 
+  const handleEliminarProducto = (id) => {
+    setProductos((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  const handleEliminarUsuario = (id) => {
+    setUsuarios((prev) => prev.filter((u) => u.id !== id));
+  };
+
+  const handleSuspenderUsuario = (id) => {
+    setUsuarios((prev) =>
+      prev.map((u) =>
+        u.id === id
+          ? { ...u, estado: u.estado === "Activo" ? "Suspendido" : "Activo" }
+          : u
+      )
+    );
+  };
+
   return (
     <Container fluid className="py-4">
       <Row className="mb-4">
