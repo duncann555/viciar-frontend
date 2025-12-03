@@ -8,13 +8,13 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <Menu />
-      <Routes>
-        <Route path="/" element={<Inicio/>} /> 
-        <Route path="/admin" element={<Admin/>} /> 
-      </Routes>
-    </BrowserRouter>
-      <Footer />
+        <Menu />
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </>
   );
 }
