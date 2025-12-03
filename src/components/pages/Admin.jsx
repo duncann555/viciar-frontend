@@ -133,6 +133,18 @@ function Admin() {
     setMostrarProductoModal(false);
   };
 
+  const abrirModalUsuarioCrear = () => {
+    setModoUsuario("crear");
+    setUsuarioSeleccionadoId(null);
+    setUsuarioForm({
+      nombre: "",
+      email: "",
+      rol: "",
+      estado: "Activo",
+    });
+    setMostrarUsuarioModal(true);
+  };
+
   return (
     <Container fluid className="py-4">
       <Row className="mb-4">
