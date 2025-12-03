@@ -1,15 +1,17 @@
-import Menu from './components/shared/Menu.jsx'
-import Footer from './components/shared/Footer.jsx'
+import Menu from "./components/shared/Menu.jsx";
+import Footer from "./components/shared/Footer.jsx";
+import Admin from "./components/pages/Admin.jsx";
 
 function App() {
-
   return (
     <>
-      <Menu/>
-      <main><h1>HOLA</h1></main>
-      <Footer/>
+      <Menu />
+      <main>
+        <Admin></Admin>
+      </main>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
