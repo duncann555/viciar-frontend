@@ -15,6 +15,45 @@ import Modal from "react-bootstrap/Modal";
 import "../../styles/admin.css";
 
 function Admin() {
+
+  const productosIniciales = [
+    {
+      id: 1,
+      nombre: "PS5 Slim",
+      categoria: "Consolas",
+      stock: 25,
+      descripcion: "Descripción corta del producto.",
+      ultimoControl: "2025-11-30",
+      precio: 800000,
+    },
+    {
+      id: 2,
+      nombre: "Red Dead Redemption 2",
+      categoria: "Juego PC",
+      stock: 0,
+      descripcion: "Otro producto de prueba.",
+      ultimoControl: "2025-11-15",
+      precio: 30000,
+    },
+  ];
+
+    const usuariosIniciales = [
+    {
+      id: 1,
+      nombre: "Sebastian",
+      email: "sebaflomen@gmail.com",
+      rol: "admin",
+      estado: "Activo",
+    },
+    {
+      id: 2,
+      nombre: "Matias",
+      email: "matias555@gmail.com",
+      rol: "usuario",
+      estado: "Pendiente",
+    },
+  ];
+
   const [mostrarProductoModal, setMostrarProductoModal] = useState(false);
   const [mostrarUsuarioModal, setMostrarUsuarioModal] = useState(false);
 
@@ -284,19 +323,21 @@ function Admin() {
           <Form>
             <Form.Group className="mb-3" controlId="productoNombre">
               <Form.Label>Nombre del producto</Form.Label>
-              <Form.Control type="text" placeholder="Ej: Play Station 5" />
+              <Form.Control
+                type="text"
+                placeholder="Ingrese nombre del producto"
+              />
             </Form.Group>
 
             <Form.Select>
               <option value="">Seleccioná una categoría</option>
-              <option value="juego-pc">Juego PC</option>
-              <option value="juego-ps5">Juego PS5</option>
-              <option value="juego-ps4">Juego PS4</option>
-              <option value="juego-ps3">Juego PS3</option>
-              <option value="juego-ps2">Juego PS2</option>
-              <option value="consola">Consola</option>
-              <option value="accesorio">Accesorio</option>
-              <option value="coleccionable">Coleccionable</option>
+
+              <option value="juegos-pc">Juegos de PC</option>
+              <option value="juegos-playstation">Juegos de PlayStation</option>
+              <option value="juegos-xbox">Juegos de Xbox</option>
+
+              <option value="consolas">Consolas</option>
+              <option value="accesorios">Accesorios</option>
             </Form.Select>
 
             <Form.Group className="mb-3" controlId="productoStock">
