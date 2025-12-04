@@ -1,19 +1,19 @@
 import {Carousel, CarouselItem} from "react-bootstrap"
-import consola from "../../../assets/consola.jpg"
-import joystick from "../../../assets/joystick.jpg"
-import logo from '../../../assets/imagen-logo.png'
+import blackFriday from "../../../assets/blackFriday.png"
+import juegos from "../../../assets/juegos.png"
+import promos from "../../../assets/promo.png"
 
 const Carrusel = () => {
     return (
         <Carousel>
             <CarouselItem>
-                <img loading="eager" className="imagen-Carousel" src={logo} alt="primera imagen del carrusel" />
+                <img loading="eager" className="imagen-Carousel" src={blackFriday} alt="banner oferta blackfriday" />
             </CarouselItem>
             <CarouselItem>
-                <img loading="eager" className="imagen-Carousel" src={consola} alt="primera imagen del carrusel" />
+                <img loading="eager" className="imagen-Carousel" src={juegos} alt="imagen de los juegos ofrecidos" />
             </CarouselItem>
             <CarouselItem>
-                <img loading="eager" className="imagen-Carousel" src={joystick} alt="primera imagen del carrusel" />
+                <img loading="eager" className="imagen-Carousel" src={promos} alt="primera imagen del carrusel" />
             </CarouselItem>
         </Carousel>
     );
