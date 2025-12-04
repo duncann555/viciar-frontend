@@ -12,6 +12,7 @@ function ProductosTab({
   abrirModalProductoCrear,
   abrirModalProductoEditar,
   handleEliminarProducto,
+  handleSuspenderProducto,      // 👈 NUEVO
   obtenerColorBadgeStock,
   formatearPrecio,
 }) {
@@ -89,6 +90,15 @@ function ProductosTab({
                   <td>{formatearPrecio(prod.precio)}</td>
 
                   <td>
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      className="me-2"
+                      onClick={() => handleSuspenderProducto(prod.id)}
+                    >
+                      Suspender
+                    </Button>
+
                     <Button
                       variant="outline-primary"
                       size="sm"
