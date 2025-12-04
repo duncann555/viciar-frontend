@@ -38,36 +38,56 @@ function ProductosTab({
         </Col>
       </Row>
 
-      <Card className="admin-table-card">
+      <Card className="admin-table-card shadow-sm">
         <Card.Body>
-          <Card.Title>Listado de productos</Card.Title>
-          <Table responsive striped hover className="mt-3">
-            <thead>
-              <tr>
+          <Card.Title className="fw-semibold text-primary">
+            Listado de productos
+          </Card.Title>
+
+          <Table responsive striped hover className="mt-3 align-middle">
+            <thead className="table-primary">
+              <tr className="text-center">
                 <th>#</th>
+                <th>Imagen</th>
                 <th>Nombre</th>
                 <th>Categoría</th>
                 <th>Stock</th>
-                <th>Descripción</th>
                 <th>Último control</th>
                 <th>Precio</th>
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+
+            <tbody className="text-center">
               {productos.map((prod) => (
                 <tr key={prod.id}>
                   <td>{prod.id}</td>
+
+                  <td>
+                    <img
+                      src={prod.imagenUrl}
+                      alt={prod.nombre}
+                      style={{
+                        width: "56px",
+                        height: "56px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </td>
+
                   <td>{prod.nombre}</td>
                   <td>{prod.categoria}</td>
+
                   <td>
                     <Badge bg={obtenerColorBadgeStock(prod.stock)}>
                       {prod.stock}
                     </Badge>
                   </td>
-                  <td>{prod.descripcion}</td>
+
                   <td>{prod.ultimoControl}</td>
                   <td>{formatearPrecio(prod.precio)}</td>
+
                   <td>
                     <Button
                       variant="outline-primary"

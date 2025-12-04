@@ -4,31 +4,59 @@ import Tab from "react-bootstrap/Tab";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import UsuarioModal from "./administrador/UsuarioModal";
-import AdminStats from "./administrador/AdminStats";
+import AdminStatus from "./administrador/AdminStatus";
 import ProductosTab from "./administrador/ProductosTab";
 import UsuariosTab from "./administrador/UsuariosTab";
 import ProductoModal from "./administrador/ProductosModal";
 import "../../styles/admin.css";
 
 function Admin() {
+  const [productoInicial, setProductoInicial] = useState({
+    nombre: "",
+    categoria: "",
+    stock: "",
+    descripcion: "",
+    fechaControl: "",
+    precio: "",
+    imagenUrl: "",
+  });
+
   const productosIniciales = [
     {
       id: 1,
       nombre: "PS5 Slim",
       categoria: "Consolas",
       stock: 25,
-      descripcion: "Descripción corta del producto.",
-      ultimoControl: "2025-11-30",
+      descripcion: "Consola PlayStation 5 Slim 1TB.",
+      ultimoControl: "15-NOV-2025",
       precio: 800000,
+      imagenUrl:
+        "https://i.pinimg.com/736x/c3/58/01/c35801d792e044d30f8feb552da866f4.jpg",
+      estado: "Activo",
     },
     {
       id: 2,
       nombre: "Red Dead Redemption 2",
-      categoria: "Juego PC",
+      categoria: "Juegos de PlayStation",
       stock: 0,
-      descripcion: "Otro producto de prueba.",
-      ultimoControl: "2025-11-15",
+      descripcion: "Juego de mundo abierto ambientado en el Lejano Oeste.",
+      ultimoControl: "15-NOV-2025",
       precio: 30000,
+      imagenUrl:
+        "https://i.pinimg.com/736x/d1/13/9b/d1139b1ee12965f315652a3eb970aa28.jpg",
+      estado: "Activo",
+    },
+    {
+      id: 3,
+      nombre: "Xbox Series X",
+      categoria: "Consolas",
+      stock: 5,
+      descripcion: "Consola Xbox Series X 1TB.",
+      ultimoControl: "15-NOV-2025",
+      precio: 750000,
+      imagenUrl:
+        "https://i.pinimg.com/1200x/37/6b/c4/376bc42193a19ccef559c3ab4a9e6e23.jpg",
+      estado: "Activo",
     },
   ];
 
@@ -61,15 +89,6 @@ function Admin() {
   const [productoSeleccionadoId, setProductoSeleccionadoId] = useState(null);
   const [usuarioSeleccionadoId, setUsuarioSeleccionadoId] = useState(null);
 
-  const [productoForm, setProductoForm] = useState({
-    nombre: "",
-    categoria: "",
-    stock: 0,
-    descripcion: "",
-    fechaControl: "",
-    precio: 0,
-  });
-
   const [usuarioForm, setUsuarioForm] = useState({
     nombre: "",
     email: "",
@@ -81,11 +100,6 @@ function Admin() {
   const productosSinStock = productos.filter((p) => p.stock === 0).length;
   const totalUsuarios = usuarios.length;
 
-  const handleChangeProducto = (e) => {
-    const { name, value } = e.target;
-    setProductoForm((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleChangeUsuario = (e) => {
     const { name, value } = e.target;
     setUsuarioForm((prev) => ({ ...prev, [name]: value }));
@@ -94,13 +108,14 @@ function Admin() {
   const abrirModalProductoCrear = () => {
     setModoProducto("crear");
     setProductoSeleccionadoId(null);
-    setProductoForm({
+    setProductoInicial({
       nombre: "",
       categoria: "",
-      stock: 0,
+      stock: "",
       descripcion: "",
       fechaControl: "",
-      precio: 0,
+      precio: "",
+      imagenUrl: "",
     });
     setMostrarProductoModal(true);
   };
@@ -108,13 +123,14 @@ function Admin() {
   const abrirModalProductoEditar = (producto) => {
     setModoProducto("editar");
     setProductoSeleccionadoId(producto.id);
-    setProductoForm({
+    setProductoInicial({
       nombre: producto.nombre,
       categoria: producto.categoria,
       stock: producto.stock,
       descripcion: producto.descripcion,
       fechaControl: producto.ultimoControl,
       precio: producto.precio,
+      imagenUrl: producto.imagenUrl,
     });
     setMostrarProductoModal(true);
   };
@@ -135,21 +151,25 @@ function Admin() {
 
   const cerrarModalUsuario = () => setMostrarUsuarioModal(false);
 
-  const handleGuardarProducto = () => {
+  const handleGuardarProducto = (data) => {
     const productoParaGuardar = {
-      nombre: productoForm.nombre,
-      categoria: productoForm.categoria,
-      stock: Number(productoForm.stock),
-      descripcion: productoForm.descripcion,
-      ultimoControl: productoForm.fechaControl,
-      precio: Number(productoForm.precio),
+      nombre: data.nombre,
+      categoria: data.categoria,
+      stock: Number(data.stock),
+      descripcion: data.descripcion,
+      ultimoControl: data.fechaControl,
+      precio: Number(data.precio),
+      imagenUrl: data.imagenUrl,
     };
 
     if (modoProducto === "crear") {
       const nuevoId =
         productos.length > 0 ? Math.max(...productos.map((p) => p.id)) + 1 : 1;
 
-      setProductos([...productos, { id: nuevoId, ...productoParaGuardar }]);
+      setProductos([
+        ...productos,
+        { id: nuevoId, estado: "Activo", ...productoParaGuardar },
+      ]);
     } else {
       setProductos(
         productos.map((p) =>
@@ -259,6 +279,16 @@ function Admin() {
     );
   };
 
+  const handleSuspenderProducto = (id) => {
+    setProductos((prev) =>
+      prev.map((p) =>
+        p.id === id
+          ? { ...p, estado: p.estado === "Activo" ? "Suspendido" : "Activo" }
+          : p
+      )
+    );
+  };
+
   const obtenerColorBadgeStock = (stock) => {
     if (stock === 0) return "danger";
     if (stock <= 5) return "warning";
@@ -270,7 +300,7 @@ function Admin() {
 
   return (
     <Container fluid className="py-4">
-      <AdminStats
+      <AdminStatus
         totalProductos={totalProductos}
         productosSinStock={productosSinStock}
         totalUsuarios={totalUsuarios}
@@ -283,6 +313,7 @@ function Admin() {
             abrirModalProductoCrear={abrirModalProductoCrear}
             abrirModalProductoEditar={abrirModalProductoEditar}
             handleEliminarProducto={handleEliminarProducto}
+            handleSuspenderProducto={handleSuspenderProducto}
             obtenerColorBadgeStock={obtenerColorBadgeStock}
             formatearPrecio={formatearPrecio}
           />
@@ -301,8 +332,7 @@ function Admin() {
       <ProductoModal
         show={mostrarProductoModal}
         modoProducto={modoProducto}
-        productoForm={productoForm}
-        handleChangeProducto={handleChangeProducto}
+        productoInicial={productoInicial}
         cerrarModalProducto={cerrarModalProducto}
         handleGuardarProducto={handleGuardarProducto}
       />

@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 
-function AdminStats({ totalProductos, productosSinStock, totalUsuarios }) {
+function AdminStatus({ totalProductos, productosSinStock, totalUsuarios }) {
   return (
     <Row className="mb-4 g-3">
       <Col md={4}>
@@ -13,8 +13,8 @@ function AdminStats({ totalProductos, productosSinStock, totalUsuarios }) {
             <Card.Text className="fs-3 fw-bold text-primary">
               {totalProductos}
             </Card.Text>
-            <Badge bg="light" text="dark">
-              Datos de ejemplo
+            <Badge bg="info" text="dark">
+              Incluye sin stock
             </Badge>
           </Card.Body>
         </Card>
@@ -47,4 +47,4 @@ function AdminStats({ totalProductos, productosSinStock, totalUsuarios }) {
   );
 }
 
-export default AdminStats;
+export default AdminStatus;
