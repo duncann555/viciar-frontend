@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "../../../styles/carrito.css"
+import ItemProducto from './ItemProducto';
 
 const Carrito = () => {
     const [paso, SetPaso] = useState(1);
@@ -21,10 +22,10 @@ const Carrito = () => {
                 <div className="row">
 
                     {/* Columna para tomar los datos del usuario */}
-                    <div className="col-12 col-md-6 border border-black">
-                        <div className="card mb-4 shadow-sm">
-                            {paso === 1 ? (
-                                <>
+                    <div className="col-12 col-md-6">
+                        {paso === 1 ? (
+                            <>
+                                <div className="card mb-4 shadow-sm">
                                     <div className="card-body">
                                         <h5>Datos del cliente</h5>
                                         <div className="row">
@@ -77,9 +78,9 @@ const Carrito = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </>
-                            ) : false}
-                        </div>
+                                </div>
+                            </>
+                        ) : false}
                         {paso === 2 ? (
                             <>
                                 <div className="card mb-4 shadow-sm">
@@ -193,7 +194,23 @@ const Carrito = () => {
                             </>
                         ) : false}
                     </div>
-                    <div className="col-12 col-md-6 border border-black">1234</div>
+                    <div className="col-12 col-md-6 border border-black">
+                        <div className="row">
+                            <div className="col-12 mb-3 border border-black">
+                                <div className="card mb-3 shadow-sm">
+                                    <div className="card-body">
+                                        <h4 className='text-center'>Resumen del pedido</h4>
+                                        <ItemProducto></ItemProducto>
+                                        <ItemProducto></ItemProducto>
+                                        <div className='d-flex justify-content-between mt-3'>
+                                            <p className='text-center mt-3'>Total Pedido: $320.000</p>
+                                            <Button className='btn btn-navegacion mt-2'>Confirmar Pedido</Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </Form>
         </section >

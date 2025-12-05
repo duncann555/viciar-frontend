@@ -8,3 +8,7 @@
 .btn-navegacion:active{
     background-color: #27187E !important;
 }
+.img-producto-carrito{
+    width: 150px;
+    height: 150px;
+}
