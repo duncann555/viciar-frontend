@@ -73,7 +73,7 @@ const Carrito = () => {
                                                 </Form.Group>
                                             </div>
                                             <div className="col-12 d-flex justify-content-end">
-                                                <Button className='btn btn-primary btn-siguiente' onClick={siguienteFormulario}>Siguiente<i class="bi bi-arrow-right ms-1"></i></Button>
+                                                <Button className='btn btn-navegacion' onClick={siguienteFormulario}>Siguiente<i class="bi bi-arrow-right ms-1"></i></Button>
                                             </div>
                                         </div>
                                     </div>
@@ -131,8 +131,8 @@ const Carrito = () => {
                                                 </Form.Group>
                                             </div>
                                             <div className="col-12 mt-2 d-flex justify-content-between">
-                                                <Button className='btn btn-primary mt-2 mb-1' onClick={volverFormulario}><i class="bi bi-arrow-left me-1"></i>Atrás</Button>
-                                                <Button className='btn btn-primary mt-2 mb-1' onClick={siguienteFormulario}>Siguiente<i class="bi bi-arrow-right ms-1"></i></Button>
+                                                <Button className='btn btn-navegacion mt-2 mb-1' onClick={volverFormulario}><i class="bi bi-arrow-left me-1"></i>Atrás</Button>
+                                                <Button className='btn btn-navegacion mt-2 mb-1' onClick={siguienteFormulario}>Siguiente<i class="bi bi-arrow-right ms-1"></i></Button>
                                             </div>
                                         </div>
                                     </div>
@@ -186,7 +186,7 @@ const Carrito = () => {
                                             </div>
                                         </div>
                                         <div className="col-md-6 d-flex justify-content-start">
-                                            <Button className='btn btn-primary' onClick={volverFormulario}><i class="bi bi-arrow-left me-1"></i>Atrás</Button>
+                                            <Button className='btn btn-navegacion' onClick={volverFormulario}><i class="bi bi-arrow-left me-1"></i>Atrás</Button>
                                         </div>
                                     </div>
                                 </div>
