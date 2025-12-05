@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge";
+import { useState } from "react";
 
 function ProductosTab({
   productos,
@@ -16,6 +17,23 @@ function ProductosTab({
   obtenerColorBadgeStock,
   formatearPrecio,
 }) {
+  const [busqueda, setBusqueda] = useState("");
+
+  const q = busqueda.toLowerCase().trim();
+
+  const productosFiltrados = productos.filter((p) => {
+    if (!q) return true;
+
+    return (
+      String(p.id).includes(q) ||
+      (p.nombre || "").toLowerCase().includes(q) ||
+      (p.categoria || "").toLowerCase().includes(q) ||
+      (p.ultimoControl || "").toLowerCase().includes(q) ||
+      String(p.precio ?? "").toLowerCase().includes(q) ||
+      (p.estado || "").toLowerCase().includes(q)
+    );
+  });
+
   return (
     <>
       <Row className="align-items-center mb-3 g-2">
@@ -32,9 +50,16 @@ function ProductosTab({
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder="Buscar producto por nombre o categoría..."
+              placeholder="Buscar por #, nombre, categoría, último control, precio o estado..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
             />
-            <Button className="btn-admin-primary">Buscar</Button>
+            <Button
+              className="btn-admin-primary"
+              onClick={() => setBusqueda(busqueda.trim())}
+            >
+              Buscar
+            </Button>
           </InputGroup>
         </Col>
       </Row>
@@ -61,7 +86,7 @@ function ProductosTab({
             </thead>
 
             <tbody className="text-center">
-              {productos.map((prod) => (
+              {productosFiltrados.map((prod) => (
                 <tr key={prod.id}>
                   <td>{prod.id}</td>
 
@@ -89,10 +114,9 @@ function ProductosTab({
 
                   <td>{prod.ultimoControl}</td>
                   <td>{formatearPrecio(prod.precio)}</td>
+
                   <td>
-                    <Badge
-                      bg={prod.estado === "Activo" ? "success" : "warning"}
-                    >
+                    <Badge bg={prod.estado === "Activo" ? "success" : "warning"}>
                       {prod.estado}
                     </Badge>
                   </td>
@@ -106,8 +130,13 @@ function ProductosTab({
                     >
                       Editar
                     </Button>
+
                     <Button
-                      variant="outline-success"
+                      variant={
+                        prod.estado === "Activo"
+                          ? "outline-warning"
+                          : "outline-success"
+                      }
                       size="sm"
                       className="me-2"
                       onClick={() => handleSuspenderProducto(prod.id)}
@@ -126,10 +155,10 @@ function ProductosTab({
                 </tr>
               ))}
 
-              {productos.length === 0 && (
+              {productosFiltrados.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="text-center text-muted">
-                    No hay productos cargados.
+                  <td colSpan={9} className="text-center text-muted">
+                    No hay productos que coincidan con la búsqueda.
                   </td>
                 </tr>
               )}
