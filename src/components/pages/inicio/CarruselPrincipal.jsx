@@ -1,21 +1,30 @@
-import {Carousel, CarouselItem} from "react-bootstrap"
-import consola from "../../../assets/consola.jpg"
-import joystick from "../../../assets/joystick.jpg"
-import logo from '../../../assets/imagen-logo.png'
+import {Carousel, CarouselItem, Container} from "react-bootstrap"
+import blackFriday from "../../../assets/blackFriday.png"
+import juegos from "../../../assets/juegos.png"
+import promos from "../../../assets/promo.png"
+import ofertaNavidad from "../../../assets/ofertaNavidad.png"
+import logo from "../../../assets/logo.png"
 
 const Carrusel = () => {
     return (
         <Carousel>
             <CarouselItem>
-                <img loading="eager" className="imagen-Carousel" src={logo} alt="primera imagen del carrusel" />
+                <img loading="eager" className="imagen-Carousel" src={logo} alt="Logo viciar" />
             </CarouselItem>
             <CarouselItem>
-                <img loading="eager" className="imagen-Carousel" src={consola} alt="primera imagen del carrusel" />
+                <img loading="eager" className="imagen-Carousel" src={blackFriday} alt="banner oferta blackfriday" />
             </CarouselItem>
             <CarouselItem>
-                <img loading="eager" className="imagen-Carousel" src={joystick} alt="primera imagen del carrusel" />
+                <img loading="eager" className="imagen-Carousel" src={juegos} alt="imagen de los juegos ofrecidos" />
+            </CarouselItem>
+            <CarouselItem>
+                <img loading="eager" className="imagen-Carousel" src={promos} alt="imagen de promociones" />
+            </CarouselItem>
+            <CarouselItem>
+                <img loading="eager" className="imagen-Carousel" src={ofertaNavidad} alt="oferta de navidad" />
             </CarouselItem>
         </Carousel>
+        
     );
 };
 

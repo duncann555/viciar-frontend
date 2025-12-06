@@ -14,8 +14,10 @@
     "bootstrap-icons": "^1.13.1",
     "react": "^19.2.0",
     "react-bootstrap": "^2.10.10",
+    "react-bootstrap-icons": "^1.11.6",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.68.0",
+    "react-multi-carousel": "^2.8.6",
     "react-router": "^7.10.0",
     "sweetalert2": "^11.26.3"
   },

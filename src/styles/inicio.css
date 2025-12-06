@@ -1,6 +1,6 @@
 .imagen-Carousel {
   width: 100%;
-  height: 350px;
+  height: 450px;
   object-fit: cover;
 }
 
@@ -8,4 +8,33 @@
 .carousel-control-next-icon,
 .carousel-indicators [data-bs-target] {
   filter: invert(100%);
+}
+
+.contenedorImg{
+overflow: hidden;
+height: 200px 
+}
+
+.imgCard{
+  object-fit: cover; 
+  height: 100%; 
+  width: 100%
+}
+
+.contenedorCat{
+  transform: skewX(-12deg);
+   margin-left: 15px
+}
+
+.tituloCat{
+  transform: skewX(12deg)
+}
+
+.imagen-ofertas {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: block;
 }
