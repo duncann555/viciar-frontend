@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Inicio from "./components/pages/Inicio.jsx";
 import Carrito from "./components/pages/carrito/Carrito.jsx";
 import Register from "./components/pages/Register.jsx";
+import Nosotros from "./components/pages/Nosotros.jsx"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/carrito" element={<Carrito />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/nosotros" element={<Nosotros/>}/>
         </Routes>
       </main>
       <Footer />
