@@ -334,9 +334,9 @@ const Carrito = () => {
                                         <h4 className='text-center'>Resumen del pedido</h4>
                                         <ItemProducto nombre="Uncharted 2" precio={4000} imagen="https://http2.mlstatic.com/D_NQ_NP_914928-MLA100087512227_122025-O.webp" ></ItemProducto>
                                         <ItemProducto nombre="God of War 3" precio={2000} imagen="https://stylewatch.vtexassets.com/arquivos/ids/192938/PS4_GOD_OF_WAR_3_REMASTERED_JUEGO_711719531470.jpg?v=637563350684430000"></ItemProducto>
-                                        <div className='d-flex justify-content-between align-items-center mt-3'>
+                                        <div className='d-flex flex-column justify-content-between align-items-center mt-3 py-2 me-2'>
                                             <p className='text-center mt-2 fs-5 ms-2'><strong>Total Pedido:</strong> $320.000</p>
-                                            <Button type='submit' className='btn btn-navegacion'>Confirmar Pedido</Button>
+                                            <Button type='submit' className='btn btn-navegacion w-100 btn-confirmar'>Confirmar Pedido</Button>
                                         </div>
                                     </div>
                                 </div>

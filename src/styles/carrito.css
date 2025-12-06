@@ -12,3 +12,13 @@
     width: 150px;
     height: 150px;
 }
+.btn-eliminar{
+    position: absolute;
+    bottom: 32px;
+}
+/*Media query para dispositivos pequeños*/
+@media(max-width: 575.98px){
+    .btn-eliminar{
+        left: 270px;
+    }
+}

@@ -18,7 +18,7 @@ const ItemProducto = ({ nombre, precio, imagen }) => {
 
     return (
         <div className='mt-3'>
-            <Card className='d-flex flex-row border bg-body-secondary'>
+            <Card className='d-flex flex-lg-row border bg-body-secondary'>
                 <div className='d-flex justify-content-center align-items-center'>
                     <Card.Img src={imagen} className='img-producto-carrito ms-2' />
                 </div>
@@ -39,8 +39,11 @@ const ItemProducto = ({ nombre, precio, imagen }) => {
                         />
                         <Button className='btn btn-navegacion' onClick={incrementarContador}><i className="bi bi-plus-lg"></i></Button>
                     </InputGroup>
-                    <div className='d-flex justify-content-end'>
-                        <Button className='btn btn-danger me-2'><i className="bi bi-trash3"></i></Button>
+                    <div className='d-flex justify-content justify-content-md-end'>
+                        {/* Boton para dispositivos large */}
+                        <Button className='btn btn-danger me-2 d-block d-none d-md-none'><i className="bi bi-trash3"></i></Button>
+                        {/* Boton para dispositivos medianos y pequeños */}
+                        <Button className='btn btn-danger me-2 d-lg-block btn-eliminar'><i className="bi bi-trash3"></i></Button>
                     </div>
                 </Card.Body>
             </Card>
