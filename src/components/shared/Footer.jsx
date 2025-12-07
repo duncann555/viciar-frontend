@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="row">
                 <div className="col-12 col-md-4 d-flex flex-column mt-2">
                     <h5>Categorias</h5>
-                    <Link className='text-white text-decoration-none mt-1 underline-hover'>Contacto</Link>
+                    <Link to="/contacto" className='text-white text-decoration-none mt-1 underline-hover'>Contacto</Link>
                     <Link className='text-white text-decoration-none mt-3'>Quienes Somos</Link>
                     <Link className='text-white text-decoration-none mt-3'>Trabaja con nosotros</Link>
                     <Link className='text-white text-decoration-none mt-3'>Preguntas frecuentes</Link>
