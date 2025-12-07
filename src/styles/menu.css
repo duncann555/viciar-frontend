@@ -2,13 +2,46 @@
   background-color: #27187E !important;
 }
 
-.navbar-bg-color .nav-link,
+.navbar-bg-color,
 .navbar-bg-color .navbar-brand,
-.navbar-bg-color .navbar-nav .nav-link {
+.navbar-bg-color .navbar-nav {
   color: white !important;
 }
 
 /* Opcional: hover */
-.navbar-bg-color .nav-link:hover {
+.navbar-bg-color {
   color: #F7F7FF !important;
+}
+
+.img-navbar {
+  width: 100px;
+  height: auto;
+}
+
+.barra-busqueda {
+  width: 400px;
+}
+
+@media(max-width: 576px){
+  .barra-small {
+    width: 100px;
+  }
+}
+
+/* color normal del nav-link */
+.opcion-nav {
+  color: #55bfd4 !important;
+  transition: color 0.5s ease;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.opcion-nav:hover {
+  color: #00ff88 !important; 
+}
+
+.icono-user {
+  font-size: 26px; 
+  line-height: 1;  
+  vertical-align: middle; 
 }
