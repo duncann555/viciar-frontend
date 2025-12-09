@@ -73,7 +73,7 @@ function Admin() {
       nombre: "Matias",
       email: "matias555@gmail.com",
       rol: "usuario",
-      estado: "Pendiente",
+      estado: "Activo",
     },
   ];
 

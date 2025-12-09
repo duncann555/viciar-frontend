@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge";
+import { useState } from "react";
 
 function UsuariosTab({
   usuarios,
@@ -13,6 +14,22 @@ function UsuariosTab({
   handleEliminarUsuario,
   handleSuspenderUsuario,
 }) {
+  const [busqueda, setBusqueda] = useState("");
+
+  const q = busqueda.toLowerCase().trim();
+
+  const usuariosFiltrados = usuarios.filter((u) => {
+    if (!q) return true;
+
+    return (
+      String(u.id).includes(q) ||
+      (u.nombre || "").toLowerCase().includes(q) ||
+      (u.email || "").toLowerCase().includes(q) ||
+      (u.rol || "").toLowerCase().includes(q) ||
+      (u.estado || "").toLowerCase().includes(q)
+    );
+  });
+
   return (
     <>
       <Row className="align-items-center mb-3 g-2">
@@ -26,9 +43,16 @@ function UsuariosTab({
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder="Buscar usuario por nombre o email..."
+              placeholder="Buscar por id, nombre, email, rol o estado..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
             />
-            <Button variant="outline-secondary">Buscar</Button>
+            <Button
+              className="btn-admin-primary"
+              onClick={() => setBusqueda(busqueda.trim())}
+            >
+              Buscar
+            </Button>
           </InputGroup>
         </Col>
       </Row>
@@ -52,7 +76,7 @@ function UsuariosTab({
             </thead>
 
             <tbody className="text-center">
-              {usuarios.map((user) => (
+              {usuariosFiltrados.map((user) => (
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.nombre}</td>
@@ -67,7 +91,7 @@ function UsuariosTab({
                       bg={
                         user.estado === "Activo"
                           ? "success"
-                          : user.estado === "Pendiente"
+                          : user.estado === "Suspendido"
                           ? "warning"
                           : "secondary"
                       }
@@ -86,11 +110,16 @@ function UsuariosTab({
                     </Button>
 
                     <Button
-                      variant="outline-danger me-2"
+                      variant={
+                        user.estado === "Activo"
+                          ? "outline-warning"
+                          : "outline-success"
+                      }
                       size="sm"
+                      className="me-2"
                       onClick={() => handleSuspenderUsuario(user.id)}
                     >
-                      Suspender
+                      {user.estado === "Activo" ? "Suspender" : "Activar"}
                     </Button>
 
                     <Button
@@ -104,10 +133,10 @@ function UsuariosTab({
                 </tr>
               ))}
 
-              {usuarios.length === 0 && (
+              {usuariosFiltrados.length === 0 && (
                 <tr>
                   <td colSpan={6} className="text-center text-muted">
-                    No hay usuarios cargados.
+                    No hay usuarios que coincidan con la búsqueda.
                   </td>
                 </tr>
               )}

@@ -42,6 +42,7 @@ function ProductoModal({
             <Form.Label>Nombre del producto</Form.Label>
             <Form.Control
               type="text"
+              placeholder="Ej: PS5 Slim"
               {...register("nombre", {
                 required: "El nombre es obligatorio",
                 minLength: {
@@ -84,6 +85,7 @@ function ProductoModal({
             <Form.Label>Stock</Form.Label>
             <Form.Control
               type="number"
+              placeholder="Cantidad disponible"
               min="0"
               {...register("stock", {
                 required: "El stock es obligatorio",
@@ -99,6 +101,7 @@ function ProductoModal({
             <Form.Label>Precio</Form.Label>
             <Form.Control
               type="number"
+              placeholder="Precio en ARS"
               min="1"
               {...register("precio", {
                 required: "El precio es obligatorio",
@@ -154,12 +157,7 @@ function ProductoModal({
 
           <Form.Group className="mb-3">
             <Form.Label>Fecha de último control</Form.Label>
-            <Form.Control
-              type="date"
-              {...register("fechaControl", {
-                required: "La fecha es obligatoria",
-              })}
-            />
+            <Form.Control type="date" {...register("fechaControl")} />
             {errors.fechaControl && (
               <small className="text-danger">
                 {errors.fechaControl.message}
