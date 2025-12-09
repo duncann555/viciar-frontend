@@ -7,6 +7,7 @@ import Carrito from "./components/pages/carrito/Carrito.jsx";
 import Register from "./components/pages/Register.jsx";
 import Nosotros from "./components/pages/Nosotros.jsx"
 import Contacto from "./components/pages/Contacto.jsx";
+import DetalleProducto from "./components/pages/DetalleProducto.jsx"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/nosotros" element={<Nosotros/>}/>
           <Route path="/contacto" element={<Contacto/>}/>
+          <Route path="/detalleproducto" element={<DetalleProducto/>}/>
         </Routes>
       </main>
       <Footer />
