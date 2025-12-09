@@ -5,6 +5,8 @@ const initialValues = {
   fullName: "",
   username: "",
   email: "",
+  dni: "",
+  telefono: "",
   password: "",
   confirmPassword: "",
   terms: false,
@@ -29,6 +31,16 @@ function validateField(name, value, allValues) {
       if (!v) return "El email es obligatorio.";
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!re.test(v)) return "Email inválido.";
+      return "";
+
+    case "dni":
+      if (!v) return "El DNI es obligatorio.";
+      if (!/^\d{7,8}$/.test(v)) return "Debe tener 7 u 8 números.";
+      return "";
+
+    case "telefono":
+      if (!v) return "El teléfono es obligatorio.";
+      if (!/^\d{8,15}$/.test(v)) return "Número inválido.";
       return "";
 
     case "password":
@@ -68,7 +80,6 @@ export default function Register() {
   const [touched, setTouched] = useState({});
   const [success, setSuccess] = useState("");
 
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newVal = type === "checkbox" ? checked : value;
@@ -101,6 +112,8 @@ export default function Register() {
       fullName: true,
       username: true,
       email: true,
+      dni: true,
+      telefono: true,
       password: true,
       confirmPassword: true,
       terms: true,
@@ -162,6 +175,37 @@ export default function Register() {
             {touched.email && errors.email && (
               <p className="reg-error">{errors.email}</p>
             )}
+          </div>
+
+          
+          <div className="reg-row">
+            <div className="reg-field">
+              <label>DNI</label>
+              <input
+                name="dni"
+                value={values.dni}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Ej: 40123456"
+              />
+              {touched.dni && errors.dni && (
+                <p className="reg-error">{errors.dni}</p>
+              )}
+            </div>
+
+            <div className="reg-field">
+              <label>Teléfono</label>
+              <input
+                name="telefono"
+                value={values.telefono}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Ej: 3812345678"
+              />
+              {touched.telefono && errors.telefono && (
+                <p className="reg-error">{errors.telefono}</p>
+              )}
+            </div>
           </div>
 
           <div className="reg-row">
