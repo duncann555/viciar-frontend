@@ -3,14 +3,30 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import { useState } from "react";
 import Swal from "sweetalert2";
+
 import UsuarioModal from "./administrador/UsuarioModal";
 import AdminStatus from "./administrador/AdminStatus";
 import ProductosTab from "./administrador/ProductosTab";
 import UsuariosTab from "./administrador/UsuariosTab";
 import ProductoModal from "./administrador/ProductosModal";
+import PedidosTab from "./administrador/PedidosTab";
+import PedidoModal from "./administrador/PedidosModal";
 import "../../styles/admin.css";
 
 function Admin() {
+  const [mostrarPedidoModal, setMostrarPedidoModal] = useState(false);
+  const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+
+  const abrirModalPedido = (pedido) => {
+    setPedidoSeleccionado(pedido);
+    setMostrarPedidoModal(true);
+  };
+
+  const cerrarModalPedido = () => {
+    setMostrarPedidoModal(false);
+    setPedidoSeleccionado(null);
+  };
+
   const [productoInicial, setProductoInicial] = useState({
     nombre: "",
     categoria: "",
@@ -77,8 +93,41 @@ function Admin() {
     },
   ];
 
+  // --- Pedidos iniciales ---
+  const pedidosIniciales = [
+    {
+      id: 1,
+      cliente: "Juan Pérez",
+      email: "juan.perez@example.com",
+      fecha: "20-NOV-2025",
+      total: 830000,
+      estado: "Pendiente",
+      items: [
+        { productoId: 1, nombre: "PS5 Slim", cantidad: 1, precio: 800000 },
+        {
+          productoId: 2,
+          nombre: "Red Dead Redemption 2",
+          cantidad: 1,
+          precio: 30000,
+        },
+      ],
+    },
+    {
+      id: 2,
+      cliente: "Ana Gómez",
+      email: "ana.gomez@example.com",
+      fecha: "22-NOV-2025",
+      total: 750000,
+      estado: "Completado",
+      items: [
+        { productoId: 3, nombre: "Xbox Series X", cantidad: 1, precio: 750000 },
+      ],
+    },
+  ];
+
   const [productos, setProductos] = useState(productosIniciales);
   const [usuarios, setUsuarios] = useState(usuariosIniciales);
+  const [pedidos, setPedidos] = useState(pedidosIniciales); // --- NUEVO ---
 
   const [mostrarProductoModal, setMostrarProductoModal] = useState(false);
   const [mostrarUsuarioModal, setMostrarUsuarioModal] = useState(false);
@@ -99,6 +148,7 @@ function Admin() {
   const totalProductos = productos.length;
   const productosSinStock = productos.filter((p) => p.stock === 0).length;
   const totalUsuarios = usuarios.length;
+  // podrías agregar totalPedidos si después querés mostrarlo en AdminStatus
 
   const handleChangeUsuario = (e) => {
     const { name, value } = e.target;
@@ -191,12 +241,14 @@ function Admin() {
     });
   };
 
-  const handleGuardarUsuario = () => {
+  const handleGuardarUsuario = (data) => {
+    // ⚠ Acá en tu código original estabas llamando handleGuardarUsuario(data) sin tener data.
+    // Ahora lo hago consistente con react-hook-form.
     const usuarioParaGuardar = {
-      nombre: usuarioForm.nombre,
-      email: usuarioForm.email,
-      rol: usuarioForm.rol,
-      estado: usuarioForm.estado,
+      nombre: data?.nombre ?? usuarioForm.nombre,
+      email: data?.email ?? usuarioForm.email,
+      rol: data?.rol ?? usuarioForm.rol,
+      estado: data?.estado ?? usuarioForm.estado,
     };
 
     if (modoUsuario === "crear") {
@@ -289,6 +341,42 @@ function Admin() {
     );
   };
 
+  // --- Handlers de pedidos ---
+  const handleCambiarEstadoPedido = (id) => {
+    setPedidos((prev) =>
+      prev.map((p) =>
+        p.id === id
+          ? {
+              ...p,
+              estado: p.estado === "Pendiente" ? "Completado" : "Pendiente",
+            }
+          : p
+      )
+    );
+  };
+
+  const handleEliminarPedido = (id) => {
+    Swal.fire({
+      title: "¿Eliminar pedido?",
+      text: "Esta acción no se puede deshacer.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        setPedidos(pedidos.filter((p) => p.id !== id));
+
+        Swal.fire({
+          icon: "success",
+          title: "Pedido eliminado",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
   const obtenerColorBadgeStock = (stock) => {
     if (stock === 0) return "danger";
     if (stock <= 5) return "warning";
@@ -327,6 +415,16 @@ function Admin() {
             handleSuspenderUsuario={handleSuspenderUsuario}
           />
         </Tab>
+
+        {/* --- NUEVA PESTAÑA PEDIDOS --- */}
+        <Tab eventKey="pedidos" title="Pedidos">
+          <PedidosTab
+            pedidos={pedidos}
+            handleCambiarEstadoPedido={handleCambiarEstadoPedido}
+            handleEliminarPedido={handleEliminarPedido}
+            abrirModalPedido={abrirModalPedido}
+          />
+        </Tab>
       </Tabs>
 
       <ProductoModal
@@ -344,6 +442,12 @@ function Admin() {
         handleChangeUsuario={handleChangeUsuario}
         cerrarModalUsuario={cerrarModalUsuario}
         handleGuardarUsuario={handleGuardarUsuario}
+      />
+
+      <PedidoModal
+        show={mostrarPedidoModal}
+        pedido={pedidoSeleccionado}
+        cerrarModal={cerrarModalPedido}
       />
     </Container>
   );

@@ -10,9 +10,6 @@ import Contacto from "./components/pages/Contacto.jsx";
 import DetalleProducto from "./components/pages/DetalleProducto.jsx"
 import Error404 from "./components/pages/Error404.jsx"
 
-
-
-
 function App() {
   return (
     <BrowserRouter>
