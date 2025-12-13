@@ -8,12 +8,12 @@ const Filtro = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const terminoBusqueda = searchParams.get("nombre") || "";
+    const busqueda = searchParams.get("nombre") || "";
 
     const obtenerProductos = async () => {
       try {
         const respuesta = await fetch(
-          `http://localhost:4000/api/productos/buscar?nombre=${terminoBusqueda}`
+          `http://localhost:3000/api/productos/buscar?nombre=${busqueda}`
         );
         const data = await respuesta.json();
         setProductos(data);

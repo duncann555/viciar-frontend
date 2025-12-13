@@ -27,7 +27,10 @@ const CardProducto = ({ producto }) => {
           <Button variant="success" size="sm" className="me-2">
             <i className="bi bi-cart-plus-fill"></i> Agregar
           </Button>
-          <Link to="/detalleproducto" className="btn btn-primary btn-sm">
+          <Link
+            to={`/detalleproducto/${id}`}
+            className="btn btn-primary btn-sm"
+          >
             Ver más
           </Link>
         </Card.Footer>
