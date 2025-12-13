@@ -8,7 +8,7 @@ import teclado from "../../../assets/teclado.mp4"
 
 const CarruselOferta = () => {
     return (
-        <Carousel>
+        <Carousel className="d-sm-none d-lg-block">
             <CarouselItem>
                 <div className="d-flex">
                 <video autoPlay muted loop playsInline className="imagen-ofertas" src={play} alt="video de blackFriday" />
@@ -22,7 +22,6 @@ const CarruselOferta = () => {
                 <video autoPlay muted loop playsInline className="imagen-ofertas" src={juego} alt="video de blackFriday" />
                 <video autoPlay muted loop playsInline className="imagen-ofertas" src={teclado} alt="video oferta silla gamer" />
                 </div>
-                
             </CarouselItem>
         </Carousel>
         
