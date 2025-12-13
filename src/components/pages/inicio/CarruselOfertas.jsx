@@ -8,23 +8,27 @@ import teclado from "../../../assets/teclado.mp4"
 
 const CarruselOferta = () => {
     return (
-        <Carousel className="d-sm-none d-lg-block">
+        <Carousel className="d-none d-md-block my-4"> {/* Agregué my-4 para margen vertical */}
+            
+            {/* Slide 1 */}
             <CarouselItem>
-                <div className="d-flex">
-                <video autoPlay muted loop playsInline className="imagen-ofertas" src={play} alt="video de blackFriday" />
-                <video autoPlay muted loop playsInline className="imagen-ofertas" src={juegoPlay} alt="video oferta silla gamer" />
-                <video autoPlay muted loop playsInline className="imagen-ofertas" src={joystick} alt="video oferta silla gamer" />
+                <div className="contenedor-videos px-3"> {/* px-3 da un margen a los costados del carrusel */}
+                    <video autoPlay muted loop playsInline className="imagen-ofertas" src={play} title="Oferta Play" />
+                    <video autoPlay muted loop playsInline className="imagen-ofertas" src={juegoPlay} title="Oferta Juego" />
+                    <video autoPlay muted loop playsInline className="imagen-ofertas" src={joystick} title="Oferta Joystick" />
                 </div>
             </CarouselItem>
+
+            {/* Slide 2 */}
             <CarouselItem>
-                <div className="d-flex">
-                <video autoPlay muted loop playsInline className="imagen-ofertas" src={xbox} alt="video de blackFriday" />
-                <video autoPlay muted loop playsInline className="imagen-ofertas" src={juego} alt="video de blackFriday" />
-                <video autoPlay muted loop playsInline className="imagen-ofertas" src={teclado} alt="video oferta silla gamer" />
+                <div className="contenedor-videos px-3">
+                    <video autoPlay muted loop playsInline className="imagen-ofertas" src={xbox} title="Oferta Xbox" />
+                    <video autoPlay muted loop playsInline className="imagen-ofertas" src={juego} title="Oferta Juego" />
+                    <video autoPlay muted loop playsInline className="imagen-ofertas" src={teclado} title="Oferta Teclado" />
                 </div>
             </CarouselItem>
+
         </Carousel>
-        
     );
 };
 
