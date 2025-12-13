@@ -1,9 +1,7 @@
 import CarruselPrincipal from "./inicio/CarruselPrincipal.jsx";
 import CardProducto from "./inicio/CardProducto.jsx";
 import CarruselOfertas from "./inicio/CarruselOfertas.jsx";
-import { Carousel, Col, Container, Row } from "react-bootstrap";
-import MultiCarousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Inicio = () => {
   const productos = [

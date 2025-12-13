@@ -9,6 +9,7 @@ import Nosotros from "./components/pages/Nosotros.jsx"
 import Contacto from "./components/pages/Contacto.jsx";
 import DetalleProducto from "./components/pages/DetalleProducto.jsx"
 import Error404 from "./components/pages/Error404.jsx"
+import Filtro from "./components/pages/inicio/Filtro.jsx"
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/contacto" element={<Contacto/>}/>
           <Route path="/detalleproducto" element={<DetalleProducto/>}/>
           <Route path="*" element={<Error404 />} />
+          <Route path="/filtro" element={<Filtro />} />
 
         </Routes>
       </main>
