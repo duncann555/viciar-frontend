@@ -125,8 +125,8 @@ const Inicio = () => {
           </Col>
         </Row>
         <Row className="mb-5">
-          {productosSeccion2.length > 0 ? (
-            productosSeccion2.map((prod) => (
+          {productosSeccion3.length > 0 ? (
+            productosSeccion3.map((prod) => (
               <CardProducto key={prod.id} producto={prod} />
             ))
           ) : (
@@ -145,8 +145,8 @@ const Inicio = () => {
           </Col>
         </Row>
         <Row className="mb-5">
-          {productosSeccion2.length > 0 ? (
-            productosSeccion2.map((prod) => (
+          {productosSeccion4.length > 0 ? (
+            productosSeccion4.map((prod) => (
               <CardProducto key={prod.id} producto={prod} />
             ))
           ) : (
@@ -165,8 +165,8 @@ const Inicio = () => {
           </Col>
         </Row>
         <Row className="mb-5">
-          {productosSeccion2.length > 0 ? (
-            productosSeccion2.map((prod) => (
+          {productosSeccion5.length > 0 ? (
+            productosSeccion5.map((prod) => (
               <CardProducto key={prod.id} producto={prod} />
             ))
           ) : (
@@ -185,8 +185,8 @@ const Inicio = () => {
           </Col>
         </Row>
         <Row className="mb-5">
-          {productosSeccion2.length > 0 ? (
-            productosSeccion2.map((prod) => (
+          {productosSeccion6.length > 0 ? (
+            productosSeccion6.map((prod) => (
               <CardProducto key={prod.id} producto={prod} />
             ))
           ) : (
