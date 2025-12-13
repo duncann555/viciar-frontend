@@ -1,39 +1,36 @@
 import { useState } from "react";
 import "./login.css";
+import { useForm } from "react-hook-form";
 
 export default function ModalLogin({ show, onClose }) {
   if (!show) return null;
 
-  const [user, setUser] = useState("");
-  const [pass, setPass] = useState("");
-  const [error, setError] = useState("");
+  // const [user, setUser] = useState("");
+  // const [pass, setPass] = useState("");
+  // const [error, setError] = useState("");
   const [shake, setShake] = useState(false);
-  const [remember, setRemember] = useState(false);
+  // const [remember, setRemember] = useState(false);
+
+  const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm();
+
+
+  const postValidaciones = (data) => {
+    console.log(data);
+  }
+
 
   const triggerShake = () => {
     setShake(true);
     setTimeout(() => setShake(false), 450);
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  // const handleLogin = (e) => {
+  //   // e.preventDefault();
 
-    if (!user || !pass) {
-      setError("Completa todos los campos.");
-      triggerShake();
-      return;
-    }
-
-    if (user !== "admin" || pass !== "1234") {
-      setError("Usuario o contraseña incorrectos.");
-      triggerShake();
-      return;
-    }
-
-    setError("");
-    alert("Login exitoso ✔");
-    onClose();
-  };
+  //   setError("");
+  //   alert("Login exitoso ✔");
+  //   onClose();
+  // };
 
   const handleGoogle = () => {
     alert("Google login (demo)");
@@ -61,7 +58,7 @@ export default function ModalLogin({ show, onClose }) {
           Entrá a tu cuenta y seguí viciando tranquilo 🎮
         </p>
 
-        <form onSubmit={handleLogin} className="ml-form">
+        <form onSubmit={handleSubmit(postValidaciones)} className="ml-form">
           <div className="ml-block">
             <label className="ml-label">Usuario</label>
             <div className="ml-field">
@@ -69,11 +66,18 @@ export default function ModalLogin({ show, onClose }) {
               <input
                 type="text"
                 placeholder="Tu usuario"
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
                 className="ml-input"
                 autoFocus
+                {...register("email", {
+                  required: "El email es un dato obligatorio",
+                  pattern: {
+                    value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+                    message: "El email ingresado no es valido"
+                  }
+                })}
+                onChange={() => clearErrors("email")}
               />
+              <p className="text-danger">{errors.email?.message}</p>
             </div>
           </div>
 
@@ -84,10 +88,17 @@ export default function ModalLogin({ show, onClose }) {
               <input
                 type="password"
                 placeholder="Tu contraseña"
-                value={pass}
-                onChange={(e) => setPass(e.target.value)}
                 className="ml-input"
+                {...register("password", {
+                  required: "La contraseña es un dato obligatorio",
+                  pattern: {
+                    value: /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])\S{8,64}$/,
+                    message: "Contraseña no valida"
+                  }
+                })}
+                onChange={() => clearErrors("password")}
               />
+              <p className="text-danger">{errors.password?.message}</p>
             </div>
           </div>
 
@@ -95,8 +106,6 @@ export default function ModalLogin({ show, onClose }) {
             <label className="ml-remember">
               <input
                 type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
               />
               Recordarme
             </label>
@@ -105,8 +114,6 @@ export default function ModalLogin({ show, onClose }) {
               ¿Olvidaste tu contraseña?
             </a>
           </div>
-
-          {error && <p className="ml-error">{error}</p>}
 
           <button type="submit" className="ml-btn">
             Ingresar
