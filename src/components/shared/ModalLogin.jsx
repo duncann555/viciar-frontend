@@ -6,9 +6,14 @@ export default function ModalLogin({ show, onClose }) {
 
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
-  const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
   const [shake, setShake] = useState(false);
+  const [remember, setRemember] = useState(false);
+
+  const triggerShake = () => {
+    setShake(true);
+    setTimeout(() => setShake(false), 450);
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -30,9 +35,12 @@ export default function ModalLogin({ show, onClose }) {
     onClose();
   };
 
-  const triggerShake = () => {
-    setShake(true);
-    setTimeout(() => setShake(false), 500);
+  const handleGoogle = () => {
+    alert("Google login (demo)");
+  };
+
+  const handleFacebook = () => {
+    alert("Facebook login (demo)");
   };
 
   return (
@@ -40,8 +48,11 @@ export default function ModalLogin({ show, onClose }) {
       <div
         className={`ml-modal ${shake ? "shake" : ""}`}
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Iniciar sesión"
       >
-        <button className="ml-close" onClick={onClose}>
+        <button className="ml-close" onClick={onClose} aria-label="Cerrar">
           ✕
         </button>
 
@@ -50,59 +61,81 @@ export default function ModalLogin({ show, onClose }) {
           Entrá a tu cuenta y seguí viciando tranquilo 🎮
         </p>
 
-        <form onSubmit={handleLogin}>
-          <label className="ml-label">Usuario</label>
-          <input
-            type="text"
-            className="ml-input big"
-            placeholder="Tu usuario"
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
-          />
+        <form onSubmit={handleLogin} className="ml-form">
+          <div className="ml-block">
+            <label className="ml-label">Usuario</label>
+            <div className="ml-field">
+              <i className="bi bi-person ml-icon" />
+              <input
+                type="text"
+                placeholder="Tu usuario"
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+                className="ml-input"
+                autoFocus
+              />
+            </div>
+          </div>
 
-          <label className="ml-label">Contraseña</label>
-          <input
-            type="password"
-            className="ml-input big"
-            placeholder="Tu contraseña"
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
-          />
+          <div className="ml-block">
+            <label className="ml-label">Contraseña</label>
+            <div className="ml-field">
+              <i className="bi bi-lock ml-icon" />
+              <input
+                type="password"
+                placeholder="Tu contraseña"
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
+                className="ml-input"
+              />
+            </div>
+          </div>
 
-          <label className="ml-remember">
-            <input
-              type="checkbox"
-              checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
-            />
-            Recordarme
-          </label>
+          <div className="ml-row">
+            <label className="ml-remember">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+              />
+              Recordarme
+            </label>
+
+            <a className="ml-forgot" href="/forgot-password">
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
 
           {error && <p className="ml-error">{error}</p>}
 
-          <div className="ml-btn-row">
-            <button type="button" className="ml-btn-cancel" onClick={onClose}>
-              Cancelar
-            </button>
-            <button type="submit" className="ml-btn-primary">
-              Ingresar
-            </button>
-          </div>
+          <button type="submit" className="ml-btn">
+            Ingresar
+          </button>
         </form>
 
         <div className="ml-divider">
-          <span>o ingresá con tu email</span>
+          <span>o ingresá con</span>
         </div>
 
-        <button className="ml-social google">
-          <i className="bi bi-google"></i>
-          Continuar con Google
-        </button>
+        <div className="ml-social">
+          <button
+            type="button"
+            className="ml-social-btn google"
+            onClick={handleGoogle}
+          >
+            <i className="bi bi-google" />
+            Continuar con Google
+          </button>
 
-        <button className="ml-social facebook">
-          <i className="bi bi-facebook"></i>
-          Continuar con Facebook
-        </button>
+          <button
+            type="button"
+            className="ml-social-btn facebook"
+            onClick={handleFacebook}
+          >
+            <i className="bi bi-facebook" />
+            Continuar con Facebook
+          </button>
+        </div>
 
         <p className="ml-register">
           ¿No tenés cuenta? <a href="/register">Registrate acá</a>
