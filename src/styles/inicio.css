@@ -55,14 +55,14 @@
   }
 }
 
-@media (781px<=width<=992px) {
+@media (768px<=width<=992px) {
   .imagen-Carousel {
     height: 350px; 
     object-fit: cover;
   }
 }
 
-@media (width<=781px) {
+@media (width<=768px) {
   .imagen-Carousel {
     height: 150px; 
     object-fit: cover;
