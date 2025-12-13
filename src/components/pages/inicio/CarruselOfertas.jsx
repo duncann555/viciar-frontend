@@ -8,11 +8,11 @@ import teclado from "../../../assets/teclado.mp4"
 
 const CarruselOferta = () => {
     return (
-        <Carousel className="d-none d-md-block my-4"> {/* Agregué my-4 para margen vertical */}
+        <Carousel className="d-none d-md-block my-4">
             
             {/* Slide 1 */}
             <CarouselItem>
-                <div className="contenedor-videos px-3"> {/* px-3 da un margen a los costados del carrusel */}
+                <div className="contenedor-videos px-3"> 
                     <video autoPlay muted loop playsInline className="imagen-ofertas" src={play} title="Oferta Play" />
                     <video autoPlay muted loop playsInline className="imagen-ofertas" src={juegoPlay} title="Oferta Juego" />
                     <video autoPlay muted loop playsInline className="imagen-ofertas" src={joystick} title="Oferta Joystick" />
