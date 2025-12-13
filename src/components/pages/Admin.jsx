@@ -140,6 +140,7 @@ function Admin() {
 
   const [usuarioForm, setUsuarioForm] = useState({
     nombre: "",
+    apellido: "",
     email: "",
     rol: "",
     estado: "Activo",

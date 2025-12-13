@@ -35,24 +35,44 @@ function UsuarioModal({
       <Modal.Body>
         <Form id="formUsuario" onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-3">
-            <Form.Label>Nombre completo</Form.Label>
+            <Form.Label>Nombre</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Ej: Juan Pérez"
+              placeholder="Ej: Juan"
               value={usuarioForm.nombre}
               isInvalid={!!errors.nombre}
               {...register("nombre", {
                 required: "El nombre es obligatorio",
                 minLength: {
-                  value: 3,
-                  message: "Mínimo 3 caracteres",
+                  value: 2,
+                  message: "Mínimo 2 caracteres",
                 },
-                // sigue usando tu handler para actualizar usuarioForm
                 onChange: handleChangeUsuario,
               })}
             />
             <Form.Control.Feedback type="invalid">
               {errors.nombre?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Apellido</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ej: Pérez"
+              value={usuarioForm.apellido}
+              isInvalid={!!errors.apellido}
+              {...register("apellido", {
+                required: "El apellido es obligatorio",
+                minLength: {
+                  value: 2,
+                  message: "Mínimo 2 caracteres",
+                },
+                onChange: handleChangeUsuario,
+              })}
+            />  
+            <Form.Control.Feedback type="invalid">
+              {errors.apellido?.message}
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -96,24 +116,7 @@ function UsuarioModal({
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Estado</Form.Label>
-            <Form.Select
-              value={usuarioForm.estado}
-              isInvalid={!!errors.estado}
-              {...register("estado", {
-                required: "Seleccioná un estado",
-                onChange: handleChangeUsuario,
-              })}
-            >
-              <option value="Activo">Activo</option>
-              <option value="Pendiente">Pendiente</option>
-              <option value="Suspendido">Suspendido</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              {errors.estado?.message}
-            </Form.Control.Feedback>
-          </Form.Group>
+          
         </Form>
       </Modal.Body>
 
@@ -121,11 +124,7 @@ function UsuarioModal({
         <Button variant="secondary" onClick={cerrarModalUsuario}>
           Cancelar
         </Button>
-        <Button
-          className="btn-admin-primary"
-          type="submit"
-          form="formUsuario"
-        >
+        <Button className="btn-admin-primary" type="submit" form="formUsuario">
           Guardar
         </Button>
       </Modal.Footer>
