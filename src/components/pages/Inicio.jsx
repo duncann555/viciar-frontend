@@ -23,9 +23,9 @@ const Inicio = () => {
 
   const consultarAPI = async () => {
     try {
-      const respuesta = await fetch("http://localhost:4000/api/productos");
+      const respuesta = await fetch("http://localhost:3000/api/productos");
       
-      if (respuesta.status === 200) {
+      if (respuesta.status === 200) {console.log("entre al if")
         const datos = await respuesta.json();
         setProductos(datos);
       } else {
@@ -62,6 +62,7 @@ const Inicio = () => {
     (p) => p.categoria === cat6.nombre
   );
 
+  
   return (
     <div>
       <CarruselPrincipal />
@@ -78,7 +79,7 @@ const Inicio = () => {
         </div>
         <Row className="mb-4">
           <Col xs={12}>
-            <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+            <div className="bg-dark text-white py-2 px shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
               <h2 className="m-0 fw-bold tituloCat">{cat1.nombre}</h2>
             </div>
           </Col>

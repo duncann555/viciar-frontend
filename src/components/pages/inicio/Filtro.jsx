@@ -26,8 +26,8 @@ const Filtro = () => {
   }, [searchParams]);
 
   return (
-    <div>
-      <Container>
+
+      <Container className="pb-5">
         <div className="mb-5">
           <h1 className="py-3 text-center fw-bolder text-primary-emphasis">
             Resultados encontrados para: {searchParams.get("nombre") || "Todos los productos"}
@@ -36,14 +36,14 @@ const Filtro = () => {
         <Row>
         {productos.length > 0 ? (
           productos.map((producto) => (
+            <Col md={4} lg={3}>
             <CardProducto key={producto.id} producto={producto} />
-          ))
+          </Col >))
         ) : (
           <h4 className="text-center fw-light">No se encontraron productos con ese nombre.</h4>
         )}
       </Row>
       </Container>
-    </div>
   );
 };
 
