@@ -36,9 +36,7 @@ const Filtro = () => {
         <Row>
         {productos.length > 0 ? (
           productos.map((producto) => (
-            <Col md={4} lg={3}>
-            <CardProducto key={producto.id} producto={producto} />
-          </Col >))
+            <CardProducto key={producto.id} producto={producto} />))
         ) : (
           <h4 className="text-center fw-light">No se encontraron productos con ese nombre.</h4>
         )}

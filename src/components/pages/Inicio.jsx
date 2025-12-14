@@ -64,143 +64,121 @@ const Inicio = () => {
 
   
   return (
-    <div>
-      <CarruselPrincipal />
-      <Container>
-        <div className="mb-5">
-          <h1 className="py-3 text-center fw-bolder text-primary-emphasis">
-            Bienvenidos a ViciAR
-          </h1>
-          <h5 className="fw-medium text-center">
-            Donde no vendemos simples juegos. Vendemos las 3 de la mañana con
-            amigos y esa sensación de gloria
-            absoluta. <br />Tu próxima obsesión está a un clic de distancia.
-          </h5>
-        </div>
-        <Row className="mb-4">
-          <Col sm={12}>
-            <div className="bg-dark text-white py-2 px shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
-              <h2 className="m-0 fw-bold tituloCat">{cat1.nombre}</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          {productosSeccion1.length > 0 ? (
-            productosSeccion1.map((prod) => (
-              <CardProducto key={prod._id} producto={prod} />
-            ))
-          ) : (
-            <div className="col-12 text-center py-5">
-              <h4 className="text-muted">{productos.length === 0 ? "Cargando..." : `No hay stock en ${cat1.nombre}`}</h4>
-            </div>
-          )}
-        </Row>
-        <Row className="py-5">
-          <CarruselOfertas />
-        </Row>
-        <Row className="mb-4">
-          <Col sm={12}>
-            <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
-              <h2 className="m-0 fw-bold tituloCat">{cat2.nombre}</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-5">
-          {productosSeccion2.length > 0 ? (
-            productosSeccion2.map((prod) => (
-              <CardProducto key={prod._id} producto={prod} />
-            ))
-          ) : (
-            <div className="col-12 text-center py-5">
-              <h4 className="text-muted">
-                {productos.length === 0 ? "Cargando..." : `No hay stock en ${cat2.nombre}`}
-              </h4>
-            </div>
-          )}
-        </Row>
-        <Row className="mb-4">
-          <Col sm={12}>
-            <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
-              <h2 className="m-0 fw-bold tituloCat">{cat3.nombre}</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-5">
-          {productosSeccion3.length > 0 ? (
-            productosSeccion3.map((prod) => (
-              <CardProducto key={prod._id} producto={prod} />
-            ))
-          ) : (
-            <div className="col-12 text-center py-5">
-              <h4 className="text-muted">
-                {productos.length === 0 ? "Cargando..." : `No hay stock en ${cat3.nombre}`}
-              </h4>
-            </div>
-          )}
-        </Row>
-        <Row className="mb-4">
-          <Col sm={12}>
-            <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
-              <h2 className="m-0 fw-bold tituloCat">{cat4.nombre}</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-5">
-          {productosSeccion4.length > 0 ? (
-            productosSeccion4.map((prod) => (
-              <CardProducto key={prod._id} producto={prod} />
-            ))
-          ) : (
-            <div className="col-12 text-center py-5">
-              <h4 className="text-muted">
-                {productos.length === 0 ? "Cargando..." : `No hay stock en ${cat4.nombre}`}
-              </h4>
-            </div>
-          )}
-        </Row>
-        <Row className="mb-4">
-          <Col sm={12}>
-            <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
-              <h2 className="m-0 fw-bold tituloCat">{cat5.nombre}</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-5">
-          {productosSeccion5.length > 0 ? (
-            productosSeccion5.map((prod) => (
-              <CardProducto key={prod._id} producto={prod} />
-            ))
-          ) : (
-            <div className="col-12 text-center py-5">
-              <h4 className="text-muted">
-                {productos.length === 0 ? "Cargando..." : `No hay stock en ${cat5.nombre}`}
-              </h4>
-            </div>
-          )}
-        </Row>
-        <Row className="mb-4">
-          <Col sm={12}>
-            <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
-              <h2 className="m-0 fw-bold tituloCat">{cat6.nombre}</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-5">
-          {productosSeccion6.length > 0 ? (
-            productosSeccion6.map((prod) => (
-              <CardProducto key={prod._id} producto={prod} />
-            ))
-          ) : (
-            <div className="col-12 text-center py-5">
-              <h4 className="text-muted">
-                {productos.length === 0 ? "Cargando..." : `No hay stock en ${cat6.nombre}`}
-              </h4>
-            </div>
-          )}
-        </Row>
-      </Container>
-    </div>
-  );
+  <div>
+    <CarruselPrincipal />
+    <Container>
+      <div className="mb-5">
+        <h1 className="py-5 text-center display-4 fw-bolder text-primary-emphasis">
+          Bienvenidos a ViciAR
+        </h1>
+        <h5 className="fw-medium text-center">
+          Donde no vendemos simples juegos. Vendemos las 3 de la mañana con
+          amigos y esa sensación de gloria absoluta. <br />
+          Tu próxima obsesión está a un clic de distancia.
+        </h5>
+      </div>
+      {productosSeccion1.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12} >
+              <div className="bg-dark text-white py-2 px shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat1.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            {productosSeccion1.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      <Row className="py-5">
+        <CarruselOfertas />
+      </Row>
+      {productosSeccion2.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat2.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion2.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      {productosSeccion3.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat3.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion3.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      {productosSeccion4.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat4.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion4.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      {productosSeccion5.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat5.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion5.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      {productosSeccion6.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat6.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion6.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+    </Container>
+  </div>
+);
 };
 
 export default Inicio;
