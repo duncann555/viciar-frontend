@@ -1,36 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./login.css";
 import { useForm } from "react-hook-form";
+import { login } from "../../helpers/queries";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 export default function ModalLogin({ show, onClose }) {
   if (!show) return null;
 
-  // const [user, setUser] = useState("");
-  // const [pass, setPass] = useState("");
-  // const [error, setError] = useState("");
   const [shake, setShake] = useState(false);
-  // const [remember, setRemember] = useState(false);
 
   const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm();
 
+  const sesionUsuario = JSON.parse(sessionStorage.getItem("usuarioKey")) || {};
+  const [usuarioLogueado, setUsuarioLogueado] = useState(sesionUsuario);
 
-  const postValidaciones = (data) => {
-    console.log(data);
-  }
-
+  const navigate = useNavigate();
 
   const triggerShake = () => {
     setShake(true);
     setTimeout(() => setShake(false), 450);
   };
 
-  // const handleLogin = (e) => {
-  //   // e.preventDefault();
+  const postValidaciones = async (data) => {
+    const respuesta = await login(data);
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      console.log(datos);
 
-  //   setError("");
-  //   alert("Login exitoso ✔");
-  //   onClose();
-  // };
+      const datosUsuario = {
+        rol: datos.rol,
+        token: datos.token
+      }
+
+      sessionStorage.setItem("usuarioKey", JSON.stringify(datosUsuario));
+      setUsuarioLogueado(datosUsuario);
+
+      onClose();
+      Swal.fire({
+        icon: 'success',
+        title: '¡Inicio de sesión exitoso!',
+        text: `Bienvenido`,
+        showConfirmButton: false,
+        timer: 2000, // se cierra automáticamente en 2 segundos
+        timerProgressBar: true
+      })
+      navigate("/");
+    } else {
+      triggerShake();
+    }
+  }
 
   const handleGoogle = () => {
     alert("Google login (demo)");
@@ -60,12 +79,12 @@ export default function ModalLogin({ show, onClose }) {
 
         <form onSubmit={handleSubmit(postValidaciones)} className="ml-form">
           <div className="ml-block">
-            <label className="ml-label">Usuario</label>
+            <label className="ml-label">Correo Electronico</label>
             <div className="ml-field">
               <i className="bi bi-person ml-icon" />
               <input
                 type="text"
-                placeholder="Tu usuario"
+                placeholder="Tu correo"
                 className="ml-input"
                 autoFocus
                 {...register("email", {
