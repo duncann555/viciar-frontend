@@ -1,85 +1,40 @@
 import CarruselPrincipal from "./inicio/CarruselPrincipal.jsx";
 import CardProducto from "./inicio/CardProducto.jsx";
 import CarruselOfertas from "./inicio/CarruselOfertas.jsx";
-import { Carousel, Col, Container, Row } from "react-bootstrap";
-import MultiCarousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import { Col, Container, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
 const Inicio = () => {
-  const productos = [
-    {
-      id: 1,
-      nombreProducto: "Juego Nintendo Switch 2 Cronos: The New Dawn NSW2",
-      precio: 104500,
-      imagen:
-        "https://nintenduo.com/wp-content/uploads/2025/09/Cronos-analisis-Nintenduo.webp",
-      categoria: "Juegos Nintendo",
-    },
-    {
-      id: 2,
-      nombreProducto:
-        "Consola Nintendo Switch 2 (USA) + Pro Controller 2 - Combo",
-      precio: 1247400,
-      imagen:
-        "https://nextgames.com.ar/img/Public/1040/11964-producto-whatsapp-image-2025-07-30-at-12-22-34-pm.jpeg",
-      categoria: "Consolas",
-    },
-    {
-      id: 3,
-      nombreProducto: "Juego Nintendo Switch 2 Cronos: The New Dawn NSW2",
-      precio: 104500,
-      imagen:
-        "https://nintenduo.com/wp-content/uploads/2025/09/Cronos-analisis-Nintenduo.webp",
-      categoria: "Juegos Nintendo",
-    },
-    {
-      id: 4,
-      nombreProducto:
-        "Consola Nintendo Switch 2 (USA) + Pro Controller 2 - Combo",
-      precio: 1247400,
-      imagen:
-        "https://nextgames.com.ar/img/Public/1040/11964-producto-whatsapp-image-2025-07-30-at-12-22-34-pm.jpeg",
-      categoria: "Consolas",
-    },
-    {
-      id: 5,
-      nombreProducto: "Juego Nintendo Switch 2 Cronos: The New Dawn NSW2",
-      precio: 104500,
-      imagen:
-        "https://nintenduo.com/wp-content/uploads/2025/09/Cronos-analisis-Nintenduo.webp",
-      categoria: "Juegos Nintendo",
-    },
-    {
-      id: 6,
-      nombreProducto:
-        "Consola Nintendo Switch 2 (USA) + Pro Controller 2 - Combo",
-      precio: 1247400,
-      imagen:
-        "https://nextgames.com.ar/img/Public/1040/11964-producto-whatsapp-image-2025-07-30-at-12-22-34-pm.jpeg",
-      categoria: "Consolas",
-    },
-    {
-      id: 7,
-      nombreProducto: "Juego Nintendo Switch 2 Cronos: The New Dawn NSW2",
-      precio: 104500,
-      imagen:
-        "https://nintenduo.com/wp-content/uploads/2025/09/Cronos-analisis-Nintenduo.webp",
-      categoria: "Juegos Nintendo",
-    },
-    {
-      id: 8,
-      nombreProducto:
-        "Consola Nintendo Switch 2 (USA) + Pro Controller 2 - Combo",
-      precio: 1247400,
-      imagen:
-        "https://nextgames.com.ar/img/Public/1040/11964-producto-whatsapp-image-2025-07-30-at-12-22-34-pm.jpeg",
-      categoria: "Consolas",
-    },
-  ];
+
+  const [productos, setProductos] = useState([]);
+  
   const categorias = [
-    { id: 1, nombre: "Juegos Nintendo" },
-    { id: 2, nombre: "Consolas" },
+    { id: 1, nombre: "Juegos de PC" }, 
+    { id: 2, nombre: "Juegos de PlayStation" },
+    { id: 3, nombre: "Juegos de Xbox" },
+    { id: 4, nombre: "Juegos de Nintendo" },
+    { id: 5, nombre: "Accesorios" },
+    { id: 6, nombre: "Consolas" },
   ];
+
+  useEffect(() => {
+    consultarAPI();
+  }, []);
+
+  const consultarAPI = async () => {
+    try {
+      const respuesta = await fetch("http://localhost:3000/api/productos");
+      
+      if (respuesta.status === 200) {
+        const datos = await respuesta.json();
+        setProductos(datos);
+      } else {
+        console.error("Error al cargar productos");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const cat1 = categorias[0];
   const productosSeccion1 = productos.filter(
@@ -90,63 +45,140 @@ const Inicio = () => {
   const productosSeccion2 = productos.filter(
     (p) => p.categoria === cat2.nombre
   );
-
-  return (
-    <div>
-      <CarruselPrincipal />
-      <Container>
-        <div className="mb-5">
-          <h1 className="py-3 text-center fw-bolder text-primary-emphasis">
-            Bienvenidos a ViciAR
-          </h1>
-          <h5 className="fw-medium text-center">
-            Donde no vendemos simples juegos. Vendemos las 3 de la mañana con
-            amigos y esa sensación de gloria
-            absoluta. <br />Tu próxima obsesión está a un clic de distancia.
-          </h5>
-        </div>
-        <Row className="mb-4">
-          <Col xs={12}>
-            <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
-              <h2 className="m-0 fw-bold tituloCat">{cat1.nombre}</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          {productosSeccion1.length > 0 ? (
-            productosSeccion1.map((prod) => (
-              <CardProducto key={prod.id} producto={prod} />
-            ))
-          ) : (
-            <div className="col-12 text-center py-5">
-              <h4 className="text-muted">No hay stock en {cat1.nombre}</h4>
-            </div>
-          )}
-        </Row>
-        <Row className="py-5">
-          <CarruselOfertas />
-        </Row>
-        <Row className="mb-4">
-          <Col xs={12}>
-            <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
-              <h2 className="m-0 fw-bold tituloCat">{cat2.nombre}</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-5">
-          {productosSeccion2.length > 0 ? (
-            productosSeccion2.map((prod) => (
-              <CardProducto key={prod.id} producto={prod} />
-            ))
-          ) : (
-            <div className="col-12 text-center py-5">
-              <h4 className="text-muted">No hay stock en {cat2.nombre}</h4>
-            </div>
-          )}
-        </Row>
-      </Container>
-    </div>
+  const cat3 = categorias[2];
+  const productosSeccion3 = productos.filter(
+    (p) => p.categoria === cat3.nombre
   );
+  const cat4 = categorias[3];
+  const productosSeccion4 = productos.filter(
+    (p) => p.categoria === cat4.nombre
+  );
+  const cat5 = categorias[4];
+  const productosSeccion5 = productos.filter(
+    (p) => p.categoria === cat5.nombre
+  );
+  const cat6 = categorias[5];
+  const productosSeccion6 = productos.filter(
+    (p) => p.categoria === cat6.nombre
+  );
+
+  
+  return (
+  <div>
+    <CarruselPrincipal />
+    <Container>
+      <div className="mb-5">
+        <h1 className="py-5 text-center display-4 fw-bolder text-primary-emphasis">
+          Bienvenidos a ViciAR
+        </h1>
+        <h5 className="fw-medium text-center">
+          Donde no vendemos simples juegos. Vendemos las 3 de la mañana con
+          amigos y esa sensación de gloria absoluta. <br />
+          Tu próxima obsesión está a un clic de distancia.
+        </h5>
+      </div>
+      {productosSeccion1.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12} >
+              <div className="bg-dark text-white py-2 px shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat1.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            {productosSeccion1.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      <Row className="py-5">
+        <CarruselOfertas />
+      </Row>
+      {productosSeccion2.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat2.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion2.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      {productosSeccion3.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat3.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion3.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      {productosSeccion4.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat4.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion4.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      {productosSeccion5.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat5.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion5.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+      {productosSeccion6.length > 0 && (
+        <>
+          <Row className="mb-4">
+            <Col sm={12}>
+              <div className="bg-dark text-white py-2 px-5 shadow w-100 d-flex align-items-center justify-content-center contenedorCat">
+                <h2 className="m-0 fw-bold tituloCat">{cat6.nombre}</h2>
+              </div>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            {productosSeccion6.map((prod, index) => (
+              <CardProducto key={prod.id || index} producto={prod} />
+            ))}
+          </Row>
+        </>
+      )}
+    </Container>
+  </div>
+);
 };
 
 export default Inicio;

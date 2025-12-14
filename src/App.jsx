@@ -9,6 +9,7 @@ import Nosotros from "./components/pages/Nosotros.jsx"
 import Contacto from "./components/pages/Contacto.jsx";
 import DetalleProducto from "./components/pages/DetalleProducto.jsx"
 import Error404 from "./components/pages/Error404.jsx"
+import Filtro from "./components/pages/inicio/Filtro.jsx"
 import ProtectosAdmin from "./components/routes/ProtectosAdmin.jsx";
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
             </Route>
           </Route>
           <Route path="*" element={<Error404 />} />
+          <Route path="/filtro" element={<Filtro />} />
+
         </Routes>
       </main>
       <Footer />

@@ -17,14 +17,14 @@
 }
 
 .imgCard {
-  object-fit: cover;
-  height: 100%;
+  object-fit: contain;
+  margin-top: 10px ;
+  height: 200px;
   width: 100%;
 }
 
 .contenedorCat {
   transform: skewX(-12deg);
-  margin-left: 15px;
 }
 
 .tituloCat {
@@ -55,16 +55,21 @@
   }
 }
 
-@media (781px<=width<=992px) {
+@media (768px<=width<=992px) {
   .imagen-Carousel {
     height: 350px; 
     object-fit: cover;
   }
 }
 
-@media (width<=781px) {
+@media (width<=768px) {
   .imagen-Carousel {
-    height: 150px; 
+    height: 170px; 
     object-fit: cover;
+  }
+
+  .btn-card{
+    display: flex;
+    align-items: center;
   }
 }

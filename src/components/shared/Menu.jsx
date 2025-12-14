@@ -6,11 +6,19 @@ import "../../styles/menu.css";
 import logoS2 from "../../assets/logoS2.png";
 
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import ModalLogin from "./ModalLogin";
 
 function Menu() {
-
   const [showLogin, setShowLogin] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
+  const navigate = useNavigate();
+
+  const manejarEnvio = (e) => {
+    e.preventDefault();
+    navigate(`/filtro?nombre=${busqueda}`);
+    setBusqueda("");
+  };
 
   return (
     <>
@@ -21,12 +29,14 @@ function Menu() {
           </Navbar.Brand>
 
           <div className="d-flex flex-grow-1 justify-content-center">
-            <form className="d-lg-flex ms-auto me-4">
+            <form onSubmit={manejarEnvio} className="d-lg-flex ms-auto me-4">
               <input
                 type="search"
                 placeholder="Buscar..."
                 className="form-control me-2 barra-busqueda barra-small"
                 aria-label="Search"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
               />
             </form>
           </div>
@@ -54,10 +64,9 @@ function Menu() {
                 <i className="bi bi-cart3"></i>
               </NavLink>
 
-              
-              <div 
-                className="nav-link opcion-nav fw-bold" 
-                style={{ cursor: "pointer" }} 
+              <div
+                className="nav-link opcion-nav fw-bold"
+                style={{ cursor: "pointer" }}
                 onClick={() => setShowLogin(true)}
               >
                 <i className="bi bi-person-circle icono-user"></i>
