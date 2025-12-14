@@ -1,40 +1,36 @@
 .ml-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.25s ease-out;
-  z-index: 5000;
+  z-index: 9999;
+  animation: fadeIn 0.18s ease-out;
+  padding: 18px;
 }
 
 .ml-modal {
-  background: #fff;
-  width: 520px;
-  padding: 40px 45px;
-  border-radius: 16px;
-  box-shadow: 0px 20px 45px rgba(0, 0, 0, 0.25);
+  background: #ffffff;
+  width: min(520px, 92vw);
+  border-radius: 18px;
+  padding: 34px 34px 26px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
   position: relative;
-  animation: zoomIn 0.25s ease;
+  animation: zoomIn 0.18s ease-out;
 }
 
 .ml-close {
   position: absolute;
-  top: 14px;
+  top: 16px;
   right: 18px;
-  font-size: 24px;
-  cursor: pointer;
   background: transparent;
   border: none;
+  font-size: 22px;
+  cursor: pointer;
   opacity: 0.7;
-  transition: 0.2s;
 }
-
 .ml-close:hover {
   opacity: 1;
 }
@@ -42,174 +38,198 @@
 .ml-title {
   text-align: center;
   font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: #000;
+  font-weight: 800;
+  margin: 6px 0 6px;
+  color: #151515;
 }
-
 .ml-subtitle {
   text-align: center;
-  font-size: 15px;
-  color: #666;
-  margin-bottom: 25px;
+  margin: 0 0 22px;
+  color: #6b6b6b;
+  font-size: 14px;
+}
+
+.ml-form {
+  margin-top: 6px;
+}
+.ml-block {
+  margin-bottom: 14px;
 }
 
 .ml-label {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
+  font-size: 13px;
+  font-weight: 700;
+  color: #3a3a3a;
   margin-bottom: 6px;
 }
 
+.ml-field {
+  position: relative;
+}
+.ml-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7a7a7a;
+  font-size: 16px;
+}
 .ml-input {
   width: 100%;
-  padding: 13px 14px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 15px;
-  transition: 0.25s;
-}
-
-.ml-input.big {
-  padding: 15px 16px;
-}
-
-.ml-input:focus {
-  border-color: #271776;
-  box-shadow: 0 0 6px rgba(39, 23, 118, 0.45);
-  outline: none;
-}
-
-.ml-error {
-  color: #d32f2f;
+  padding: 12px 12px 12px 40px;
+  border-radius: 12px;
+  border: 1px solid #d0d0d0;
   font-size: 14px;
-  margin: 10px 0;
-  text-align: center;
-  font-weight: 600;
+  outline: none;
+  transition: 0.18s ease;
+}
+.ml-input:focus {
+  border-color: #3b25a5;
+  box-shadow: 0 0 0 4px rgba(59, 37, 165, 0.14);
 }
 
-.ml-btn-row {
+.ml-row {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  align-items: center;
+  margin: 6px 0 10px;
   gap: 12px;
 }
 
-.ml-btn-cancel {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  background: #eee;
-  color: #333;
-  font-weight: 600;
+.ml-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #4d4d4d;
+}
+.ml-remember input {
+  transform: translateY(1px);
+}
+
+.ml-forgot {
+  font-size: 13px;
+  text-decoration: none;
+  color: #271776;
+  font-weight: 700;
+}
+.ml-forgot:hover {
+  text-decoration: underline;
+}
+
+.ml-error {
+  margin: 8px 0 10px;
+  text-align: center;
+  color: #d32f2f;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.ml-btn {
+  width: 100%;
   border: none;
-  cursor: pointer;
-  transition: 0.25s;
-}
-
-.ml-btn-cancel:hover {
-  background: #ddd;
-}
-
-.ml-btn-primary {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  background: #271776;
+  padding: 13px 14px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #271776, #5930ff);
   color: #fff;
-  font-weight: 600;
-  border: none;
+  font-size: 15px;
+  font-weight: 800;
   cursor: pointer;
-  transition: 0.25s;
+  transition: 0.18s ease;
 }
-
-.ml-btn-primary:hover {
-  background: #3b25a8;
+.ml-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
 }
 
 .ml-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 22px 0;
-  color: #999;
-  font-size: 14px;
-}
-
-.ml-divider span {
+  margin: 18px 0 14px;
   position: relative;
-  padding: 0 12px;
-  background: #fff;
+  text-align: center;
+  color: #7b7b7b;
+  font-size: 13px;
 }
-
 .ml-divider::before,
 .ml-divider::after {
   content: "";
-  flex: 1;
+  position: absolute;
+  top: 50%;
+  width: 38%;
   height: 1px;
-  background: #ddd;
+  background: #e2e2e2;
 }
-
-.ml-social.google {
-  width: 100%;
-  padding: 13px;
-  margin-bottom: 12px;
+.ml-divider::before {
+  left: 0;
+}
+.ml-divider::after {
+  right: 0;
+}
+.ml-divider span {
   background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
+  padding: 0 10px;
+}
+
+.ml-social {
+  display: grid;
   gap: 10px;
-  align-items: center;
-  justify-content: center;
-  transition: 0.25s;
 }
 
-.ml-social.google:hover {
-  background: #f7f7f7;
-}
-
-.ml-social.facebook {
+.ml-social-btn {
   width: 100%;
-  padding: 13px;
-  background: #1877f2;
-  border-radius: 10px;
-  color: white;
-  font-weight: 600;
-  border: none;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #d8d8d8;
+  background: #fff;
   cursor: pointer;
-  display: flex;
-  gap: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: 0.25s;
+  gap: 10px;
+  transition: 0.18s ease;
+}
+.ml-social-btn i {
+  font-size: 16px;
 }
 
-.ml-social.facebook:hover {
-  background: #0f5cd8;
+.ml-social-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
 }
 
-.ml-social i {
-  font-size: 18px;
+.ml-social-btn.google {
+  border-color: #d8d8d8;
+}
+.ml-social-btn.facebook {
+  border-color: #1b74e4;
+  background: #1b74e4;
+  color: #fff;
+}
+.ml-social-btn.facebook:hover {
+  filter: brightness(1.06);
 }
 
 .ml-register {
-  margin-top: 18px;
   text-align: center;
-  font-size: 14px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #555;
 }
-
 .ml-register a {
   color: #271776;
-  font-weight: 600;
+  font-weight: 800;
   text-decoration: none;
 }
-
 .ml-register a:hover {
   text-decoration: underline;
 }
+/* Asegúrate de que este valor sea mayor que el z-index de tu .ml-overlay o .ml-modal
+
+.swal2-container {
+    z-index: 99999 !important; 
+} */
 
 @keyframes fadeIn {
   from {
@@ -219,10 +239,9 @@
     opacity: 1;
   }
 }
-
 @keyframes zoomIn {
   from {
-    transform: scale(0.85);
+    transform: scale(0.95);
     opacity: 0;
   }
   to {
@@ -232,9 +251,8 @@
 }
 
 .shake {
-  animation: shakeAnim 0.4s ease;
+  animation: shakeAnim 0.35s ease;
 }
-
 @keyframes shakeAnim {
   0% {
     transform: translateX(0);
