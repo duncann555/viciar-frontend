@@ -1,39 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./login.css";
+import { useForm } from "react-hook-form";
+import { login } from "../../helpers/queries";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 export default function ModalLogin({ show, onClose }) {
   if (!show) return null;
 
-  const [user, setUser] = useState("");
-  const [pass, setPass] = useState("");
-  const [error, setError] = useState("");
   const [shake, setShake] = useState(false);
-  const [remember, setRemember] = useState(false);
+
+  const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm();
+
+  const sesionUsuario = JSON.parse(sessionStorage.getItem("usuarioKey")) || {};
+  const [usuarioLogueado, setUsuarioLogueado] = useState(sesionUsuario);
+
+  const navigate = useNavigate();
 
   const triggerShake = () => {
     setShake(true);
     setTimeout(() => setShake(false), 450);
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const postValidaciones = async (data) => {
+    const respuesta = await login(data);
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      console.log(datos);
 
-    if (!user || !pass) {
-      setError("Completa todos los campos.");
+      const datosUsuario = {
+        rol: datos.rol,
+        token: datos.token
+      }
+
+      sessionStorage.setItem("usuarioKey", JSON.stringify(datosUsuario));
+      setUsuarioLogueado(datosUsuario);
+
+      onClose();
+      Swal.fire({
+        icon: 'success',
+        title: '¡Inicio de sesión exitoso!',
+        text: `Bienvenido`,
+        showConfirmButton: false,
+        timer: 2000, // se cierra automáticamente en 2 segundos
+        timerProgressBar: true
+      })
+      navigate("/");
+    } else {
       triggerShake();
-      return;
     }
-
-    if (user !== "admin" || pass !== "1234") {
-      setError("Usuario o contraseña incorrectos.");
-      triggerShake();
-      return;
-    }
-
-    setError("");
-    alert("Login exitoso ✔");
-    onClose();
-  };
+  }
 
   const handleGoogle = () => {
     alert("Google login (demo)");
@@ -61,19 +77,26 @@ export default function ModalLogin({ show, onClose }) {
           Entrá a tu cuenta y seguí viciando tranquilo 🎮
         </p>
 
-        <form onSubmit={handleLogin} className="ml-form">
+        <form onSubmit={handleSubmit(postValidaciones)} className="ml-form">
           <div className="ml-block">
-            <label className="ml-label">Usuario</label>
+            <label className="ml-label">Correo Electronico</label>
             <div className="ml-field">
               <i className="bi bi-person ml-icon" />
               <input
                 type="text"
-                placeholder="Tu usuario"
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
+                placeholder="Tu correo"
                 className="ml-input"
                 autoFocus
+                {...register("email", {
+                  required: "El email es un dato obligatorio",
+                  pattern: {
+                    value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+                    message: "El email ingresado no es valido"
+                  }
+                })}
+                onChange={() => clearErrors("email")}
               />
+              <p className="text-danger">{errors.email?.message}</p>
             </div>
           </div>
 
@@ -84,10 +107,17 @@ export default function ModalLogin({ show, onClose }) {
               <input
                 type="password"
                 placeholder="Tu contraseña"
-                value={pass}
-                onChange={(e) => setPass(e.target.value)}
                 className="ml-input"
+                {...register("password", {
+                  required: "La contraseña es un dato obligatorio",
+                  pattern: {
+                    value: /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])\S{8,64}$/,
+                    message: "Contraseña no valida"
+                  }
+                })}
+                onChange={() => clearErrors("password")}
               />
+              <p className="text-danger">{errors.password?.message}</p>
             </div>
           </div>
 
@@ -95,8 +125,6 @@ export default function ModalLogin({ show, onClose }) {
             <label className="ml-remember">
               <input
                 type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
               />
               Recordarme
             </label>
@@ -105,8 +133,6 @@ export default function ModalLogin({ show, onClose }) {
               ¿Olvidaste tu contraseña?
             </a>
           </div>
-
-          {error && <p className="ml-error">{error}</p>}
 
           <button type="submit" className="ml-btn">
             Ingresar

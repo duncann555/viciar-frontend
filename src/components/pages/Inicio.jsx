@@ -102,7 +102,7 @@ const Inicio = () => {
           <h5 className="fw-medium text-center">
             Donde no vendemos simples juegos. Vendemos las 3 de la mañana con
             amigos y esa sensación de gloria
-            absoluta. <br/>Tu próxima obsesión está a un clic de distancia.
+            absoluta. <br />Tu próxima obsesión está a un clic de distancia.
           </h5>
         </div>
         <Row className="mb-4">
