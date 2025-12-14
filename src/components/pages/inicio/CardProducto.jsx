@@ -5,7 +5,7 @@ const CardProducto = ({ producto }) => {
   const { id } = producto;
 
   return (
-      <Col sm={6} md={4} lg={3} className="g-3">
+      <Col xs={6} md={4} lg={3} className="g-3">
       <Card className="h-100 shadow">
         <div className="contenedorImg">
           <Card.Img
@@ -23,8 +23,8 @@ const CardProducto = ({ producto }) => {
             <span className="fw-bold fs-5">${producto.precio.toLocaleString()}</span>
           </Card.Text>
         </Card.Body>
-        <Card.Footer className="text-end bg-white border-top-0 mt-auto">
-          <Button variant="success" size="sm" className="me-2">
+        <Card.Footer className="text-end bg-white border-top-0 mt-auto btn-card">
+          <Button variant="success" size="sm" className="me-2 ">
             <i className="bi bi-cart-plus-fill"></i> Agregar
           </Button>
           <Link
