@@ -146,15 +146,11 @@ function ProductoModal({
           <Form.Group className="mb-3">
             <Form.Label>URL de la imagen</Form.Label>
             <Form.Control
-              type="url"
+              type="file"
+              accept="image/*"
               placeholder="URL de la imagen"
               {...register("imagenUrl", {
                 required: "La imagen es obligatoria",
-                pattern: {
-                  value: /^(https?:\/\/).+/i,
-                  message:
-                    "Ingresá una URL válida que comience con http o https",
-                },
               })}
             />
             {errors.imagenUrl && (
@@ -181,16 +177,6 @@ function ProductoModal({
               </small>
             )}
           </Form.Group>
-          {/* 
-          <Form.Group className="mb-3">
-            <Form.Label>Fecha de último control</Form.Label>
-            <Form.Control type="date" {...register("fechaControl")} />
-            {errors.fechaControl && (
-              <small className="text-danger">
-                {errors.fechaControl.message}
-              </small>
-            )}
-          </Form.Group> */}
 
           <div className="d-flex justify-content-end gap-2">
             <Button variant="secondary" onClick={cerrarModalProducto}>
