@@ -12,10 +12,12 @@ import ProductoModal from "./administrador/ProductosModal";
 import PedidosTab from "./administrador/PedidosTab";
 import PedidoModal from "./administrador/PedidosModal";
 import "../../styles/admin.css";
+import { eliminarProductoAPI, obtenerProductosAPI } from "../../helpers/queries";
 
 function Admin({ productos, setProductos }) {
   const [mostrarPedidoModal, setMostrarPedidoModal] = useState(false);
   const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+
 
   const abrirModalPedido = (pedido) => {
     setPedidoSeleccionado(pedido);
@@ -275,27 +277,6 @@ function Admin({ productos, setProductos }) {
     });
   };
 
-  const handleEliminarProducto = (id) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Esta acción no se puede deshacer.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    }).then((res) => {
-      if (res.isConfirmed) {
-        setProductos(productos.filter((p) => p.id !== id));
-
-        Swal.fire({
-          icon: "success",
-          title: "Producto eliminado",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
-  };
 
   const handleEliminarUsuario = (id) => {
     Swal.fire({
@@ -398,10 +379,10 @@ function Admin({ productos, setProductos }) {
             productos={productos}
             abrirModalProductoCrear={abrirModalProductoCrear}
             abrirModalProductoEditar={abrirModalProductoEditar}
-            handleEliminarProducto={handleEliminarProducto}
             handleSuspenderProducto={handleSuspenderProducto}
             obtenerColorBadgeStock={obtenerColorBadgeStock}
             formatearPrecio={formatearPrecio}
+            setProductos={setProductos}
             cerrarModalProducto={cerrarModalProducto}
           />
         </Tab>

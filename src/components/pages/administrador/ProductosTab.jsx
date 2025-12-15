@@ -5,14 +5,15 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
-import Badge from "react-bootstrap/Badge";
 import { useState } from "react";
+import { eliminarProductoAPI, obtenerProductosAPI } from "../../../helpers/queries";
+import Swal from "sweetalert2";
+import ItemProducto from "./ItemProducto";
 
 function ProductosTab({
   productos,
   abrirModalProductoCrear,
   abrirModalProductoEditar,
-  handleEliminarProducto,
   handleSuspenderProducto,
   obtenerColorBadgeStock,
   formatearPrecio,
@@ -34,6 +35,7 @@ function ProductosTab({
   //     (p.estado || "").toLowerCase().includes(q)
   //   );
   // });
+
 
   return (
     <>
@@ -87,75 +89,9 @@ function ProductosTab({
             </thead>
 
             <tbody className="text-center">
-              {productos.map((prod) => (
-                <tr key={prod.id}>
-                  <td>{prod.id}</td>
-
-                  <td>
-                    <img
-                      src={prod.imagenUrl}
-                      alt={prod.nombre}
-                      style={{
-                        width: "56px",
-                        height: "56px",
-                        objectFit: "cover",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  </td>
-
-                  <td>{prod.nombre}</td>
-                  <td>{prod.categoria}</td>
-
-                  <td>
-                    <Badge bg={obtenerColorBadgeStock(prod.stock)}>
-                      {prod.stock}
-                    </Badge>
-                  </td>
-
-                  <td>{new Date(prod.ultimoControl).toLocaleString("es-AR")}</td>
-                  <td>{formatearPrecio(prod.precio)}</td>
-
-                  <td>
-                    <Badge bg={prod.estado === "Activo" ? "success" : "warning"}>
-                      {prod.estado}
-                    </Badge>
-                  </td>
-
-                  <td>
-                    <Button
-                      variant="outline-primary"
-                      size="sm"
-                      className="me-2"
-                      onClick={() => abrirModalProductoEditar(prod)}
-                    >
-                      Editar
-                    </Button>
-
-                    <Button
-                      variant={
-                        prod.estado === "Activo"
-                          ? "outline-warning"
-                          : "outline-success"
-                      }
-                      size="sm"
-                      className="me-2"
-                      onClick={() => handleSuspenderProducto(prod.id)}
-                    >
-                      {prod.estado === "Activo" ? "Suspender" : "Activar"}
-                    </Button>
-
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => handleEliminarProducto(prod.id)}
-                    >
-                      Eliminar
-                    </Button>
-                  </td>
-                </tr>
+              {productos.map((itemProducto, indice) => (
+                <ItemProducto itemProducto={itemProducto} key={itemProducto._id} obtenerColorBadgeStock={obtenerColorBadgeStock} fila={indice + 1}></ItemProducto>
               ))}
-
               {productos.length === 0 && (
                 <tr>
                   <td colSpan={9} className="text-center text-muted">

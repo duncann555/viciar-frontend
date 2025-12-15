@@ -43,3 +43,18 @@ export const crearProductosAPI = async (producto) => {
     return null;
   }
 };
+
+export const eliminarProductoAPI = async (id) => {
+  try {
+    const respuesta = await fetch(`${productosBackend}${id}`, {
+      method: "DELETE",
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
