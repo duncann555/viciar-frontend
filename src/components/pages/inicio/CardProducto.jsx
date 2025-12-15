@@ -1,5 +1,5 @@
 import { Col, Card, Button } from "react-bootstrap";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { agregarAlCarrito } from "../../../helpers/queries.js";
 
 const CardProducto = ({ producto }) => {
@@ -7,7 +7,7 @@ const CardProducto = ({ producto }) => {
 
   return (
     <Col xs={6} md={4} lg={3} className="g-3">
-      <Card className="h-100 shadow">
+      <Card className="h-100 shadow position-relative">
         <div className="contenedorImg">
           <Card.Img
             variant="top"
@@ -18,6 +18,9 @@ const CardProducto = ({ producto }) => {
         </div>
 
         <Card.Body className="d-flex flex-column">
+          {/* ✅ hace que clickeando el body vaya al detalle */}
+          <Link to={`/detalleproducto/${id}`} className="stretched-link" />
+
           <Card.Title className="fs-5">{producto.nombre}</Card.Title>
           <Card.Text className="mt-auto">
             <span className="text-muted small">{producto.categoria}</span>
@@ -28,7 +31,8 @@ const CardProducto = ({ producto }) => {
           </Card.Text>
         </Card.Body>
 
-        <Card.Footer className="text-end bg-white border-top-0 mt-auto btn-card">
+        <Card.Footer className="text-end bg-white border-top-0 mt-auto btn-card position-relative">
+          {/* ✅ ojo: stretched-link tapa clicks; por eso el footer queda position-relative */}
           <Button
             variant="success"
             size="sm"
@@ -38,10 +42,7 @@ const CardProducto = ({ producto }) => {
             <i className="bi bi-cart-plus-fill"></i> Agregar
           </Button>
 
-          <Link
-            to={`/detalleproducto/${id}`}
-            className="btn btn-primary btn-sm"
-          >
+          <Link to={`/detalleproducto/${id}`} className="btn btn-primary btn-sm">
             Ver más
           </Link>
         </Card.Footer>
