@@ -3,8 +3,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { crearProductosAPI, obtenerProductosAPI } from "../../../helpers/queries";
+import { crearProductosAPI, editarProductoAPI, obtenerProductosAPI } from "../../../helpers/queries";
 import Swal from "sweetalert2";
+import ItemProducto from "./ItemProducto";
 
 function ProductoModal({
   show,
@@ -12,6 +13,7 @@ function ProductoModal({
   productoInicial,
   cerrarModalProducto,
   setProductos,
+  productoSeleccionado,
   handleGuardarProducto,
 }) {
   const {
@@ -19,13 +21,29 @@ function ProductoModal({
     handleSubmit,
     reset,
     formState: { errors },
+    setValue
   } = useForm({
     defaultValues: productoInicial,
   });
 
   useEffect(() => {
-    reset(productoInicial);
-  }, [productoInicial, reset]);
+    if (modoProducto === "editar" && productoSeleccionado) {
+      setValue("nombre", productoSeleccionado.nombre);
+      setValue("categoria", productoSeleccionado.categoria);
+      setValue("stock", productoSeleccionado.stock);
+      setValue("precio", productoSeleccionado.precio);
+      setValue("descripcion", productoSeleccionado.descripcion);
+    }
+
+    if (modoProducto === "crear") {
+      setValue("nombre", "")
+      setValue("categoria", "")
+      setValue("stock", "")
+      setValue("precio", "")
+      setValue("descripcion", "")
+    }
+
+  }, [modoProducto, productoSeleccionado, setValue])
 
   const onSubmit = async (data) => {
     // console.log(data);
@@ -33,28 +51,40 @@ function ProductoModal({
       ...data,
       imagenUrl: data.imagenUrl[0] //Archivo
     }
-
-    const respuesta = await crearProductosAPI(productoForm);
-    if (respuesta.status === 201) {
-      const respuestaDatos = await obtenerProductosAPI();
-      if (respuestaDatos.status === 200) {
-        const datos = await respuestaDatos.json();
-        setProductos(datos);
+    if (modoProducto === "crear") {
+      const respuesta = await crearProductosAPI(productoForm);
+      if (respuesta.status === 201) {
+        const respuestaDatos = await obtenerProductosAPI();
+        if (respuestaDatos.status === 200) {
+          const datos = await respuestaDatos.json();
+          setProductos(datos);
+        }
+        Swal.fire({
+          title: "Receta creada exitosamente!",
+          icon: "success",
+          draggable: true
+        })
+        cerrarModalProducto();
+        reset();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error al crear el producto. Intentelo mas tarde.',
+          confirmButtonText: 'Aceptar'
+        });
       }
-      Swal.fire({
-        title: "Receta creada exitosamente!",
-        icon: "success",
-        draggable: true
-      })
-      cerrarModalProducto();
-      reset();
+
     } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Ocurrió un error al crear el producto. Intentelo mas tarde.',
-        confirmButtonText: 'Aceptar'
-      });
+      const respuesta = await editarProductoAPI(productoSeleccionado._id, productoForm);
+      if (respuesta.status === 200) {
+        Swal.fire({
+          title: "Producto modificado",
+          text: `El producto ${productoForm.nombre} se actualizo correctamente`,
+          icon: "success",
+        });
+
+      }
     }
 
   };

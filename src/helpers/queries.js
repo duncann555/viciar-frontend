@@ -82,3 +82,40 @@ export const cambiarEstadoProductoAPI = async (id, estado) => {
     return null;
   }
 };
+
+export const editarProductoAPI = async (id, producto) => {
+  try {
+    const formData = new FormData();
+    formData.append("nombre", producto.nombre);
+    formData.append("categoria", producto.categoria);
+    formData.append("stock", producto.stock);
+    formData.append("precio", producto.precio);
+    formData.append("descripcion", producto.descripcion);
+
+    if (producto.imagenUrl instanceof File) {
+      formData.append("imagenUrl", producto.imagenUrl);
+    }
+
+    const respuesta = await fetch(`${productosBackend}${id}`, {
+      method: "PUT",
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+      body: formData,
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const obtenerProductosIdAPI = async (id) => {
+  try {
+    const respuesta = await fetch(`${productosBackend}${id}`);
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};

@@ -6,7 +6,7 @@ import Badge from "react-bootstrap/Badge";
 import Swal from 'sweetalert2';
 import { cambiarEstadoProductoAPI, eliminarProductoAPI, obtenerProductosAPI } from '../../../helpers/queries';
 
-const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos }) => {
+const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos, abrirModalProductoEditar }) => {
     const eliminarProducto = () => {
         Swal.fire({
             title: "¿Estás seguro?",
@@ -102,7 +102,7 @@ const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos
                     variant="outline-primary"
                     size="sm"
                     className="me-2"
-                    onClick={() => abrirModalProductoEditar(itemProducto._id)}
+                    onClick={() => abrirModalProductoEditar(itemProducto)}
                 >
                     Editar
                 </Button>

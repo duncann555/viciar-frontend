@@ -12,6 +12,7 @@ import ProductoModal from "./administrador/ProductosModal";
 import PedidosTab from "./administrador/PedidosTab";
 import PedidoModal from "./administrador/PedidosModal";
 import "../../styles/admin.css";
+import { useForm } from "react-hook-form";
 
 function Admin({ productos, setProductos }) {
   const [mostrarPedidoModal, setMostrarPedidoModal] = useState(false);
@@ -134,8 +135,10 @@ function Admin({ productos, setProductos }) {
   const [modoProducto, setModoProducto] = useState("crear");
   const [modoUsuario, setModoUsuario] = useState("crear");
 
-  const [productoSeleccionadoId, setProductoSeleccionadoId] = useState(null);
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [usuarioSeleccionadoId, setUsuarioSeleccionadoId] = useState(null);
+
+  const [imagenActual, setImagenActual] = useState([])
 
   const [usuarioForm, setUsuarioForm] = useState({
     nombre: "",
@@ -157,30 +160,14 @@ function Admin({ productos, setProductos }) {
 
   const abrirModalProductoCrear = () => {
     setModoProducto("crear");
-    setProductoSeleccionadoId(null);
-    setProductoInicial({
-      nombre: "",
-      categoria: "",
-      stock: "",
-      descripcion: "",
-      precio: "",
-      imagenUrl: "",
-    });
+    setProductoSeleccionado(null);
     setMostrarProductoModal(true);
   };
 
+
   const abrirModalProductoEditar = (producto) => {
     setModoProducto("editar");
-    setProductoSeleccionadoId(producto.id);
-    setProductoInicial({
-      nombre: producto.nombre,
-      categoria: producto.categoria,
-      stock: producto.stock,
-      descripcion: producto.descripcion,
-      fechaControl: producto.ultimoControl,
-      precio: producto.precio,
-      imagenUrl: producto.imagenUrl,
-    });
+    setProductoSeleccionado(producto);
     setMostrarProductoModal(true);
   };
 
@@ -366,6 +353,7 @@ function Admin({ productos, setProductos }) {
         <Tab eventKey="productos" title="Productos">
           <ProductosTab
             productos={productos}
+            productoSelecionado={productoSeleccionado}
             abrirModalProductoCrear={abrirModalProductoCrear}
             abrirModalProductoEditar={abrirModalProductoEditar}
             obtenerColorBadgeStock={obtenerColorBadgeStock}
@@ -402,6 +390,7 @@ function Admin({ productos, setProductos }) {
         cerrarModalProducto={cerrarModalProducto}
         handleGuardarProducto={handleGuardarProducto}
         setProductos={setProductos}
+        productoSeleccionado={productoSeleccionado}
       />
 
       <UsuarioModal

@@ -91,7 +91,7 @@ function ProductosTab({
 
             <tbody className="text-center">
               {productos.map((itemProducto, indice) => (
-                <ItemProducto itemProducto={itemProducto} key={itemProducto._id} obtenerColorBadgeStock={obtenerColorBadgeStock} fila={indice + 1} setProductos={setProductos}></ItemProducto>
+                <ItemProducto itemProducto={itemProducto} key={itemProducto._id} obtenerColorBadgeStock={obtenerColorBadgeStock} fila={indice + 1} setProductos={setProductos} abrirModalProductoEditar={abrirModalProductoEditar}></ItemProducto>
               ))}
               {productos.length === 0 && (
                 <tr>
