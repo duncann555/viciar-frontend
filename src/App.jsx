@@ -23,7 +23,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/contacto" element={<Contacto />} />
-          <Route path="/detalleproducto" element={<DetalleProducto />} />
+          <Route path="/detalleproducto/:id" element={<DetalleProducto />} />
           <Route element={<ProtectosAdmin />}>
             <Route path="/admin" element={<Admin />}></Route>
           </Route>
