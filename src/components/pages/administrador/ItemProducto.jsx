@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import Swal from 'sweetalert2';
-import { eliminarProductoAPI, obtenerProductosAPI } from '../../../helpers/queries';
+import { cambiarEstadoProductoAPI, eliminarProductoAPI, obtenerProductosAPI } from '../../../helpers/queries';
 
 const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos }) => {
     const eliminarProducto = () => {
@@ -37,6 +37,30 @@ const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos
         })
     }
 
+    const cambiarEstadoProducto = async () => {
+        const estado = itemProducto.estado;
+        if (estado === "Activo") {
+            const estadoNuevo = "Inactivo"
+            const respuesta = await cambiarEstadoProductoAPI(itemProducto._id, estadoNuevo);
+            if (respuesta.status === 200) {
+                const datosNuevos = await obtenerProductosAPI();
+                const productosActualizados = await datosNuevos.json();
+                setProductos(productosActualizados);
+            } else {
+                alert("Error al actualizar el estado del producto")
+            }
+        } else {
+            const estadoNuevo = "Activo";
+            const respuesta = await cambiarEstadoProductoAPI(itemProducto._id, estadoNuevo);
+            if (respuesta.status === 200) {
+                const datosNuevos = await obtenerProductosAPI();
+                const productosActualizados = await datosNuevos.json();
+                setProductos(productosActualizados);
+            } else {
+                alert("Error al actualizar el estado del producto")
+            }
+        }
+    }
 
     return (
         <tr key={itemProducto._id}>
@@ -91,7 +115,7 @@ const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos
                     }
                     size="sm"
                     className="me-2"
-                    onClick={() => handleSuspenderProducto(itemProducto._id)}
+                    onClick={() => cambiarEstadoProducto(itemProducto._id)}
                 >
                     {itemProducto.estado === "Activo" ? "Suspender" : "Activar"}
                 </Button>

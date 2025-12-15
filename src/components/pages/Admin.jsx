@@ -146,7 +146,7 @@ function Admin({ productos, setProductos }) {
   });
 
   const totalProductos = productos.length;
-  // const productosSinStock = productos.filter((p) => p.stock === 0).length;
+  const productosSinStock = productos.filter((p) => p.stock === 0).length;
   const totalUsuarios = usuarios.length;
   // podrías agregar totalPedidos si después querés mostrarlo en AdminStatus
 
@@ -309,16 +309,6 @@ function Admin({ productos, setProductos }) {
     );
   };
 
-  const handleSuspenderProducto = (id) => {
-    setProductos((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? { ...p, estado: p.estado === "Activo" ? "Suspendido" : "Activo" }
-          : p
-      )
-    );
-  };
-
   // --- Handlers de pedidos ---
   const handleCambiarEstadoPedido = (id) => {
     setPedidos((prev) =>
@@ -368,7 +358,7 @@ function Admin({ productos, setProductos }) {
     <Container fluid className="py-4">
       <AdminStatus
         totalProductos={totalProductos}
-        // productosSinStock={productosSinStock}
+        productosSinStock={productosSinStock}
         totalUsuarios={totalUsuarios}
       />
 
@@ -378,7 +368,6 @@ function Admin({ productos, setProductos }) {
             productos={productos}
             abrirModalProductoCrear={abrirModalProductoCrear}
             abrirModalProductoEditar={abrirModalProductoEditar}
-            handleSuspenderProducto={handleSuspenderProducto}
             obtenerColorBadgeStock={obtenerColorBadgeStock}
             formatearPrecio={formatearPrecio}
             setProductos={setProductos}
