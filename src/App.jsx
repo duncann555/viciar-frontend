@@ -5,12 +5,12 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Inicio from "./components/pages/Inicio.jsx";
 import Carrito from "./components/pages/carrito/Carrito.jsx";
 import Register from "./components/pages/Register.jsx";
-import Nosotros from "./components/pages/Nosotros.jsx"
+import Nosotros from "./components/pages/Nosotros.jsx";
 import Contacto from "./components/pages/Contacto.jsx";
-import DetalleProducto from "./components/pages/DetalleProducto.jsx"
-import Error404 from "./components/pages/Error404.jsx"
-import Filtro from "./components/pages/inicio/Filtro.jsx"
-import ProtectosAdmin from "./components/routes/ProtectosAdmin.jsx";
+import DetalleProducto from "./components/pages/DetalleProducto.jsx";
+import Error404 from "./components/pages/Error404.jsx";
+import Filtro from "./components/pages/inicio/Filtro.jsx";
+import ProtectosAdmin from "./components/routes/ProtectorAdmin.jsx";
 
 function App() {
   return (
@@ -25,18 +25,14 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/detalleproducto" element={<DetalleProducto />} />
           <Route element={<ProtectosAdmin />}>
-            <Route path="/admin"
-              element={<Admin />}
-            >
-            </Route>
+            <Route path="/admin" element={<Admin />}></Route>
           </Route>
           <Route path="*" element={<Error404 />} />
           <Route path="/filtro" element={<Filtro />} />
-
         </Routes>
       </main>
       <Footer />
-    </BrowserRouter >
+    </BrowserRouter>
   );
 }
 
