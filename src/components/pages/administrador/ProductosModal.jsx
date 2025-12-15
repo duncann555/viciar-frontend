@@ -29,8 +29,12 @@ function ProductoModal({
 
   const onSubmit = async (data) => {
     // console.log(data);
+    const productoForm = {
+      ...data,
+      imagenUrl: data.imagenUrl[0] //Archivo
+    }
 
-    const respuesta = await crearProductosAPI(data);
+    const respuesta = await crearProductosAPI(productoForm);
     if (respuesta.status === 201) {
       const respuestaDatos = await obtenerProductosAPI();
       if (respuestaDatos.status === 200) {

@@ -29,13 +29,20 @@ export const obtenerProductosAPI = async () => {
 
 export const crearProductosAPI = async (producto) => {
   try {
+    const formData = new FormData();
+    formData.append("nombre", producto.nombre);
+    formData.append("categoria", producto.categoria);
+    formData.append("stock", producto.stock);
+    formData.append("precio", producto.precio);
+    formData.append("imagenUrl", producto.imagenUrl);
+    formData.append("descripcion", producto.descripcion);
+
     const respuesta = await fetch(productosBackend, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
       },
-      body: JSON.stringify(producto),
+      body: formData,
     });
     return respuesta;
   } catch (err) {
