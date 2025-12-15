@@ -65,7 +65,7 @@ const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos
             </td>
 
             <td>{new Date(itemProducto.ultimoControl).toLocaleString("es-AR")}</td>
-            <td>{itemProducto.precio}</td>
+            <td>${itemProducto.precio}</td>
 
             <td>
                 <Badge bg={itemProducto.estado === "Activo" ? "success" : "warning"}>
@@ -85,7 +85,7 @@ const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos
 
                 <Button
                     variant={
-                        itemProducto._id === "Activo"
+                        itemProducto.estado === "Activo"
                             ? "outline-warning"
                             : "outline-success"
                     }
@@ -93,7 +93,7 @@ const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos
                     className="me-2"
                     onClick={() => handleSuspenderProducto(itemProducto._id)}
                 >
-                    {itemProducto._id === "Activo" ? "Suspender" : "Activar"}
+                    {itemProducto.estado === "Activo" ? "Suspender" : "Activar"}
                 </Button>
 
                 <Button
