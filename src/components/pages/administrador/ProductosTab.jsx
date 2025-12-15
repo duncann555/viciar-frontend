@@ -112,7 +112,7 @@ function ProductosTab({
                     </Badge>
                   </td>
 
-                  <td>{prod.ultimoControl}</td>
+                  <td>{new Date(prod.ultimoControl).toLocaleString("es-AR")}</td>
                   <td>{formatearPrecio(prod.precio)}</td>
 
                   <td>

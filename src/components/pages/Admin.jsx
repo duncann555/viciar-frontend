@@ -13,7 +13,7 @@ import PedidosTab from "./administrador/PedidosTab";
 import PedidoModal from "./administrador/PedidosModal";
 import "../../styles/admin.css";
 
-function Admin() {
+function Admin({ productos }) {
   const [mostrarPedidoModal, setMostrarPedidoModal] = useState(false);
   const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
 
@@ -125,7 +125,6 @@ function Admin() {
     },
   ];
 
-  const [productos, setProductos] = useState(productosIniciales);
   const [usuarios, setUsuarios] = useState(usuariosIniciales);
   const [pedidos, setPedidos] = useState(pedidosIniciales); // --- NUEVO ---
 
@@ -348,9 +347,9 @@ function Admin() {
       prev.map((p) =>
         p.id === id
           ? {
-              ...p,
-              estado: p.estado === "Pendiente" ? "Completado" : "Pendiente",
-            }
+            ...p,
+            estado: p.estado === "Pendiente" ? "Completado" : "Pendiente",
+          }
           : p
       )
     );
