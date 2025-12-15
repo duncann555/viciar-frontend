@@ -3,8 +3,41 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
+import Swal from 'sweetalert2';
+import { eliminarProductoAPI, obtenerProductosAPI } from '../../../helpers/queries';
 
-const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila }) => {
+const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila, setProductos }) => {
+    const eliminarProducto = () => {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: `Vas a eliminar el producto "${itemProducto.nombre}". Esta acción no se puede deshacer.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const respuesta = await eliminarProductoAPI(itemProducto._id);
+                if (respuesta.status === 200) {
+                    Swal.fire({
+                        title: "Eliminado",
+                        text: `El producto "${itemProducto.nombre}" fue eliminado correctamente.`,
+                        icon: "success",
+                        timer: 2000,
+                    });
+                }
+                const productos = await obtenerProductosAPI();
+                if (productos.status === 200) {
+                    const productosRestantes = await productos.json();
+                    setProductos(productosRestantes);
+                }
+            }
+        })
+    }
+
+
     return (
         <tr key={itemProducto._id}>
             <td>{fila}</td>
@@ -66,7 +99,7 @@ const ItemProducto = ({ itemProducto, obtenerColorBadgeStock, fila }) => {
                 <Button
                     variant="outline-danger"
                     size="sm"
-                    onClick={() => handleEliminarProducto(itemProducto._id)}
+                    onClick={() => eliminarProducto(itemProducto._id)}
                 >
                     Eliminar
                 </Button>

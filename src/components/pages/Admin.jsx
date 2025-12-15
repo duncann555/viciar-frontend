@@ -12,7 +12,6 @@ import ProductoModal from "./administrador/ProductosModal";
 import PedidosTab from "./administrador/PedidosTab";
 import PedidoModal from "./administrador/PedidosModal";
 import "../../styles/admin.css";
-import { eliminarProductoAPI, obtenerProductosAPI } from "../../helpers/queries";
 
 function Admin({ productos, setProductos }) {
   const [mostrarPedidoModal, setMostrarPedidoModal] = useState(false);

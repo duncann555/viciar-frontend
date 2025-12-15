@@ -12,6 +12,7 @@ import ItemProducto from "./ItemProducto";
 
 function ProductosTab({
   productos,
+  setProductos,
   abrirModalProductoCrear,
   abrirModalProductoEditar,
   handleSuspenderProducto,
@@ -90,7 +91,7 @@ function ProductosTab({
 
             <tbody className="text-center">
               {productos.map((itemProducto, indice) => (
-                <ItemProducto itemProducto={itemProducto} key={itemProducto._id} obtenerColorBadgeStock={obtenerColorBadgeStock} fila={indice + 1}></ItemProducto>
+                <ItemProducto itemProducto={itemProducto} key={itemProducto._id} obtenerColorBadgeStock={obtenerColorBadgeStock} fila={indice + 1} setProductos={setProductos}></ItemProducto>
               ))}
               {productos.length === 0 && (
                 <tr>
