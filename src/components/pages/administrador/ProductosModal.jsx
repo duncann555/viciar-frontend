@@ -25,7 +25,7 @@ function ProductoModal({
   }, [productoInicial, reset]);
 
   const onSubmit = (data) => {
-    handleGuardarProducto(data);
+    console.log(data);
   };
 
   return (
@@ -50,8 +50,8 @@ function ProductoModal({
                   message: "Mínimo 3 caracteres",
                 },
                 maxLength: {
-                  value: 30,
-                  message: "Maximo 30 caracteres",
+                  value: 100,
+                  message: "Maximo 100 caracteres",
                 },
               })}
             />

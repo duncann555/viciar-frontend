@@ -26,3 +26,20 @@ export const obtenerProductosAPI = async () => {
     return null;
   }
 };
+
+export const crearProductosAPI = async (producto) => {
+  try {
+    const respuesta = await fetch(productosBackend, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+      body: JSON.stringify(producto),
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
