@@ -43,7 +43,7 @@ function App() {
           <Route path="/detalleproducto" element={<DetalleProducto />} />
           <Route element={<ProtectosAdmin />}>
             <Route path="/admin"
-              element={<Admin productos={productos} />}
+              element={<Admin productos={productos} setProductos={setProductos} />}
             >
             </Route>
           </Route>

@@ -20,19 +20,20 @@ function ProductosTab({
   const [busqueda, setBusqueda] = useState("");
 
   const q = busqueda.toLowerCase().trim();
+  // console.log(productos);
 
-  const productosFiltrados = productos.filter((p) => {
-    if (!q) return true;
+  // const productosFiltrados = productos.filter((p) => {
+  //   if (!q) return true;
 
-    return (
-      String(p.id).includes(q) ||
-      (p.nombre || "").toLowerCase().includes(q) ||
-      (p.categoria || "").toLowerCase().includes(q) ||
-      (p.ultimoControl || "").toLowerCase().includes(q) ||
-      String(p.precio ?? "").toLowerCase().includes(q) ||
-      (p.estado || "").toLowerCase().includes(q)
-    );
-  });
+  //   return (
+  //     String(p.id).includes(q) ||
+  //     (p.nombre || "").toLowerCase().includes(q) ||
+  //     (p.categoria || "").toLowerCase().includes(q) ||
+  //     (p.ultimoControl || "").toLowerCase().includes(q) ||
+  //     String(p.precio ?? "").toLowerCase().includes(q) ||
+  //     (p.estado || "").toLowerCase().includes(q)
+  //   );
+  // });
 
   return (
     <>
@@ -86,7 +87,7 @@ function ProductosTab({
             </thead>
 
             <tbody className="text-center">
-              {productosFiltrados.map((prod) => (
+              {productos.map((prod) => (
                 <tr key={prod.id}>
                   <td>{prod.id}</td>
 
@@ -155,7 +156,7 @@ function ProductosTab({
                 </tr>
               ))}
 
-              {productosFiltrados.length === 0 && (
+              {productos.length === 0 && (
                 <tr>
                   <td colSpan={9} className="text-center text-muted">
                     No hay productos que coincidan con la búsqueda.

@@ -13,7 +13,7 @@ import PedidosTab from "./administrador/PedidosTab";
 import PedidoModal from "./administrador/PedidosModal";
 import "../../styles/admin.css";
 
-function Admin({ productos }) {
+function Admin({ productos, setProductos }) {
   const [mostrarPedidoModal, setMostrarPedidoModal] = useState(false);
   const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
 
@@ -145,7 +145,7 @@ function Admin({ productos }) {
   });
 
   const totalProductos = productos.length;
-  const productosSinStock = productos.filter((p) => p.stock === 0).length;
+  // const productosSinStock = productos.filter((p) => p.stock === 0).length;
   const totalUsuarios = usuarios.length;
   // podrías agregar totalPedidos si después querés mostrarlo en AdminStatus
 
@@ -388,7 +388,7 @@ function Admin({ productos }) {
     <Container fluid className="py-4">
       <AdminStatus
         totalProductos={totalProductos}
-        productosSinStock={productosSinStock}
+        // productosSinStock={productosSinStock}
         totalUsuarios={totalUsuarios}
       />
 
@@ -432,6 +432,7 @@ function Admin({ productos }) {
         productoInicial={productoInicial}
         cerrarModalProducto={cerrarModalProducto}
         handleGuardarProducto={handleGuardarProducto}
+        setProductos={setProductos}
       />
 
       <UsuarioModal

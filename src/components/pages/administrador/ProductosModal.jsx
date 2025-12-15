@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { crearProductosAPI } from "../../../helpers/queries";
+import { crearProductosAPI, obtenerProductosAPI } from "../../../helpers/queries";
 import Swal from "sweetalert2";
 
 function ProductoModal({
@@ -11,6 +11,7 @@ function ProductoModal({
   modoProducto,
   productoInicial,
   cerrarModalProducto,
+  setProductos,
   handleGuardarProducto,
 }) {
   const {
@@ -27,10 +28,15 @@ function ProductoModal({
   }, [productoInicial, reset]);
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
 
     const respuesta = await crearProductosAPI(data);
     if (respuesta.status === 201) {
+      const respuestaDatos = await obtenerProductosAPI();
+      if (respuestaDatos.status === 200) {
+        const datos = await respuestaDatos.json();
+        setProductos(datos);
+      }
       Swal.fire({
         title: "Receta creada exitosamente!",
         icon: "success",
