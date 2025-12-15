@@ -32,7 +32,6 @@ function Admin({ productos }) {
     categoria: "",
     stock: "",
     descripcion: "",
-    fechaControl: "",
     precio: "",
     imagenUrl: "",
   });
@@ -163,7 +162,6 @@ function Admin({ productos }) {
       categoria: "",
       stock: "",
       descripcion: "",
-      fechaControl: "",
       precio: "",
       imagenUrl: "",
     });
@@ -404,6 +402,7 @@ function Admin({ productos }) {
             handleSuspenderProducto={handleSuspenderProducto}
             obtenerColorBadgeStock={obtenerColorBadgeStock}
             formatearPrecio={formatearPrecio}
+            cerrarModalProducto={cerrarModalProducto}
           />
         </Tab>
 

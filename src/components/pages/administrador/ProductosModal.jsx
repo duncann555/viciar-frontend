@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { crearProductosAPI } from "../../../helpers/queries";
+import Swal from "sweetalert2";
 
 function ProductoModal({
   show,
@@ -24,8 +26,27 @@ function ProductoModal({
     reset(productoInicial);
   }, [productoInicial, reset]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+
+    const respuesta = await crearProductosAPI(data);
+    if (respuesta.status === 201) {
+      Swal.fire({
+        title: "Receta creada exitosamente!",
+        icon: "success",
+        draggable: true
+      })
+      cerrarModalProducto();
+      reset();
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Ocurrió un error al crear el producto. Intentelo mas tarde.',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+
   };
 
   return (
@@ -154,7 +175,7 @@ function ProductoModal({
               </small>
             )}
           </Form.Group>
-
+          {/* 
           <Form.Group className="mb-3">
             <Form.Label>Fecha de último control</Form.Label>
             <Form.Control type="date" {...register("fechaControl")} />
@@ -163,7 +184,7 @@ function ProductoModal({
                 {errors.fechaControl.message}
               </small>
             )}
-          </Form.Group>
+          </Form.Group> */}
 
           <div className="d-flex justify-content-end gap-2">
             <Button variant="secondary" onClick={cerrarModalProducto}>
