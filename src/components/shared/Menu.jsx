@@ -1,16 +1,29 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router-dom"; // Importamos useNavigate
 import "../../styles/menu.css";
 import logoS2 from "../../assets/logoS2.png";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalLogin from "./ModalLogin";
+import Button from "react-bootstrap/Button";
 
 function Menu() {
-
   const [showLogin, setShowLogin] = useState(false);
+  const navigate = useNavigate();
+
+  
+  const [usuarioLogueado, setUsuarioLogueado] = useState(() => {
+    const usuarioGuardado = sessionStorage.getItem("usuarioKey");
+    return usuarioGuardado ? JSON.parse(usuarioGuardado) : null;
+  });
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("usuarioKey");
+    setUsuarioLogueado(null); 
+    navigate("/");
+  };
 
   return (
     <>
@@ -33,42 +46,64 @@ function Menu() {
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto text-center">
+            <Nav className="ms-auto text-center align-items-center">
               <NavLink to="/" className="nav-link opcion-nav fw-bold">
                 Inicio
               </NavLink>
 
-              <NavLink to="/admin" className="nav-link opcion-nav fw-bold">
-                Admin
-              </NavLink>
+              {usuarioLogueado ? (
+                <>
+                  {usuarioLogueado.rol === "Administrador" ? (
+                    <NavLink
+                      className="nav-item nav-link opcion-nav fw-bold"
+                      to="/admin"
+                    >
+                      Admin
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      className="nav-item nav-link opcion-nav"
+                      to="/carrito"
+                    >
+                      <i className="bi bi-cart"></i>
+                    </NavLink>
+                  )}
 
-              <NavLink to="/" className="nav-link d-none opcion-nav fw-bold">
-                Pedidos
-              </NavLink>
+                  <button
+                    className="nav-item nav-link btn opcion-nav fw-bold"
+                    onClick={handleLogout}
+                  >
+                    <i class="bi bi-box-arrow-right"></i>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <NavLink
+                    className="nav-item nav-link opcion-nav fw-bold"
+                    to="/register"
+                  >
+                    Registrarse
+                  </NavLink>
 
-              <NavLink to="/" className="nav-link d-none opcion-nav fw-bold">
-                Usuarios
-              </NavLink>
+                  <div
+                    className="nav-link opcion-nav fw-bold"
+                    onClick={() => setShowLogin(true)}
+                  >
+                    <i className="bi bi-person-circle icono-user"></i>
+                  </div>
+                </>
+              )}
 
-              <NavLink to="/" className="nav-link d-none opcion-nav fw-bold">
-                <i className="bi bi-cart3"></i>
-              </NavLink>
-
-              
-              <div 
-                className="nav-link opcion-nav fw-bold" 
-                style={{ cursor: "pointer" }} 
-                onClick={() => setShowLogin(true)}
-              >
-                <i className="bi bi-person-circle icono-user"></i>
-              </div>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      
-      <ModalLogin show={showLogin} onClose={() => setShowLogin(false)} />
+      <ModalLogin
+        show={showLogin}
+        onClose={() => setShowLogin(false)}
+        setUsuarioLogueado={setUsuarioLogueado}
+      />
     </>
   );
 }
