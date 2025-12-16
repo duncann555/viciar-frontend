@@ -12,10 +12,12 @@ import ProductoModal from "./administrador/ProductosModal";
 import PedidosTab from "./administrador/PedidosTab";
 import PedidoModal from "./administrador/PedidosModal";
 import "../../styles/admin.css";
+import { useForm } from "react-hook-form";
 
-function Admin() {
+function Admin({ productos, setProductos }) {
   const [mostrarPedidoModal, setMostrarPedidoModal] = useState(false);
   const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+
 
   const abrirModalPedido = (pedido) => {
     setPedidoSeleccionado(pedido);
@@ -32,7 +34,6 @@ function Admin() {
     categoria: "",
     stock: "",
     descripcion: "",
-    fechaControl: "",
     precio: "",
     imagenUrl: "",
   });
@@ -125,7 +126,6 @@ function Admin() {
     },
   ];
 
-  const [productos, setProductos] = useState(productosIniciales);
   const [usuarios, setUsuarios] = useState(usuariosIniciales);
   const [pedidos, setPedidos] = useState(pedidosIniciales); // --- NUEVO ---
 
@@ -135,8 +135,10 @@ function Admin() {
   const [modoProducto, setModoProducto] = useState("crear");
   const [modoUsuario, setModoUsuario] = useState("crear");
 
-  const [productoSeleccionadoId, setProductoSeleccionadoId] = useState(null);
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [usuarioSeleccionadoId, setUsuarioSeleccionadoId] = useState(null);
+
+  const [imagenActual, setImagenActual] = useState([])
 
   const [usuarioForm, setUsuarioForm] = useState({
     nombre: "",
@@ -158,31 +160,14 @@ function Admin() {
 
   const abrirModalProductoCrear = () => {
     setModoProducto("crear");
-    setProductoSeleccionadoId(null);
-    setProductoInicial({
-      nombre: "",
-      categoria: "",
-      stock: "",
-      descripcion: "",
-      fechaControl: "",
-      precio: "",
-      imagenUrl: "",
-    });
+    setProductoSeleccionado(null);
     setMostrarProductoModal(true);
   };
 
+
   const abrirModalProductoEditar = (producto) => {
     setModoProducto("editar");
-    setProductoSeleccionadoId(producto.id);
-    setProductoInicial({
-      nombre: producto.nombre,
-      categoria: producto.categoria,
-      stock: producto.stock,
-      descripcion: producto.descripcion,
-      fechaControl: producto.ultimoControl,
-      precio: producto.precio,
-      imagenUrl: producto.imagenUrl,
-    });
+    setProductoSeleccionado(producto);
     setMostrarProductoModal(true);
   };
 
@@ -278,27 +263,6 @@ function Admin() {
     });
   };
 
-  const handleEliminarProducto = (id) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Esta acción no se puede deshacer.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    }).then((res) => {
-      if (res.isConfirmed) {
-        setProductos(productos.filter((p) => p.id !== id));
-
-        Swal.fire({
-          icon: "success",
-          title: "Producto eliminado",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
-  };
 
   const handleEliminarUsuario = (id) => {
     Swal.fire({
@@ -332,25 +296,15 @@ function Admin() {
     );
   };
 
-  const handleSuspenderProducto = (id) => {
-    setProductos((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? { ...p, estado: p.estado === "Activo" ? "Suspendido" : "Activo" }
-          : p
-      )
-    );
-  };
-
   // --- Handlers de pedidos ---
   const handleCambiarEstadoPedido = (id) => {
     setPedidos((prev) =>
       prev.map((p) =>
         p.id === id
           ? {
-              ...p,
-              estado: p.estado === "Pendiente" ? "Completado" : "Pendiente",
-            }
+            ...p,
+            estado: p.estado === "Pendiente" ? "Completado" : "Pendiente",
+          }
           : p
       )
     );
@@ -399,12 +353,13 @@ function Admin() {
         <Tab eventKey="productos" title="Productos">
           <ProductosTab
             productos={productos}
+            productoSelecionado={productoSeleccionado}
             abrirModalProductoCrear={abrirModalProductoCrear}
             abrirModalProductoEditar={abrirModalProductoEditar}
-            handleEliminarProducto={handleEliminarProducto}
-            handleSuspenderProducto={handleSuspenderProducto}
             obtenerColorBadgeStock={obtenerColorBadgeStock}
             formatearPrecio={formatearPrecio}
+            setProductos={setProductos}
+            cerrarModalProducto={cerrarModalProducto}
           />
         </Tab>
 
@@ -434,6 +389,8 @@ function Admin() {
         productoInicial={productoInicial}
         cerrarModalProducto={cerrarModalProducto}
         handleGuardarProducto={handleGuardarProducto}
+        setProductos={setProductos}
+        productoSeleccionado={productoSeleccionado}
       />
 
       <UsuarioModal

@@ -3,12 +3,17 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { crearProductosAPI, editarProductoAPI, obtenerProductosAPI } from "../../../helpers/queries";
+import Swal from "sweetalert2";
+import ItemProducto from "./ItemProducto";
 
 function ProductoModal({
   show,
   modoProducto,
   productoInicial,
   cerrarModalProducto,
+  setProductos,
+  productoSeleccionado,
   handleGuardarProducto,
 }) {
   const {
@@ -16,16 +21,77 @@ function ProductoModal({
     handleSubmit,
     reset,
     formState: { errors },
+    setValue
   } = useForm({
     defaultValues: productoInicial,
   });
 
   useEffect(() => {
-    reset(productoInicial);
-  }, [productoInicial, reset]);
+    if (modoProducto === "editar" && productoSeleccionado) {
+      setValue("nombre", productoSeleccionado.nombre);
+      setValue("categoria", productoSeleccionado.categoria);
+      setValue("stock", productoSeleccionado.stock);
+      setValue("precio", productoSeleccionado.precio);
+      setValue("descripcion", productoSeleccionado.descripcion);
+    }
 
-  const onSubmit = (data) => {
-    handleGuardarProducto(data);
+    if (modoProducto === "crear") {
+      setValue("nombre", "")
+      setValue("categoria", "")
+      setValue("stock", "")
+      setValue("precio", "")
+      setValue("descripcion", "")
+    }
+
+  }, [modoProducto, productoSeleccionado, setValue])
+
+  const onSubmit = async (data) => {
+    // console.log(data);
+    const productoForm = {
+      ...data,
+      imagenUrl: data.imagenUrl[0] //Archivo
+    }
+    if (modoProducto === "crear") {
+      const respuesta = await crearProductosAPI(productoForm);
+      if (respuesta.status === 201) {
+        const respuestaDatos = await obtenerProductosAPI();
+        if (respuestaDatos.status === 200) {
+          const datos = await respuestaDatos.json();
+          setProductos(datos);
+        }
+        Swal.fire({
+          title: "Receta creada exitosamente!",
+          icon: "success",
+          draggable: true
+        })
+        cerrarModalProducto();
+        reset();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error al crear el producto. Intentelo mas tarde.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+
+    } else {
+      const respuesta = await editarProductoAPI(productoSeleccionado._id, productoForm);
+      if (respuesta.status === 200) {
+        Swal.fire({
+          title: "Producto modificado",
+          text: `El producto ${productoForm.nombre} se actualizo correctamente`,
+          icon: "success",
+        });
+        const respuestaProductos = await obtenerProductosAPI();
+        if (respuestaProductos.status === 200) {
+          const productosActualizados = await respuestaProductos.json();
+          setProductos(productosActualizados);
+          cerrarModalProducto();
+        }
+      }
+    }
+
   };
 
   return (
@@ -50,8 +116,8 @@ function ProductoModal({
                   message: "Mínimo 3 caracteres",
                 },
                 maxLength: {
-                  value: 30,
-                  message: "Maximo 30 caracteres",
+                  value: 100,
+                  message: "Maximo 100 caracteres",
                 },
               })}
             />
@@ -119,15 +185,16 @@ function ProductoModal({
           <Form.Group className="mb-3">
             <Form.Label>URL de la imagen</Form.Label>
             <Form.Control
-              type="url"
+              type="file"
+              accept="image/*"
               placeholder="URL de la imagen"
               {...register("imagenUrl", {
-                required: "La imagen es obligatoria",
-                pattern: {
-                  value: /^(https?:\/\/).+/i,
-                  message:
-                    "Ingresá una URL válida que comience con http o https",
-                },
+                validate: (valor) => {
+                  if (modoProducto === "crear" && (!valor || valor.length === 0)) {
+                    return "La imagen es obligatoria"
+                  }
+                  return true;
+                }
               })}
             />
             {errors.imagenUrl && (
@@ -151,16 +218,6 @@ function ProductoModal({
             {errors.descripcion && (
               <small className="text-danger">
                 {errors.descripcion.message}
-              </small>
-            )}
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Fecha de último control</Form.Label>
-            <Form.Control type="date" {...register("fechaControl")} />
-            {errors.fechaControl && (
-              <small className="text-danger">
-                {errors.fechaControl.message}
               </small>
             )}
           </Form.Group>
