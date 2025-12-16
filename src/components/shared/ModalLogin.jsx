@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
-import "./login.css";
+import "../../styles/login.css";
 import { useForm } from "react-hook-form";
 import { login } from "../../helpers/queries";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 
-export default function ModalLogin({ show, onClose }) {
+export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
   if (!show) return null;
 
   const [shake, setShake] = useState(false);
 
   const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm();
-
-  const sesionUsuario = JSON.parse(sessionStorage.getItem("usuarioKey")) || {};
-  const [usuarioLogueado, setUsuarioLogueado] = useState(sesionUsuario);
 
   const navigate = useNavigate();
 
@@ -24,6 +21,7 @@ export default function ModalLogin({ show, onClose }) {
 
   const postValidaciones = async (data) => {
     const respuesta = await login(data);
+
     if (respuesta.status === 200) {
       const datos = await respuesta.json();
       console.log(datos);
@@ -37,15 +35,29 @@ export default function ModalLogin({ show, onClose }) {
       setUsuarioLogueado(datosUsuario);
 
       onClose();
+
       Swal.fire({
         icon: 'success',
         title: '¡Inicio de sesión exitoso!',
         text: `Bienvenido`,
         showConfirmButton: false,
-        timer: 2000, // se cierra automáticamente en 2 segundos
+        timer: 2000, 
         timerProgressBar: true
       })
+
       navigate("/");
+
+    } else if (respuesta.status === 403) {
+      const datosError = await respuesta.json()
+
+      onClose()
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Acceso Denegado',
+        text: datosError.mensaje, 
+        confirmButtonColor: '#d33'
+      });
     } else {
       triggerShake();
     }
