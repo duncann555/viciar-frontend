@@ -8,7 +8,6 @@ const ProtectosAdmin = () => {
 
     //Verificamos que tenga un token
     const Autenticado = usuarioLogueado.token;
-    console.log(Autenticado);
     //Verificamos que tenga un rol de administrador
     const admin = usuarioLogueado.rol === "Administrador";
 

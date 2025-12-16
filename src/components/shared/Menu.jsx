@@ -13,7 +13,6 @@ function Menu() {
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
 
-  
   const [usuarioLogueado, setUsuarioLogueado] = useState(() => {
     const usuarioGuardado = sessionStorage.getItem("usuarioKey");
     return usuarioGuardado ? JSON.parse(usuarioGuardado) : null;
@@ -34,12 +33,14 @@ function Menu() {
           </Navbar.Brand>
 
           <div className="d-flex flex-grow-1 justify-content-center">
-            <form className="d-lg-flex ms-auto me-4">
+            <form onSubmit={manejarEnvio} className="d-lg-flex ms-auto me-4">
               <input
                 type="search"
                 placeholder="Buscar..."
                 className="form-control me-2 barra-busqueda barra-small"
                 aria-label="Search"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
               />
             </form>
           </div>
@@ -93,7 +94,6 @@ function Menu() {
                   </div>
                 </>
               )}
-
             </Nav>
           </Navbar.Collapse>
         </Container>
