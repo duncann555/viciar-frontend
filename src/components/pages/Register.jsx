@@ -1,13 +1,9 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom"; 
-import Swal from "sweetalert2"; 
-import { crearUsuario } from "../../helpers/queries"; 
 import "../../styles/register.css";
-import { Button } from "react-bootstrap";
 
 const initialValues = {
-  nombre: "",      
-  apellido: "",    
+  fullName: "",
+  username: "",
   email: "",
   dni: "",
   telefono: "",
@@ -20,14 +16,15 @@ function validateField(name, value, allValues) {
   const v = typeof value === "string" ? value.trim() : value;
 
   switch (name) {
-    case "nombre":
-      if (!v) return "El nombre es obligatorio.";
+    case "fullName":
+      if (!v) return "El nombre completo es obligatorio.";
       if (v.length < 3) return "Mínimo 3 caracteres.";
       return "";
-      
-    case "apellido": 
-      if (!v) return "El apellido es obligatorio.";
-      if (v.length < 3) return "Mínimo 3 caracteres.";
+
+    case "username":
+      if (!v) return "El usuario es obligatorio.";
+      if (v.length < 4) return "Mínimo 4 caracteres.";
+      if (/\s/.test(v)) return "No puede tener espacios.";
       return "";
 
     case "email":
@@ -81,7 +78,7 @@ export default function Register() {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const navigate = useNavigate();
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -106,14 +103,14 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const errs = validateAll(values);
     setErrors(errs);
 
     setTouched({
-      nombre: true,  
-      apellido: true, 
+      fullName: true,
+      username: true,
       email: true,
       dni: true,
       telefono: true,
@@ -124,40 +121,9 @@ export default function Register() {
 
     if (Object.keys(errs).length > 0) return;
 
-    const usuarioParaGuardar = { ...values };
-    delete usuarioParaGuardar.confirmPassword;
-    delete usuarioParaGuardar.terms;
-    
-    try {
-      const respuesta = await crearUsuario(usuarioParaGuardar);
-
-      if (respuesta && respuesta.status === 201) {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Cuenta creada!',
-          text: 'Ahora puedes iniciar sesión',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        setValues(initialValues);
-        // CAMBIO: Ahora redirige al Inicio (Home)
-        navigate("/"); 
-      } else {
-        const resultado = await respuesta.json();
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: resultado.mensaje || 'No se pudo crear el usuario',
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error de conexión',
-        text: 'Intente nuevamente más tarde',
-      });
-    }
+    setSuccess("Registro exitoso ✔");
+    setValues(initialValues);
+    setTouched({});
   };
 
   return (
@@ -167,33 +133,32 @@ export default function Register() {
         <p className="reg-sub">Completá los datos para registrarte.</p>
 
         <form className="reg-form" onSubmit={handleSubmit}>
-          
           <div className="reg-row">
             <div className="reg-field">
-              <label>Nombre</label>
+              <label>Nombre completo</label>
               <input
-                name="nombre"
-                value={values.nombre}
+                name="fullName"
+                value={values.fullName}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder="Ej: Juan"
+                placeholder="Ej: Juan Pérez"
               />
-              {touched.nombre && errors.nombre && (
-                <p className="reg-error">{errors.nombre}</p>
+              {touched.fullName && errors.fullName && (
+                <p className="reg-error">{errors.fullName}</p>
               )}
             </div>
 
             <div className="reg-field">
-              <label>Apellido</label>
+              <label>Usuario</label>
               <input
-                name="apellido"
-                value={values.apellido}
+                name="username"
+                value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder="Ej: Pérez"
+                placeholder="Nombre de usuario"
               />
-              {touched.apellido && errors.apellido && (
-                <p className="reg-error">{errors.apellido}</p>
+              {touched.username && errors.username && (
+                <p className="reg-error">{errors.username}</p>
               )}
             </div>
           </div>
@@ -212,6 +177,7 @@ export default function Register() {
             )}
           </div>
 
+          
           <div className="reg-row">
             <div className="reg-field">
               <label>DNI</label>
@@ -287,13 +253,13 @@ export default function Register() {
             <p className="reg-error">{errors.terms}</p>
           )}
 
-          {/* Botón corregido: type="submit" y sin 'to' */}
-          <Button className="reg-btn" type="submit">Crear cuenta</Button>
+          <button className="reg-btn">Crear cuenta</button>
+
+          {success && <p className="reg-success">{success}</p>}
 
           <div className="reg-login-link">
             ¿Ya tenés cuenta?
-            {/* Link corregido: NavLink en vez de <a> */}
-            <NavLink to="/login"> Iniciar sesión</NavLink>
+            <a href="/login"> Iniciar sesión</a>
           </div>
         </form>
       </div>
