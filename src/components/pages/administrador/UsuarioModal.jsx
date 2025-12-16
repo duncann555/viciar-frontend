@@ -1,3 +1,4 @@
+import { useEffect } from "react"; // 1. Importamos useEffect
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -7,7 +8,6 @@ function UsuarioModal({
   show,
   modoUsuario,
   usuarioForm,
-  handleChangeUsuario,
   cerrarModalUsuario,
   handleGuardarUsuario,
 }) {
@@ -15,12 +15,26 @@ function UsuarioModal({
     register,
     handleSubmit,
     formState: { errors },
+    reset, 
   } = useForm({
     mode: "onTouched",
   });
 
-  // Acá NO usamos "data" porque vos ya tenés usuarioForm en el padre
-  const onSubmit = () => {
+ 
+  useEffect(() => {
+    if (show) {
+      reset({
+        nombre: usuarioForm.nombre || "", 
+        apellido: usuarioForm.apellido || "",
+        email: usuarioForm.email || "",
+        dni: usuarioForm.dni || "",
+        telefono: usuarioForm.telefono || "",
+        rol: usuarioForm.rol || "Usuario",
+      });
+    }
+  }, [show, usuarioForm, reset]);
+
+  const onSubmit = (data) => {
     handleGuardarUsuario(data);
   };
 
@@ -34,12 +48,12 @@ function UsuarioModal({
 
       <Modal.Body>
         <Form id="formUsuario" onSubmit={handleSubmit(onSubmit)}>
+          
           <Form.Group className="mb-3">
             <Form.Label>Nombre</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ej: Juan"
-              value={usuarioForm.nombre}
               isInvalid={!!errors.nombre}
               {...register("nombre", {
                 required: "El nombre es obligatorio",
@@ -47,7 +61,6 @@ function UsuarioModal({
                   value: 2,
                   message: "Mínimo 2 caracteres",
                 },
-                onChange: handleChangeUsuario,
               })}
             />
             <Form.Control.Feedback type="invalid">
@@ -55,12 +68,12 @@ function UsuarioModal({
             </Form.Control.Feedback>
           </Form.Group>
 
+          
           <Form.Group className="mb-3">
             <Form.Label>Apellido</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ej: Pérez"
-              value={usuarioForm.apellido}
               isInvalid={!!errors.apellido}
               {...register("apellido", {
                 required: "El apellido es obligatorio",
@@ -68,11 +81,45 @@ function UsuarioModal({
                   value: 2,
                   message: "Mínimo 2 caracteres",
                 },
-                onChange: handleChangeUsuario,
               })}
-            />  
+            />
             <Form.Control.Feedback type="invalid">
               {errors.apellido?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>DNI</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Ej: 12345678"
+              isInvalid={!!errors.dni}
+              {...register("dni", {
+                required: "El DNI es obligatorio",
+                pattern: {
+                   value: /^\d{7,8}$/,
+                   message: "Debe tener 7 u 8 dígitos"
+                }
+              })}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.dni?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Teléfono</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Ej: 381..."
+              isInvalid={!!errors.telefono}
+              {...register("telefono", {
+                required: "El teléfono es obligatorio",
+                minLength: { value: 8, message: "Mínimo 8 números" }
+              })}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.telefono?.message}
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -81,7 +128,6 @@ function UsuarioModal({
             <Form.Control
               type="email"
               placeholder="ejemplo@correo.com"
-              value={usuarioForm.email}
               isInvalid={!!errors.email}
               {...register("email", {
                 required: "El email es obligatorio",
@@ -89,7 +135,6 @@ function UsuarioModal({
                   value: /^\S+@\S+\.\S+$/,
                   message: "Ingresá un email válido",
                 },
-                onChange: handleChangeUsuario,
               })}
             />
             <Form.Control.Feedback type="invalid">
@@ -100,23 +145,19 @@ function UsuarioModal({
           <Form.Group className="mb-3">
             <Form.Label>Rol</Form.Label>
             <Form.Select
-              value={usuarioForm.rol}
               isInvalid={!!errors.rol}
               {...register("rol", {
                 required: "Seleccioná un rol",
-                onChange: handleChangeUsuario,
               })}
             >
-              <option value="">Seleccionar rol</option>
-              <option value="admin">Administrador</option>
-              <option value="usuario">Usuario</option>
+              <option value="Administrador">Administrador</option>
+              <option value="Usuario">Usuario</option>
             </Form.Select>
             <Form.Control.Feedback type="invalid">
               {errors.rol?.message}
             </Form.Control.Feedback>
           </Form.Group>
 
-          
         </Form>
       </Modal.Body>
 
