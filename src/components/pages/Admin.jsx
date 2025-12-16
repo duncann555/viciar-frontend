@@ -1,8 +1,9 @@
 import Container from "react-bootstrap/Container";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { leerUsuarios } from "../../helpers/queries.js"
 
 import UsuarioModal from "./administrador/UsuarioModal";
 import AdminStatus from "./administrador/AdminStatus";
@@ -77,23 +78,6 @@ function Admin({ productos, setProductos }) {
     },
   ];
 
-  const usuariosIniciales = [
-    {
-      id: 1,
-      nombre: "Sebastian",
-      email: "sebaflomen@gmail.com",
-      rol: "admin",
-      estado: "Activo",
-    },
-    {
-      id: 2,
-      nombre: "Matias",
-      email: "matias555@gmail.com",
-      rol: "usuario",
-      estado: "Activo",
-    },
-  ];
-
   // --- Pedidos iniciales ---
   const pedidosIniciales = [
     {
@@ -126,8 +110,36 @@ function Admin({ productos, setProductos }) {
     },
   ];
 
-  const [usuarios, setUsuarios] = useState(usuariosIniciales);
+  const [productos, setProductos] = useState(productosIniciales);
+  const [usuarios, setUsuarios] = useState([]);
   const [pedidos, setPedidos] = useState(pedidosIniciales); // --- NUEVO ---
+
+  const cargarUsuariosDelServidor = async () => {
+    try {
+      const respuesta = await leerUsuarios(); 
+      
+      if (respuesta) {
+    
+        if (Array.isArray(respuesta)) {
+            setUsuarios(respuesta);
+        } 
+        else if (respuesta.usuarios && Array.isArray(respuesta.usuarios)) {
+            setUsuarios(respuesta.usuarios);
+        }
+        else {
+            setUsuarios([]); 
+        }
+      } else {
+        setUsuarios([]);
+      }
+    } catch (error) {
+      console.log("Error cargando usuarios:", error);
+    }
+  };
+
+  useEffect(() => {
+    cargarUsuariosDelServidor();
+  }, []);
 
   const [mostrarProductoModal, setMostrarProductoModal] = useState(false);
   const [mostrarUsuarioModal, setMostrarUsuarioModal] = useState(false);
@@ -366,6 +378,7 @@ function Admin({ productos, setProductos }) {
         <Tab eventKey="usuarios" title="Usuarios">
           <UsuariosTab
             usuarios={usuarios}
+            actualizarLista={cargarUsuariosDelServidor}
             abrirModalUsuarioEditar={abrirModalUsuarioEditar}
             handleEliminarUsuario={handleEliminarUsuario}
             handleSuspenderUsuario={handleSuspenderUsuario}
