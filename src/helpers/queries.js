@@ -119,3 +119,15 @@ export const obtenerProductosIdAPI = async (id) => {
     return null;
   }
 };
+
+export const obtenerProductoNombreAPI = async (productoBuscado) => {
+  try {
+    const respuesta = await fetch(
+      `${productosBackend}buscar?nombre=${productoBuscado}`
+    );
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};

@@ -5,8 +5,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
-import { useState } from "react";
-import { eliminarProductoAPI, obtenerProductosAPI } from "../../../helpers/queries";
+import { useEffect, useState } from "react";
+import { eliminarProductoAPI, obtenerProductoNombreAPI, obtenerProductosAPI } from "../../../helpers/queries";
 import Swal from "sweetalert2";
 import ItemProducto from "./ItemProducto";
 
@@ -19,23 +19,34 @@ function ProductosTab({
   obtenerColorBadgeStock,
   formatearPrecio,
 }) {
-  const [busqueda, setBusqueda] = useState("");
 
-  const q = busqueda.toLowerCase().trim();
-  // console.log(productos);
+  const [textoBusqueda, setTextoBusqueda] = useState("");
+  const [productosFiltados, setProductosFiltrados] = useState([]);
 
-  // const productosFiltrados = productos.filter((p) => {
-  //   if (!q) return true;
+  useEffect(() => {
+    setProductosFiltrados(productos);
 
-  //   return (
-  //     String(p.id).includes(q) ||
-  //     (p.nombre || "").toLowerCase().includes(q) ||
-  //     (p.categoria || "").toLowerCase().includes(q) ||
-  //     (p.ultimoControl || "").toLowerCase().includes(q) ||
-  //     String(p.precio ?? "").toLowerCase().includes(q) ||
-  //     (p.estado || "").toLowerCase().includes(q)
-  //   );
-  // });
+  }, [productos])
+
+  useEffect(() => {
+    const texto = textoBusqueda.trim().toLowerCase();
+
+    if (texto === "") {
+      setProductosFiltrados(productos);
+      return;
+    }
+    const resultado = productos.filter((p) => {
+      return (
+        p.nombre?.toLowerCase().includes(texto) ||
+        p.categoria?.toLowerCase().includes(texto) ||
+        p.estado?.toLowerCase().includes(texto) ||
+        p.precio?.toString().includes(texto) ||
+        p.stock?.toString().includes(texto) ||
+        p.ultimoControl.toLowerCase().includes(texto)
+      )
+    })
+    setProductosFiltrados(resultado);
+  }, [textoBusqueda, productos])
 
 
   return (
@@ -54,13 +65,15 @@ function ProductosTab({
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder="Buscar por #, nombre, categoría, último control, precio o estado..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Buscar por nombre, categoría, último control, precio o estado..."
+              value={textoBusqueda}
+              onChange={(e) => setTextoBusqueda(e.target.value)}
             />
             <Button
               className="btn-admin-primary"
-              onClick={() => setBusqueda(busqueda.trim())}
+              onClick={(e) => {
+                setTextoBusqueda(e.target.value)
+              }}
             >
               Buscar
             </Button>
@@ -90,10 +103,10 @@ function ProductosTab({
             </thead>
 
             <tbody className="text-center">
-              {productos.map((itemProducto, indice) => (
+              {productosFiltados.map((itemProducto, indice) => (
                 <ItemProducto itemProducto={itemProducto} key={itemProducto._id} obtenerColorBadgeStock={obtenerColorBadgeStock} fila={indice + 1} setProductos={setProductos} abrirModalProductoEditar={abrirModalProductoEditar}></ItemProducto>
               ))}
-              {productos.length === 0 && (
+              {productosFiltados.length === 0 && (
                 <tr>
                   <td colSpan={9} className="text-center text-muted">
                     No hay productos que coincidan con la búsqueda.
