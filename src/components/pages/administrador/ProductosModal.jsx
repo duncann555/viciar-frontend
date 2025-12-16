@@ -83,7 +83,12 @@ function ProductoModal({
           text: `El producto ${productoForm.nombre} se actualizo correctamente`,
           icon: "success",
         });
-
+        const respuestaProductos = await obtenerProductosAPI();
+        if (respuestaProductos.status === 200) {
+          const productosActualizados = await respuestaProductos.json();
+          setProductos(productosActualizados);
+          cerrarModalProducto();
+        }
       }
     }
 
@@ -184,7 +189,12 @@ function ProductoModal({
               accept="image/*"
               placeholder="URL de la imagen"
               {...register("imagenUrl", {
-                required: "La imagen es obligatoria",
+                validate: (valor) => {
+                  if (modoProducto === "crear" && (!valor || valor.length === 0)) {
+                    return "La imagen es obligatoria"
+                  }
+                  return true;
+                }
               })}
             />
             {errors.imagenUrl && (
