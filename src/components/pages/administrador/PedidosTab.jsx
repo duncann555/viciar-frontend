@@ -16,8 +16,9 @@ function PedidosTab({
   pedidoSeleccionado,
   setPedidos
 }) {
-  const [busqueda, setBusqueda] = useState("");
-  const q = busqueda.toLowerCase().trim();
+  const [textoBusqueda, setTextoBusqueda] = useState("");
+  const [pedidosFiltrados, setPedidosFiltrados] = useState([]);
+  const [busqueda, setBusqueda] = useState([]);
   const [dataUsuario, setDataUsuario] = useState([]);
 
 
@@ -27,6 +28,24 @@ function PedidosTab({
     if (estado === "Cancelado") return "danger";
     return "secondary";
   };
+
+  useEffect(() => {
+    const texto = textoBusqueda.trim().toLowerCase();
+
+    if (texto === "") {
+      setPedidosFiltrados(pedidos)
+      return;
+    }
+
+    const resultado = pedidos.filter((p) => {
+      return (
+        p._id.toLowerCase().includes(texto) ||
+        p.estado.toLowerCase().includes(texto)
+      )
+    })
+    setPedidosFiltrados(resultado);
+  }, [textoBusqueda, pedidos])
+
 
 
   return (
@@ -42,13 +61,13 @@ function PedidosTab({
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder="Buscar por id, cliente, email, estado o fecha..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Buscar por id,total, o estado..."
+              value={textoBusqueda}
+              onChange={(e) => setTextoBusqueda(e.target.value)}
             />
             <Button
               className="btn-admin-primary"
-              onClick={() => setBusqueda(busqueda.trim())}
+              onClick={() => setTextoBusqueda(e.target.value)}
             >
               Buscar
             </Button>
@@ -73,7 +92,7 @@ function PedidosTab({
             </thead>
 
             <tbody className="text-center">
-              {pedidos.map((pedido, indice) => (
+              {pedidosFiltrados.map((pedido, indice) => (
                 <ItemPedido pedido={pedido} key={pedido._id} obtenerColorEstado={obtenerColorEstado} abrirModalPedido={abrirModalPedido} dataUsuario={dataUsuario} indice={indice + 1} setPedidos={setPedidos}></ItemPedido>
               ))}
             </tbody>
