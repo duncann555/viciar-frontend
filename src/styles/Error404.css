@@ -5,7 +5,15 @@
   padding: 60px 20px;
   min-height: 70vh;
   background: #f4f5ff;
+
+  background-image: url("../assets/fondo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
 }
+
 
 .error404-card {
   background: white;
