@@ -27,7 +27,8 @@ const Inicio = () => {
       
       if (respuesta.status === 200) {
         const datos = await respuesta.json();
-        setProductos(datos);
+        const prodActivos = datos.filter((p) => p.estado === "Activo");
+        setProductos(prodActivos);
       } else {
         console.error("Error al cargar productos");
       }
