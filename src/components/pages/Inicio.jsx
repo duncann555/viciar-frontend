@@ -3,6 +3,7 @@ import CardProducto from "./inicio/CardProducto.jsx";
 import CarruselOfertas from "./inicio/CarruselOfertas.jsx";
 import { Col, Container, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { obtenerProductosAPI } from "../../helpers/queries.js";
 
 const Inicio = () => {
 
@@ -22,20 +23,16 @@ const Inicio = () => {
   }, []);
 
   const consultarAPI = async () => {
-    try {
-      const respuesta = await fetch("http://localhost:3000/api/productos");
-      
-      if (respuesta.status === 200) {
-        const datos = await respuesta.json();
-        const prodActivos = datos.filter((p) => p.estado === "Activo");
-        setProductos(prodActivos);
-      } else {
-        console.error("Error al cargar productos");
-      }
-    } catch (error) {
-      console.log(error);
+    const respuesta = await obtenerProductosAPI();
+    if (respuesta && respuesta.status === 200) {
+      const datos = await respuesta.json();
+      const prodActivos = datos.filter((p) => p.estado === "Activo");
+      setProductos(prodActivos);
+    } else {
+      console.error("Error al cargar productos o la respuesta es nula");
     }
   };
+  
 
   const cat1 = categorias[0];
   const productosSeccion1 = productos.filter(
