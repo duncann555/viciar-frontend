@@ -2,37 +2,53 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge";
+import { useEffect, useState } from "react";
+import { obtenerUsuarioIDAPI } from "../../../helpers/queries";
 
-function PedidoModal({ show, pedido, cerrarModal }) {
-  if (!pedido) return null;
+function PedidoModal({ show, pedidoSeleccionado, cerrarModal }) {
+  if (!pedidoSeleccionado) return null;
 
-  const formatearPrecio = (precio) =>
-    precio.toLocaleString("es-AR", { style: "currency", currency: "ARS" });
+  const [datoUsuario, setDatoUsuario] = useState([]);
+
+  useEffect(() => {
+    obtenerUsuario();
+  }, [])
+
+  const obtenerUsuario = async () => {
+    const respuesta = await obtenerUsuarioIDAPI(pedidoSeleccionado.detallePedido.usuario);
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      setDatoUsuario(datos);
+    }
+  }
 
   return (
     <Modal show={show} onHide={cerrarModal} centered size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Detalle de Envio #{pedido.id}</Modal.Title>
+        <Modal.Title>Detalle de Envio</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <h5 className="mb-3">Información del cliente</h5>
 
         <p>
-          <strong>Cliente:</strong> {pedido.cliente}
+          <strong>Cliente:</strong> {datoUsuario.nombre + " " + datoUsuario.apellido}
+        </p>
+        <p>
+          <strong>DNI:</strong> {datoUsuario.dni}
         </p>
 
         <p>
-          <strong>Dirección:</strong> {pedido.direccion}
+          <strong>Dirección:</strong> {pedidoSeleccionado.detallePedido.domicilio}
         </p>
         <p>
-          <strong>CP:</strong> {pedido.cp}
+          <strong>Codigo Postal:</strong> {pedidoSeleccionado.detallePedido.codigoPostal}
         </p>
         <p>
-          <strong>Teléfono:</strong> {pedido.telefono}
+          <strong>Teléfono:</strong> {datoUsuario.telefono}
         </p>
         <p>
-          <strong>Email:</strong> {pedido.email}
+          <strong>Email:</strong> {datoUsuario.email}
         </p>
 
         <h5 className="mt-4 mb-3">Ítems del pedido</h5>
@@ -43,24 +59,22 @@ function PedidoModal({ show, pedido, cerrarModal }) {
               <th>Producto</th>
               <th>Cantidad</th>
               <th>Precio unitario</th>
-              <th>Subtotal</th>
             </tr>
           </thead>
 
           <tbody>
-            {pedido.items?.map((item, i) => (
-              <tr key={i}>
-                <td>{item.nombre}</td>
+            {pedidoSeleccionado.productos.map((item, index) => (
+              <tr key={index}>
+                <td>{item.producto.nombre}</td>
                 <td>{item.cantidad}</td>
-                <td>{formatearPrecio(item.precio)}</td>
-                <td>{formatearPrecio(item.precio * item.cantidad)}</td>
+                <td>${item.producto.precio}</td>
               </tr>
             ))}
           </tbody>
         </Table>
 
         <h4 className="text-end mt-3">
-          Total: <Badge bg="success">{formatearPrecio(pedido.total)}</Badge>
+          Total: <Badge bg="success">${pedidoSeleccionado.total}</Badge>
         </h4>
       </Modal.Body>
 

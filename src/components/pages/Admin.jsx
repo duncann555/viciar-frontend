@@ -3,7 +3,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { leerUsuarios } from "../../helpers/queries.js"
+import { leerUsuarios, listarPedidosAPI } from "../../helpers/queries.js"
 
 import UsuarioModal from "./administrador/UsuarioModal";
 import AdminStatus from "./administrador/AdminStatus";
@@ -22,6 +22,7 @@ function Admin({ productos, setProductos }) {
 
   const abrirModalPedido = (pedido) => {
     setPedidoSeleccionado(pedido);
+    console.log(pedido);
     setMostrarPedidoModal(true);
   };
 
@@ -111,22 +112,22 @@ function Admin({ productos, setProductos }) {
   ];
 
   const [usuarios, setUsuarios] = useState([]);
-  const [pedidos, setPedidos] = useState(pedidosIniciales); 
+  const [pedidos, setPedidos] = useState([]);
 
   const cargarUsuariosDelServidor = async () => {
     try {
-      const respuesta = await leerUsuarios(); 
-      
+      const respuesta = await leerUsuarios();
+
       if (respuesta) {
-    
+
         if (Array.isArray(respuesta)) {
-            setUsuarios(respuesta);
-        } 
+          setUsuarios(respuesta);
+        }
         else if (respuesta.usuarios && Array.isArray(respuesta.usuarios)) {
-            setUsuarios(respuesta.usuarios);
+          setUsuarios(respuesta.usuarios);
         }
         else {
-            setUsuarios([]); 
+          setUsuarios([]);
         }
       } else {
         setUsuarios([]);
@@ -138,6 +139,7 @@ function Admin({ productos, setProductos }) {
 
   useEffect(() => {
     cargarUsuariosDelServidor();
+    obtenerPedidos();
   }, []);
 
   const [mostrarProductoModal, setMostrarProductoModal] = useState(false);
@@ -345,6 +347,16 @@ function Admin({ productos, setProductos }) {
     });
   };
 
+  //Funcion para obtener los pedidos de la api
+  const obtenerPedidos = async () => {
+    const respuesta = await listarPedidosAPI();
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      console.log(datos);
+      setPedidos(datos);
+    }
+  }
+
   const obtenerColorBadgeStock = (stock) => {
     if (stock === 0) return "danger";
     if (stock <= 5) return "warning";
@@ -390,9 +402,9 @@ function Admin({ productos, setProductos }) {
         <Tab eventKey="pedidos" title="Pedidos">
           <PedidosTab
             pedidos={pedidos}
-            handleCambiarEstadoPedido={handleCambiarEstadoPedido}
-            handleEliminarPedido={handleEliminarPedido}
             abrirModalPedido={abrirModalPedido}
+            pedidoSeleccionado={pedidoSeleccionado}
+            setPedidos={setPedidos}
           />
         </Tab>
       </Tabs>
@@ -418,8 +430,8 @@ function Admin({ productos, setProductos }) {
 
       <PedidoModal
         show={mostrarPedidoModal}
-        pedido={pedidoSeleccionado}
         cerrarModal={cerrarModalPedido}
+        pedidoSeleccionado={pedidoSeleccionado}
       />
     </Container>
   );

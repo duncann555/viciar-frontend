@@ -6,32 +6,21 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ItemPedido from "../ItemPedido";
+import { obtenerUsuarioIDAPI } from "../../../helpers/queries";
 
 function PedidosTab({
   pedidos,
-  handleCambiarEstadoPedido,
-  handleEliminarPedido,
   abrirModalPedido,
+  pedidoSeleccionado,
+  setPedidos
 }) {
-  const [busqueda, setBusqueda] = useState("");
+  const [textoBusqueda, setTextoBusqueda] = useState("");
+  const [pedidosFiltrados, setPedidosFiltrados] = useState([]);
+  const [busqueda, setBusqueda] = useState([]);
+  const [dataUsuario, setDataUsuario] = useState([]);
 
-  const q = busqueda.toLowerCase().trim();
-
-  const pedidosFiltrados = pedidos.filter((p) => {
-    if (!q) return true;
-
-    return (
-      String(p.id).includes(q) ||
-      (p.cliente || "").toLowerCase().includes(q) ||
-      (p.email || "").toLowerCase().includes(q) ||
-      (p.estado || "").toLowerCase().includes(q) ||
-      (p.fecha || "").toLowerCase().includes(q)
-    );
-  });
-
-  const formatearPrecio = (monto) =>
-    monto.toLocaleString("es-AR", { style: "currency", currency: "ARS" });
 
   const obtenerColorEstado = (estado) => {
     if (estado === "Pendiente") return "warning";
@@ -39,6 +28,25 @@ function PedidosTab({
     if (estado === "Cancelado") return "danger";
     return "secondary";
   };
+
+  useEffect(() => {
+    const texto = textoBusqueda.trim().toLowerCase();
+
+    if (texto === "") {
+      setPedidosFiltrados(pedidos)
+      return;
+    }
+
+    const resultado = pedidos.filter((p) => {
+      return (
+        p._id.toLowerCase().includes(texto) ||
+        p.estado.toLowerCase().includes(texto)
+      )
+    })
+    setPedidosFiltrados(resultado);
+  }, [textoBusqueda, pedidos])
+
+
 
   return (
     <>
@@ -53,13 +61,13 @@ function PedidosTab({
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder="Buscar por id, cliente, email, estado o fecha..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Buscar por id,total, o estado..."
+              value={textoBusqueda}
+              onChange={(e) => setTextoBusqueda(e.target.value)}
             />
             <Button
               className="btn-admin-primary"
-              onClick={() => setBusqueda(busqueda.trim())}
+              onClick={() => setTextoBusqueda(e.target.value)}
             >
               Buscar
             </Button>
@@ -76,11 +84,7 @@ function PedidosTab({
           <Table responsive striped hover className="mt-3 align-middle">
             <thead className="table-primary">
               <tr className="text-center">
-                <th>#</th>
-                <th>Cliente</th>
-                <th>Email</th>
-                <th>Fecha</th>
-                <th>Ítems</th>
+                <th>ID Pedido</th>
                 <th>Total</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -88,62 +92,9 @@ function PedidosTab({
             </thead>
 
             <tbody className="text-center">
-              {pedidosFiltrados.map((pedido) => (
-                <tr key={pedido.id}>
-                  <td>{pedido.id}</td>
-                  <td>{pedido.cliente}</td>
-                  <td>{pedido.email}</td>
-                  <td>{pedido.fecha}</td>
-                  <td>{pedido.items?.length || 0}</td>
-                  <td>{formatearPrecio(pedido.total)}</td>
-                  <td>
-                    <Badge bg={obtenerColorEstado(pedido.estado)}>
-                      {pedido.estado}
-                    </Badge>
-                  </td>
-                  <td>
-                    <Button
-                      variant="outline-info"
-                      size="sm"
-                      className="me-2"
-                      onClick={() => abrirModalPedido(pedido)}
-                    >
-                      Ver
-                    </Button>
-
-                    <Button
-                      variant={
-                        pedido.estado === "Pendiente"
-                          ? "outline-success"
-                          : "outline-secondary"
-                      }
-                      size="sm"
-                      className="me-2"
-                      onClick={() => handleCambiarEstadoPedido(pedido.id)}
-                    >
-                      {pedido.estado === "Pendiente"
-                        ? "Marcar completado"
-                        : "Marcar pendiente"}
-                    </Button>
-
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => handleEliminarPedido(pedido.id)}
-                    >
-                      Eliminar
-                    </Button>
-                  </td>
-                </tr>
+              {pedidosFiltrados.map((pedido, indice) => (
+                <ItemPedido pedido={pedido} key={pedido._id} obtenerColorEstado={obtenerColorEstado} abrirModalPedido={abrirModalPedido} dataUsuario={dataUsuario} indice={indice + 1} setPedidos={setPedidos}></ItemPedido>
               ))}
-
-              {pedidosFiltrados.length === 0 && (
-                <tr>
-                  <td colSpan={8} className="text-center text-muted">
-                    No hay pedidos que coincidan con la búsqueda.
-                  </td>
-                </tr>
-              )}
             </tbody>
           </Table>
         </Card.Body>
