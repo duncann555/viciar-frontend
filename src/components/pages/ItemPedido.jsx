@@ -1,10 +1,41 @@
 import React from 'react';
 import { Badge, Button } from 'react-bootstrap';
+import Swal from 'sweetalert2';
+import { eliminarPedidoAPI, listarPedidosAPI } from '../../helpers/queries';
 
-const ItemPedido = ({ pedido, obtenerColorEstado, abrirModalPedido, dataUsuario }) => {
+const ItemPedido = ({ pedido, obtenerColorEstado, abrirModalPedido, dataUsuario, indice, setPedidos }) => {
+    const borrarPedido = () => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, borrar',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const respuesta = await eliminarPedidoAPI(pedido._id);
+                if (respuesta.status === 200) {
+                    Swal.fire(
+                        'Borrado!',
+                        'El pedido fue borrado exitosamente.',
+                        'success'
+                    );
+                }
+                const RespedidosActualizados = await listarPedidosAPI();
+                if (RespedidosActualizados.status === 200) {
+                    const datosActualizados = await RespedidosActualizados.json();
+                    setPedidos(datosActualizados);
+                }
+            }
+        });
+    }
+
     return (
         <tr key={pedido.id}>
-            <td>{pedido._id}</td>
+            <td>{indice}</td>
             <td>${pedido.total}</td>
             <td>
                 <Badge bg={obtenerColorEstado(pedido.estado)}>
@@ -38,6 +69,7 @@ const ItemPedido = ({ pedido, obtenerColorEstado, abrirModalPedido, dataUsuario 
                 <Button
                     variant="outline-danger"
                     size="sm"
+                    onClick={() => borrarPedido()}
                 >
                     Eliminar
                 </Button>

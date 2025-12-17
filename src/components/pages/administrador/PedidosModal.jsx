@@ -34,6 +34,9 @@ function PedidoModal({ show, pedidoSeleccionado, cerrarModal }) {
         <p>
           <strong>Cliente:</strong> {datoUsuario.nombre + " " + datoUsuario.apellido}
         </p>
+        <p>
+          <strong>DNI:</strong> {datoUsuario.dni}
+        </p>
 
         <p>
           <strong>Dirección:</strong> {pedidoSeleccionado.detallePedido.domicilio}

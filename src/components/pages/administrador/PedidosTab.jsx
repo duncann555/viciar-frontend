@@ -13,26 +13,13 @@ import { obtenerUsuarioIDAPI } from "../../../helpers/queries";
 function PedidosTab({
   pedidos,
   abrirModalPedido,
-  pedidoSeleccionado
+  pedidoSeleccionado,
+  setPedidos
 }) {
   const [busqueda, setBusqueda] = useState("");
   const q = busqueda.toLowerCase().trim();
   const [dataUsuario, setDataUsuario] = useState([]);
 
-  const pedidosFiltrados = pedidos.filter((p) => {
-    if (!q) return true;
-
-    return (
-      String(p.id).includes(q) ||
-      (p.cliente || "").toLowerCase().includes(q) ||
-      (p.email || "").toLowerCase().includes(q) ||
-      (p.estado || "").toLowerCase().includes(q) ||
-      (p.fecha || "").toLowerCase().includes(q)
-    );
-  });
-
-  const formatearPrecio = (monto) =>
-    monto.toLocaleString("es-AR", { style: "currency", currency: "ARS" });
 
   const obtenerColorEstado = (estado) => {
     if (estado === "Pendiente") return "warning";
@@ -86,8 +73,8 @@ function PedidosTab({
             </thead>
 
             <tbody className="text-center">
-              {pedidos.map((pedido) => (
-                <ItemPedido pedido={pedido} key={pedido._id} obtenerColorEstado={obtenerColorEstado} abrirModalPedido={abrirModalPedido} dataUsuario={dataUsuario}></ItemPedido>
+              {pedidos.map((pedido, indice) => (
+                <ItemPedido pedido={pedido} key={pedido._id} obtenerColorEstado={obtenerColorEstado} abrirModalPedido={abrirModalPedido} dataUsuario={dataUsuario} indice={indice + 1} setPedidos={setPedidos}></ItemPedido>
               ))}
             </tbody>
           </Table>

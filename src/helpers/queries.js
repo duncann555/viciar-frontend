@@ -245,3 +245,18 @@ export const obtenerUsuarioIDAPI = async (id) => {
     return null;
   }
 };
+
+export const eliminarPedidoAPI = async (id) => {
+  try {
+    const respuesta = await fetch(`${pedidosBackend}${id}`, {
+      method: "DELETE",
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};

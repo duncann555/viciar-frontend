@@ -404,6 +404,7 @@ function Admin({ productos, setProductos }) {
             pedidos={pedidos}
             abrirModalPedido={abrirModalPedido}
             pedidoSeleccionado={pedidoSeleccionado}
+            setPedidos={setPedidos}
           />
         </Tab>
       </Tabs>
