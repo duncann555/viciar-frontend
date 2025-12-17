@@ -18,7 +18,7 @@ export const login = async (usuario) => {
     });
     return respuesta;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };
@@ -35,7 +35,7 @@ export const leerUsuarios = async () => {
     const datos = await respuesta.json();
     return datos;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -51,7 +51,7 @@ export const crearUsuario = async (usuario) => {
     });
     return respuesta;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -67,7 +67,7 @@ export const editarUsuario = async (usuario, id) => {
     });
     return respuesta;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -85,7 +85,7 @@ export const cambiarEstadoUsuario = async (id, nuevoEstado) => {
     });
     return respuesta;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -99,7 +99,7 @@ export const borrarUsuario = async (id) => {
     });
     return respuesta;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

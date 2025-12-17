@@ -46,10 +46,9 @@ function ProductoModal({
   }, [modoProducto, productoSeleccionado, setValue])
 
   const onSubmit = async (data) => {
-    // console.log(data);
     const productoForm = {
       ...data,
-      imagenUrl: data.imagenUrl[0] //Archivo
+      imagenUrl: data.imagenUrl[0]
     }
     if (modoProducto === "crear") {
       const respuesta = await crearProductosAPI(productoForm);

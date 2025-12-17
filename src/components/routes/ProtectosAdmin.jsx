@@ -17,7 +17,6 @@ const ProtectosAdmin = () => {
     }
     //Si esta logueado pero no es administrador
     if (!admin) {
-        console.log("Acceso denegado. Rol no autorizado")
         return <Navigate to="/" replace />
     }
 
