@@ -260,3 +260,20 @@ export const eliminarPedidoAPI = async (id) => {
     return null;
   }
 };
+
+export const cambiarEstadoPedidoAPI = async (id, estado) => {
+  try {
+    const respuesta = await fetch(`${pedidosBackend}${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+      body: JSON.stringify({ estado }),
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
