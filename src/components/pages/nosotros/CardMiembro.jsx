@@ -10,7 +10,7 @@ export const CardMiembro = ({ nombre, imagen, github, linkedin }) => {
   };
 
   return (
-    <Col md={6} lg={4} className="mb-3">
+    <Col md={6} lg={4} className="mb-3 g-2">
       <Card className="h-100 card-miembro">
         <div className="d-flex justify-content-center align-content-center">
           <img
