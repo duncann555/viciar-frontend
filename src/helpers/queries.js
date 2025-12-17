@@ -1,8 +1,9 @@
 const usuariosBackend = import.meta.env.VITE_API_USUARIOS;
 const productosBackend = import.meta.env.VITE_API_PRODUCTOS;
+const pedidosBackend = import.meta.env.VITE_API_PEDIDOS;
 
 const obtenerToken = () => {
-  const usuarioLocal = JSON.parse(sessionStorage.getItem("usuarioKey")); 
+  const usuarioLocal = JSON.parse(sessionStorage.getItem("usuarioKey"));
   return usuarioLocal?.token || "";
 };
 
@@ -27,13 +28,12 @@ export const leerUsuarios = async () => {
     const respuesta = await fetch(usuariosBackend, {
       method: "GET",
       headers: {
-        "x-token": obtenerToken(), 
+        "x-token": obtenerToken(),
       },
     });
 
-    const datos = await respuesta.json()
+    const datos = await respuesta.json();
     return datos;
-
   } catch (error) {
     console.log(error);
   }
@@ -211,6 +211,66 @@ export const obtenerProductoNombreAPI = async (productoBuscado) => {
     const respuesta = await fetch(
       `${productosBackend}buscar?nombre=${productoBuscado}`
     );
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const listarPedidosAPI = async () => {
+  try {
+    const respuesta = await fetch(pedidosBackend, {
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const obtenerUsuarioIDAPI = async (id) => {
+  try {
+    const respuesta = await fetch(`${usuariosBackend}/${id}`, {
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const eliminarPedidoAPI = async (id) => {
+  try {
+    const respuesta = await fetch(`${pedidosBackend}${id}`, {
+      method: "DELETE",
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const cambiarEstadoPedidoAPI = async (id, estado) => {
+  try {
+    const respuesta = await fetch(`${pedidosBackend}${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+      body: JSON.stringify({ estado }),
+    });
     return respuesta;
   } catch (err) {
     console.error(err);
