@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom"; 
-import Swal from "sweetalert2"; 
-import { crearUsuario } from "../../helpers/queries"; 
+import { NavLink, useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import { crearUsuario } from "../../helpers/queries";
 import "../../styles/register.css";
 import { Button } from "react-bootstrap";
 
 const initialValues = {
-  nombre: "",      
-  apellido: "",    
+  nombre: "",
+  apellido: "",
   email: "",
   dni: "",
   telefono: "",
@@ -24,8 +24,8 @@ function validateField(name, value, allValues) {
       if (!v) return "El nombre es obligatorio.";
       if (v.length < 3) return "Mínimo 3 caracteres.";
       return "";
-      
-    case "apellido": 
+
+    case "apellido":
       if (!v) return "El apellido es obligatorio.";
       if (v.length < 3) return "Mínimo 3 caracteres.";
       return "";
@@ -112,8 +112,8 @@ export default function Register() {
     setErrors(errs);
 
     setTouched({
-      nombre: true,  
-      apellido: true, 
+      nombre: true,
+      apellido: true,
       email: true,
       dni: true,
       telefono: true,
@@ -127,7 +127,7 @@ export default function Register() {
     const usuarioParaGuardar = { ...values };
     delete usuarioParaGuardar.confirmPassword;
     delete usuarioParaGuardar.terms;
-    
+
     try {
       const respuesta = await crearUsuario(usuarioParaGuardar);
 
@@ -141,7 +141,7 @@ export default function Register() {
         });
         setValues(initialValues);
         // CAMBIO: Ahora redirige al Inicio (Home)
-        navigate("/"); 
+        navigate("/");
       } else {
         const resultado = await respuesta.json();
         Swal.fire({
@@ -167,7 +167,7 @@ export default function Register() {
         <p className="reg-sub">Completá los datos para registrarte.</p>
 
         <form className="reg-form" onSubmit={handleSubmit}>
-          
+
           <div className="reg-row">
             <div className="reg-field">
               <label>Nombre</label>

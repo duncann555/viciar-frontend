@@ -7,11 +7,10 @@ import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge";
 import { useState } from "react";
+import ItemPedido from "../ItemPedido";
 
 function PedidosTab({
   pedidos,
-  handleCambiarEstadoPedido,
-  handleEliminarPedido,
   abrirModalPedido,
 }) {
   const [busqueda, setBusqueda] = useState("");
@@ -88,62 +87,9 @@ function PedidosTab({
             </thead>
 
             <tbody className="text-center">
-              {pedidosFiltrados.map((pedido) => (
-                <tr key={pedido.id}>
-                  <td>{pedido.id}</td>
-                  <td>{pedido.cliente}</td>
-                  <td>{pedido.email}</td>
-                  <td>{pedido.fecha}</td>
-                  <td>{pedido.items?.length || 0}</td>
-                  <td>{formatearPrecio(pedido.total)}</td>
-                  <td>
-                    <Badge bg={obtenerColorEstado(pedido.estado)}>
-                      {pedido.estado}
-                    </Badge>
-                  </td>
-                  <td>
-                    <Button
-                      variant="outline-info"
-                      size="sm"
-                      className="me-2"
-                      onClick={() => abrirModalPedido(pedido)}
-                    >
-                      Ver
-                    </Button>
-
-                    <Button
-                      variant={
-                        pedido.estado === "Pendiente"
-                          ? "outline-success"
-                          : "outline-secondary"
-                      }
-                      size="sm"
-                      className="me-2"
-                      onClick={() => handleCambiarEstadoPedido(pedido.id)}
-                    >
-                      {pedido.estado === "Pendiente"
-                        ? "Marcar completado"
-                        : "Marcar pendiente"}
-                    </Button>
-
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => handleEliminarPedido(pedido.id)}
-                    >
-                      Eliminar
-                    </Button>
-                  </td>
-                </tr>
+              {pedidos.map((pedido) => (
+                <ItemPedido pedido={pedido} key={pedido._id} obtenerColorEstado={obtenerColorEstado} abrirModalPedido={abrirModalPedido}></ItemPedido>
               ))}
-
-              {pedidosFiltrados.length === 0 && (
-                <tr>
-                  <td colSpan={8} className="text-center text-muted">
-                    No hay pedidos que coincidan con la búsqueda.
-                  </td>
-                </tr>
-              )}
             </tbody>
           </Table>
         </Card.Body>

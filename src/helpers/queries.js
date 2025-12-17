@@ -1,8 +1,9 @@
 const usuariosBackend = import.meta.env.VITE_API_USUARIOS;
 const productosBackend = import.meta.env.VITE_API_PRODUCTOS;
+const pedidosBackend = import.meta.env.VITE_API_PEDIDOS;
 
 const obtenerToken = () => {
-  const usuarioLocal = JSON.parse(sessionStorage.getItem("usuarioKey")); 
+  const usuarioLocal = JSON.parse(sessionStorage.getItem("usuarioKey"));
   return usuarioLocal?.token || "";
 };
 
@@ -27,13 +28,12 @@ export const leerUsuarios = async () => {
     const respuesta = await fetch(usuariosBackend, {
       method: "GET",
       headers: {
-        "x-token": obtenerToken(), 
+        "x-token": obtenerToken(),
       },
     });
 
-    const datos = await respuesta.json()
+    const datos = await respuesta.json();
     return datos;
-
   } catch (error) {
     console.log(error);
   }
@@ -212,6 +212,19 @@ export const obtenerProductoNombreAPI = async (productoBuscado) => {
       `${productosBackend}buscar?nombre=${productoBuscado}`
     );
     return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const listarPedidosAPI = async () => {
+  try {
+    const respuesta = await fetch(pedidosBackend, {
+      "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+    });
+    return respuesta;
+    return;
   } catch (err) {
     console.error(err);
     return null;
