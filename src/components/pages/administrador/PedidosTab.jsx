@@ -6,16 +6,18 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ItemPedido from "../ItemPedido";
+import { obtenerUsuarioIDAPI } from "../../../helpers/queries";
 
 function PedidosTab({
   pedidos,
   abrirModalPedido,
+  pedidoSeleccionado
 }) {
   const [busqueda, setBusqueda] = useState("");
-
   const q = busqueda.toLowerCase().trim();
+  const [dataUsuario, setDataUsuario] = useState([]);
 
   const pedidosFiltrados = pedidos.filter((p) => {
     if (!q) return true;
@@ -38,6 +40,7 @@ function PedidosTab({
     if (estado === "Cancelado") return "danger";
     return "secondary";
   };
+
 
   return (
     <>
@@ -75,11 +78,7 @@ function PedidosTab({
           <Table responsive striped hover className="mt-3 align-middle">
             <thead className="table-primary">
               <tr className="text-center">
-                <th>#</th>
-                <th>Cliente</th>
-                <th>Email</th>
-                <th>Fecha</th>
-                <th>Ítems</th>
+                <th>ID Pedido</th>
                 <th>Total</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -88,7 +87,7 @@ function PedidosTab({
 
             <tbody className="text-center">
               {pedidos.map((pedido) => (
-                <ItemPedido pedido={pedido} key={pedido._id} obtenerColorEstado={obtenerColorEstado} abrirModalPedido={abrirModalPedido}></ItemPedido>
+                <ItemPedido pedido={pedido} key={pedido._id} obtenerColorEstado={obtenerColorEstado} abrirModalPedido={abrirModalPedido} dataUsuario={dataUsuario}></ItemPedido>
               ))}
             </tbody>
           </Table>

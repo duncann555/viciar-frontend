@@ -403,6 +403,7 @@ function Admin({ productos, setProductos }) {
           <PedidosTab
             pedidos={pedidos}
             abrirModalPedido={abrirModalPedido}
+            pedidoSeleccionado={pedidoSeleccionado}
           />
         </Tab>
       </Tabs>

@@ -1,14 +1,10 @@
 import React from 'react';
 import { Badge, Button } from 'react-bootstrap';
 
-const ItemPedido = ({ pedido, obtenerColorEstado, abrirModalPedido }) => {
+const ItemPedido = ({ pedido, obtenerColorEstado, abrirModalPedido, dataUsuario }) => {
     return (
         <tr key={pedido.id}>
-            <td>{pedido.id}</td>
-            <td>{pedido.cliente}</td>
-            <td>{pedido.email}</td>
-            <td>{pedido.fecha}</td>
-            <td>{pedido.productos?.length || 0}</td>
+            <td>{pedido._id}</td>
             <td>${pedido.total}</td>
             <td>
                 <Badge bg={obtenerColorEstado(pedido.estado)}>
