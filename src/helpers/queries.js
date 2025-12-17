@@ -221,10 +221,26 @@ export const obtenerProductoNombreAPI = async (productoBuscado) => {
 export const listarPedidosAPI = async () => {
   try {
     const respuesta = await fetch(pedidosBackend, {
-      "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
     });
     return respuesta;
-    return;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+export const obtenerUsuarioIDAPI = async (id) => {
+  try {
+    console.log("El ID del usuario es: " + id);
+    const respuesta = await fetch(`${usuariosBackend}/${id}`, {
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+    });
+    return respuesta;
   } catch (err) {
     console.error(err);
     return null;

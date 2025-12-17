@@ -2,9 +2,27 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import Badge from "react-bootstrap/Badge";
+import { useEffect, useState } from "react";
+import { obtenerUsuarioIDAPI } from "../../../helpers/queries";
 
 function PedidoModal({ show, pedidoSeleccionado, cerrarModal }) {
   if (!pedidoSeleccionado) return null;
+
+  const [datoUsuario, setDatoUsuario] = useState([]);
+
+  useEffect(() => {
+    obtenerUsuario();
+  }, [])
+
+  const obtenerUsuario = async () => {
+    const respuesta = await obtenerUsuarioIDAPI(pedidoSeleccionado.detallePedido.usuario);
+    console.log(respuesta);
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      console.log(`Data user: ${JSON.stringify(datos)}`);
+      setDatoUsuario(datos);
+    }
+  }
 
   return (
     <Modal show={show} onHide={cerrarModal} centered size="lg">
@@ -16,7 +34,7 @@ function PedidoModal({ show, pedidoSeleccionado, cerrarModal }) {
         <h5 className="mb-3">Información del cliente</h5>
 
         <p>
-          <strong>Cliente:</strong> {pedidoSeleccionado.detallePedido._id}
+          <strong>Cliente:</strong> {datoUsuario.nombre + " " + datoUsuario.apellido}
         </p>
 
         <p>
@@ -26,10 +44,10 @@ function PedidoModal({ show, pedidoSeleccionado, cerrarModal }) {
           <strong>Codigo Postal:</strong> {pedidoSeleccionado.detallePedido.codigoPostal}
         </p>
         <p>
-          <strong>Teléfono:</strong> {pedidoSeleccionado.detallePedido.telefono}
+          <strong>Teléfono:</strong> {datoUsuario.telefono}
         </p>
         <p>
-          <strong>Email:</strong> {pedidoSeleccionado.email}
+          <strong>Email:</strong> {datoUsuario.email}
         </p>
 
         <h5 className="mt-4 mb-3">Ítems del pedido</h5>
