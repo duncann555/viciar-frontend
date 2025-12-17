@@ -234,7 +234,6 @@ export const listarPedidosAPI = async () => {
 
 export const obtenerUsuarioIDAPI = async (id) => {
   try {
-    console.log("El ID del usuario es: " + id);
     const respuesta = await fetch(`${usuariosBackend}/${id}`, {
       headers: {
         "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,

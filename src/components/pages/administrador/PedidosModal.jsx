@@ -16,10 +16,8 @@ function PedidoModal({ show, pedidoSeleccionado, cerrarModal }) {
 
   const obtenerUsuario = async () => {
     const respuesta = await obtenerUsuarioIDAPI(pedidoSeleccionado.detallePedido.usuario);
-    console.log(respuesta);
     if (respuesta.status === 200) {
       const datos = await respuesta.json();
-      console.log(`Data user: ${JSON.stringify(datos)}`);
       setDatoUsuario(datos);
     }
   }
@@ -58,17 +56,15 @@ function PedidoModal({ show, pedidoSeleccionado, cerrarModal }) {
               <th>Producto</th>
               <th>Cantidad</th>
               <th>Precio unitario</th>
-              <th>Subtotal</th>
             </tr>
           </thead>
 
           <tbody>
-            {pedidoSeleccionado.items?.map((item, i) => (
-              <tr key={i}>
-                <td>{item.nombre}</td>
+            {pedidoSeleccionado.productos.map((item, index) => (
+              <tr key={index}>
+                <td>{item.producto.nombre}</td>
                 <td>{item.cantidad}</td>
-                <td>{item.precio}</td>
-                <td>{item.precio * item.cantidad}</td>
+                <td>${item.producto.precio}</td>
               </tr>
             ))}
           </tbody>
