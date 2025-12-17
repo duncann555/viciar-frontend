@@ -151,7 +151,7 @@ export default function Register() {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire({
         icon: 'error',
         title: 'Error de conexión',

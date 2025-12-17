@@ -1,4 +1,4 @@
-import { useEffect } from "react"; // 1. Importamos useEffect
+import { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";

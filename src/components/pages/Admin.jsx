@@ -22,7 +22,6 @@ function Admin({ productos, setProductos }) {
 
   const abrirModalPedido = (pedido) => {
     setPedidoSeleccionado(pedido);
-    console.log(pedido);
     setMostrarPedidoModal(true);
   };
 
@@ -133,7 +132,7 @@ function Admin({ productos, setProductos }) {
         setUsuarios([]);
       }
     } catch (error) {
-      console.log("Error cargando usuarios:", error);
+      console.error("Error cargando usuarios:", error);
     }
   };
 
@@ -166,7 +165,7 @@ function Admin({ productos, setProductos }) {
   const totalProductos = productos.length;
   const productosSinStock = productos.filter((p) => p.stock === 0).length;
   const totalUsuarios = usuarios.length;
-  // podrías agregar totalPedidos si después querés mostrarlo en AdminStatus
+
 
   const handleChangeUsuario = (e) => {
     const { name, value } = e.target;
@@ -243,8 +242,6 @@ function Admin({ productos, setProductos }) {
   };
 
   const handleGuardarUsuario = (data) => {
-    // ⚠ Acá en tu código original estabas llamando handleGuardarUsuario(data) sin tener data.
-    // Ahora lo hago consistente con react-hook-form.
     const usuarioParaGuardar = {
       nombre: data?.nombre ?? usuarioForm.nombre,
       email: data?.email ?? usuarioForm.email,
@@ -352,7 +349,6 @@ function Admin({ productos, setProductos }) {
     const respuesta = await listarPedidosAPI();
     if (respuesta.status === 200) {
       const datos = await respuesta.json();
-      console.log(datos);
       setPedidos(datos);
     }
   }

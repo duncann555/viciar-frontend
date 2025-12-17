@@ -12,7 +12,6 @@ const Contacto = () => {
   } = useForm();
 
 const onSubmit = (data) => {
-//console.log(data)
 Swal.fire({
   title: "¡Consulta enviada con éxito!",
   text: "Gracias por escribirnos.",

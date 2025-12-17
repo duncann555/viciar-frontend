@@ -66,14 +66,9 @@ const Inicio = () => {
     <CarruselPrincipal />
     <Container>
       <div className="mb-5">
-        <h1 className="py-5 text-center display-4 fw-bolder text-primary-emphasis">
+        <h1 className="pt-5 text-center display-4 fw-bolder text-primary-emphasis">
           Bienvenidos a ViciAR
         </h1>
-        <h5 className="fw-medium text-center">
-          Donde no vendemos simples juegos. Vendemos las 3 de la mañana con
-          amigos y esa sensación de gloria absoluta. <br />
-          Tu próxima obsesión está a un clic de distancia.
-        </h5>
       </div>
       {productosSeccion1.length > 0 && (
         <>
@@ -84,16 +79,13 @@ const Inicio = () => {
               </div>
             </Col>
           </Row>
-          <Row>
+          <Row className="mb-5">
             {productosSeccion1.map((prod, index) => (
               <CardProducto key={prod.id || index} producto={prod} />
             ))}
           </Row>
         </>
       )}
-      <Row className="py-5">
-        <CarruselOfertas />
-      </Row>
       {productosSeccion2.length > 0 && (
         <>
           <Row className="mb-4">
@@ -126,6 +118,9 @@ const Inicio = () => {
           </Row>
         </>
       )}
+      <Row className="py-5">
+        <CarruselOfertas />
+      </Row>
       {productosSeccion4.length > 0 && (
         <>
           <Row className="mb-4">
