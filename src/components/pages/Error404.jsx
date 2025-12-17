@@ -10,7 +10,7 @@ export default function Error404() {
 
         <h1 className="error404-title">Error 404</h1>
         <p className="error404-subtitle">
-          Error 404: misión no encontrada.
+           Misión no encontrada.
         </p>
 
         <button
