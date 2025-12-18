@@ -59,7 +59,7 @@ function ProductoModal({
           setProductos(datos);
         }
         Swal.fire({
-          title: "Receta creada exitosamente!",
+          title: "Producto creado exitosamente!",
           icon: "success",
           draggable: true
         })
