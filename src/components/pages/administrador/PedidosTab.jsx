@@ -61,7 +61,7 @@ function PedidosTab({
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder="Buscar por id,total, o estado..."
+              placeholder="Buscar por id o estado..."
               value={textoBusqueda}
               onChange={(e) => setTextoBusqueda(e.target.value)}
             />
