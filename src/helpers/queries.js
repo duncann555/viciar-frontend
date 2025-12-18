@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 const usuariosBackend = import.meta.env.VITE_API_USUARIOS;
 const productosBackend = import.meta.env.VITE_API_PRODUCTOS;
 const pedidosBackend = import.meta.env.VITE_API_PEDIDOS;
@@ -288,7 +290,13 @@ export const agregarAlCarrito = (producto, cantidadDeseada = 1) => {
     carritoActual.push({ ...producto, cantidad: cantidadDeseada });
   }
   localStorage.setItem("carrito", JSON.stringify(carritoActual));
-  alert("Producto agregado al carrito");
+  Swal.fire({
+    icon: "success",
+    title: "Producto agregado",
+    text: "El producto fue agregado al carrito correctamente.",
+    timer: 1500,
+    showConfirmButton: false,
+  });
 };
 
 export const crearPedidoAPI = async (pedido) => {

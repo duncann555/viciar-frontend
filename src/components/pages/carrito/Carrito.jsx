@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import { Breadcrumb } from "react-bootstrap";
 import { crearPedidoAPI, obtenerUsuarioIDAPI } from "../../../helpers/queries";
+import Swal from "sweetalert2";
 
 const Carrito = () => {
   const [paso, SetPaso] = useState(1);
@@ -48,19 +49,31 @@ const Carrito = () => {
 
     const respuesta = await crearPedidoAPI(pedido);
     if (respuesta.status === 201) {
-      alert("El pedido fue creado correctamente")
+      Swal.fire({
+        icon: "success",
+        title: "¡Pedido creado!",
+        text: "Tu pedido fue creado correctamente.",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#198754", // verde Bootstrap
+      });
+      localStorage.removeItem("carrito");
+      setProductosCarrito([]);
+      reset();
     } else {
-      alert("Error al crear el pedido")
+      Swal.fire({
+        icon: "error",
+        title: "Error al crear el pedido",
+        text: "Ocurrió un problema al procesar tu pedido. Intentá nuevamente.",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#dc3545", // rojo Bootstrap
+      });
     }
-    crearPedidoAPI(pedido);
-    console.log(pedido)
-
-    reset();
   };
 
   const [productosCarrito, setProductosCarrito] = useState(
     JSON.parse(localStorage.getItem("carrito")) || []
   );
+
 
   const totalPedido = productosCarrito.reduce(
     (acc, prod) => acc + prod.precio * prod.cantidad,
@@ -81,8 +94,6 @@ const Carrito = () => {
     setProductosCarrito(carritoFiltrado);
     localStorage.setItem("carrito", JSON.stringify(carritoFiltrado));
   };
-
-
 
 
   useEffect(() => {
