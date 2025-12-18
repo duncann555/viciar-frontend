@@ -30,7 +30,6 @@ const Carrito = () => {
 
   const postValidaciones = async (data) => {
     const idUsuarioStorge = JSON.parse(sessionStorage.getItem("usuarioKey")).id;
-    console.log("El id del usuario es: ", idUsuarioStorge);
 
     const pedido = {
       detallePedido: {
@@ -100,7 +99,6 @@ const Carrito = () => {
     const usuarioStorage = sessionStorage.getItem("usuarioKey");
     if (usuarioStorage) {
       const idUsuario = JSON.parse(usuarioStorage).id;
-      console.log("ID del usuario cargado:", idUsuario);
       obtenerUsuarioID(idUsuario);
     }
   }, []);

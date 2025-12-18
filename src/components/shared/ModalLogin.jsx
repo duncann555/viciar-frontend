@@ -24,7 +24,6 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
 
     if (respuesta.status === 200) {
       const datos = await respuesta.json();
-      console.log(datos);
 
       const datosUsuario = {
         id: datos._id,
