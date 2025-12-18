@@ -2,7 +2,7 @@ import { Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router";
 
 const CardProducto = ({ producto }) => {
-  const { id } = producto;
+  
 
   return (
       <Col xs={6} md={4} lg={3} className="g-3">
@@ -28,7 +28,7 @@ const CardProducto = ({ producto }) => {
             <i className="bi bi-cart-plus-fill"></i> Agregar
           </Button>
           <Link
-            to={`/detalleproducto/${id}`}
+            to={`/detalleproducto/${producto._id}`}
             className="btn btn-primary btn-sm"
           >
             Ver más

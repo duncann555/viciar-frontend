@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../styles/login.css";
 import { useForm } from "react-hook-form";
 import { login } from "../../helpers/queries";

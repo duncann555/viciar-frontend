@@ -1,7 +1,37 @@
 import { Card, Row, Col, Breadcrumb } from "react-bootstrap";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
+import { obtenerProductosIdAPI } from "../../helpers/queries.js";
+import { useEffect, useState } from "react";
 
 const DetalleProducto = () => {
+  const [producto, setProducto] = useState(null);
+  const { id } = useParams();
+  useEffect(() => {
+    buscarProducto();
+  }, [id]);
+
+  const buscarProducto = async () => {
+    const respuesta = await obtenerProductosIdAPI(id);
+    if (respuesta.status === 200) {
+      const productoEncontrado = await respuesta.json();
+      setProducto(productoEncontrado);
+    } else {
+      alert("Ocurrió un error");
+    }
+  };
+
+  if (!producto) {
+    return (
+      <div className="text-center py-5">
+        <h3>Cargando producto...</h3>
+      </div>
+    );
+  }
+
+  const precioEfectivo = producto.precio;
+  const precioTransferencia = producto.precio * 1.1;
+  const cuotasDefinidas = [1, 3, 6, 12];
+
   return (
     <>
       {/* BREADCRUMB */}
@@ -14,7 +44,7 @@ const DetalleProducto = () => {
           Productos
         </Breadcrumb.Item>
 
-        <Breadcrumb.Item active>Cronos: The new dawn</Breadcrumb.Item>
+        <Breadcrumb.Item active>{producto.nombre}</Breadcrumb.Item>
       </Breadcrumb>
 
       <Row className="container mx-auto g-4 mb-5">
@@ -22,8 +52,8 @@ const DetalleProducto = () => {
           <Card className="shadow-sm">
             <Card.Body className="p-2">
               <img
-                src="https://www.zelda.hr/image/cache/catalog/switch-igre/cronos-the-new-dawn-ns2-986x1100w.jpg"
-                alt="producto"
+                src={producto.imagenUrl}
+                alt={producto.nombre}
                 className="img-fluid rounded w-100"
               />
             </Card.Body>
@@ -34,25 +64,23 @@ const DetalleProducto = () => {
         <Col xs={12} md={6}>
           <Card className="p-3 shadow-sm">
             <Card.Body>
-              <Card.Title className="fs-2 my-3">
-                Nintendo Switch 2 - Cronos: The new dawn
-              </Card.Title>
+              <Card.Title className="fs-2 my-3">{producto.nombre}</Card.Title>
               <Card.Subtitle className="fs-4 my-3 text-muted">
-                Videojuegos
+                {producto.categoria}
               </Card.Subtitle>
 
               <hr />
 
               <Card.Text className="fs-5 my-3 text-muted">
-                The new dawn The new dawn The new dawn The new dawn The new dawn
-                The new dawn The new dawn The new dawn The new dawn The new dawn
-                The new dawn The new dawn
+                {producto.descripcion}
               </Card.Text>
 
               <hr />
 
               <Card.Text>
-                <span className="fs-3 fw-bold">$112.300</span>
+                <span className="fs-3 fw-bold">
+                  ${producto.precio?.toLocaleString()}{" "}
+                </span>
               </Card.Text>
 
               <hr />
@@ -77,12 +105,19 @@ const DetalleProducto = () => {
           {/*MÉTODOS DE PAGO*/}
           <div className="p-3 border rounded mt-4 shadow-sm bg-white">
             <h5 className="text-center">Efectivo</h5>
-            <div className="border rounded py-2 text-center mb-3">$112.300</div>
+            <div className="border rounded py-2 text-center mb-3">
+              ${precioEfectivo?.toLocaleString()}
+            </div>
 
             <hr />
 
             <h5 className="text-center">Transferencia Bancaria</h5>
-            <div className="border rounded py-2 text-center mb-3">$112.300</div>
+            <div className="border rounded py-2 text-center mb-3">
+              $
+              {precioTransferencia?.toLocaleString(undefined, {
+                maximumFractionDigits: 0,
+              })}
+            </div>
           </div>
 
           {/*TABLA DE CUOTAS*/}
@@ -100,31 +135,17 @@ const DetalleProducto = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1 Cuota</td>
-                  <td>$152.728</td>
-                  <td>$152.728</td>
-                </tr>
-                <tr>
-                  <td>3 Cuotas</td>
-                  <td>$50.909</td>
-                  <td>$152.728</td>
-                </tr>
-                <tr>
-                  <td>6 Cuotas</td>
-                  <td>$28.636</td>
-                  <td>$171.819</td>
-                </tr>
-                <tr>
-                  <td>9 Cuotas</td>
-                  <td>$20.214</td>
-                  <td>$181.926</td>
-                </tr>
-                <tr>
-                  <td>12 Cuotas</td>
-                  <td>$17.126</td>
-                  <td>$205.509</td>
-                </tr>
+                {cuotasDefinidas.map((cuota) => (
+                  <tr key={cuota}>
+                    <td>
+                      {cuota} {cuota === 1 ? "Cuota" : "Cuotas"}
+                    </td>
+                    <td className="fw-bold">
+                      ${(producto.precio / cuota).toLocaleString(undefined, {maximumFractionDigits: 0,})}
+                    </td>
+                    <td>${producto.precio?.toLocaleString()}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
