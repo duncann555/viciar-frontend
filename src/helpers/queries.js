@@ -280,21 +280,13 @@ export const cambiarEstadoPedidoAPI = async (id, estado) => {
 };
 
  export const agregarAlCarrito = (producto, cantidadDeseada = 1) => {
-  // 1. Obtener lo que ya hay en el carrito o crear un array vacío
   const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
-
-  // 2. Revisar si el producto ya existe en el carrito
   const indice = carritoActual.findIndex((item) => item._id === producto._id);
-
   if (indice !== -1) {
-    // Si ya existe, sumamos la cantidad
     carritoActual[indice].cantidad += cantidadDeseada;
   } else {
-    // Si es nuevo, lo agregamos con su cantidad
     carritoActual.push({ ...producto, cantidad: cantidadDeseada });
   }
-
-  // 3. Guardar de nuevo en LocalStorage
   localStorage.setItem("carrito", JSON.stringify(carritoActual));
   alert("Producto agregado al carrito");
 };
