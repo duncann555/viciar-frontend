@@ -233,7 +233,7 @@ export const listarPedidosAPI = async () => {
 };
 
 export const obtenerUsuarioIDAPI = async (id) => {
-  console.log(`es el id del usuario ${id}`)
+  console.log(`es el id del usuario ${id}`);
   try {
     const respuesta = await fetch(`${usuariosBackend}/${id}`, {
       headers: {
@@ -279,7 +279,7 @@ export const cambiarEstadoPedidoAPI = async (id, estado) => {
   }
 };
 
- export const agregarAlCarrito = (producto, cantidadDeseada = 1) => {
+export const agregarAlCarrito = (producto, cantidadDeseada = 1) => {
   const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
   const indice = carritoActual.findIndex((item) => item._id === producto._id);
   if (indice !== -1) {
@@ -289,4 +289,21 @@ export const cambiarEstadoPedidoAPI = async (id, estado) => {
   }
   localStorage.setItem("carrito", JSON.stringify(carritoActual));
   alert("Producto agregado al carrito");
+};
+
+export const crearPedidoAPI = async (pedido) => {
+  try {
+    const respuesta = await fetch(pedidosBackend, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
+      },
+      body: JSON.stringify(pedido),
+    });
+    return respuesta;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 };
