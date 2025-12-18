@@ -1,11 +1,16 @@
 import { Card, Row, Col, Breadcrumb } from "react-bootstrap";
 import { Link, useParams } from "react-router";
-import { obtenerProductosIdAPI } from "../../helpers/queries.js";
+import { obtenerProductosIdAPI, agregarAlCarrito } from "../../helpers/queries.js";
 import { useEffect, useState } from "react";
 
 const DetalleProducto = () => {
   const [producto, setProducto] = useState(null);
   const { id } = useParams();
+  const [cantidad, setCantidad] = useState(1);
+
+  const handleSumar = () => setCantidad(cantidad + 1);
+  const handleRestar = () => cantidad > 1 && setCantidad(cantidad - 1);
+  
   useEffect(() => {
     buscarProducto();
   }, [id]);
@@ -31,6 +36,8 @@ const DetalleProducto = () => {
   const precioEfectivo = producto.precio;
   const precioTransferencia = producto.precio * 1.1;
   const cuotasDefinidas = [1, 3, 6, 12];
+
+
 
   return (
     <>
@@ -87,13 +94,19 @@ const DetalleProducto = () => {
 
               <div className="d-flex gap-3 align-items-stretch">
                 <div className="d-flex align-items-center border rounded px-2 quantity-box h-100 py-1">
-                  <button className="btn px-2 py-1"> - </button>
-                  <span className="mx-3 fs-5"> 1 </span>
-                  <button className="btn px-2 py-1"> + </button>
+                  <button className="btn px-2 py-1" onClick={handleRestar}>
+                    {" "}
+                    -{" "}
+                  </button>
+                  <span className="mx-3 fs-5"> {cantidad} </span>
+                  <button className="btn px-2 py-1" onClick={handleSumar}>
+                    {" "}
+                    +{" "}
+                  </button>
                 </div>
 
                 {/* BOTÓN AGREGAR */}
-                <button className="fw-bold btn btn-info px-3 py-2 flex-grow-1 d-flex align-items-center justify-content-center">
+                <button className="fw-bold btn btn-info px-3 py-2 flex-grow-1 d-flex align-items-center justify-content-center" onClick={() => agregarAlCarrito(producto, cantidad)}>
                   <i className="bi bi-cart3 me-2"></i> Agregar
                 </button>
               </div>
@@ -141,7 +154,10 @@ const DetalleProducto = () => {
                       {cuota} {cuota === 1 ? "Cuota" : "Cuotas"}
                     </td>
                     <td className="fw-bold">
-                      ${(producto.precio / cuota).toLocaleString(undefined, {maximumFractionDigits: 0,})}
+                      $
+                      {(producto.precio / cuota).toLocaleString(undefined, {
+                        maximumFractionDigits: 0,
+                      })}
                     </td>
                     <td>${producto.precio?.toLocaleString()}</td>
                   </tr>

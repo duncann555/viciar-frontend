@@ -1,21 +1,10 @@
-import React, { use, useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import "../../../styles/carrito.css"
 import { InputGroup, Form } from 'react-bootstrap';
-import { useSearchParams } from 'react-router';
 
-const ItemProducto = ({ nombre, precio, imagen }) => {
-    const [contador, setContador] = useState(1);
-
-    const incrementarContador = () => {
-        setContador(contador + 1);
-    }
-
-    const decrementarContador = () => {
-        setContador(contador - 1);
-    }
-
+const ItemProducto = ({ nombre, precio, imagen, cantidad, sumar, restar, eliminar }) => {
     return (
         <div className='mt-3'>
             <Card className='d-flex flex-lg-row border bg-body-secondary'>
@@ -29,21 +18,21 @@ const ItemProducto = ({ nombre, precio, imagen }) => {
                     </div>
                     <p>Cantidad</p>
                     <InputGroup className='mb-3' style={{ width: '130px' }}>
-                        <Button className='btn btn-navegacion' onClick={decrementarContador}><i className="bi bi-dash-lg"></i></Button>
+                        <Button className='btn btn-navegacion' onClick={restar}><i className="bi bi-dash-lg"></i></Button>
                         <Form.Control
-                            value={contador}
+                            value={cantidad}
                             readOnly
                             type="number"
                             min="1"
                             className='text-center'
                         />
-                        <Button className='btn btn-navegacion' onClick={incrementarContador}><i className="bi bi-plus-lg"></i></Button>
+                        <Button className='btn btn-navegacion' onClick={sumar}><i className="bi bi-plus-lg"></i></Button>
                     </InputGroup>
                     <div className='d-flex justify-content justify-content-md-end'>
                         {/* Boton para dispositivos large */}
                         <Button className='btn btn-danger me-2 d-block d-none d-md-none'><i className="bi bi-trash3"></i></Button>
                         {/* Boton para dispositivos medianos y pequeños */}
-                        <Button className='btn btn-danger me-2 d-lg-block btn-eliminar'><i className="bi bi-trash3"></i></Button>
+                        <Button className='btn btn-danger me-2 d-lg-block btn-eliminar' onClick={eliminar}><i className="bi bi-trash3"></i></Button>
                     </div>
                 </Card.Body>
             </Card>

@@ -27,6 +27,7 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
       console.log(datos);
 
       const datosUsuario = {
+        id: datos._id,
         rol: datos.rol,
         token: datos.token
       }

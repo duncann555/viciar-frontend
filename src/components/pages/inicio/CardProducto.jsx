@@ -1,5 +1,6 @@
 import { Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router";
+import { agregarAlCarrito } from "../../../helpers/queries.js";
 
 const CardProducto = ({ producto }) => {
   
@@ -24,7 +25,7 @@ const CardProducto = ({ producto }) => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="text-end bg-white border-top-0 mt-auto btn-card">
-          <Button variant="success" size="sm" className="me-2 ">
+          <Button variant="success" size="sm" className="me-2 " onClick={() => agregarAlCarrito(producto, 1)}>
             <i className="bi bi-cart-plus-fill"></i> Agregar
           </Button>
           <Link
