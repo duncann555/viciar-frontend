@@ -1,0 +1,66 @@
+/* =======================================
+   TABS PERSONALIZADOS
+======================================= */
+.admin-tabs .nav-link.active {
+  background-color: #27187e !important;
+  color: #ffffff !important;
+
+  border: 1px solid #27187e !important;
+
+  border-radius: 6px 6px 0 0 !important;
+}
+
+.admin-tabs .nav-link:hover {
+  background-color: #f2f2ff !important;
+  color: #27187e !important;
+}
+
+/* =======================================
+   WRAPPER INTERNO DEL TAB
+======================================= */
+.tab-content-wrapper {
+  padding: 1rem 0;
+}
+
+/* =======================================
+   TABLA
+======================================= */
+.admin-table-card {
+  border: 1px solid #e6e6ef;
+  border-radius: 0.8rem;
+}
+
+/* =======================================
+   BOTONES PERSONALIZADOS
+======================================= */
+.btn-admin-primary {
+  background-color: #27187e !important;
+  border-color: #27187e;
+  color: white;
+  font-weight: 500;
+}
+
+.btn-admin-primary:hover {
+  background-color: #f2f2ff!important;
+  color: #27187e !important;
+  border-color: #1d125f;
+}
+
+.btn-admin-secondary {
+  border: 1px solid #27187e;
+  color: #27187e;
+  background-color: white;
+  font-weight: 500;
+}
+
+.btn-admin-secondary:hover {
+  background-color: #ececff;
+  color: #27187e;
+}
+
+/* TABLA: centrado */
+table th,
+table td {
+  vertical-align: middle;
+  text-align: center;
+}

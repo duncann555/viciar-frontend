@@ -1,0 +1,43 @@
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import "../../../styles/carrito.css"
+import { InputGroup, Form } from 'react-bootstrap';
+
+const ItemProducto = ({ nombre, precio, imagen, cantidad, sumar, restar, eliminar }) => {
+    return (
+        <div className='mt-3'>
+            <Card className='d-flex flex-lg-row border bg-body-secondary'>
+                <div className='d-flex justify-content-center align-items-center'>
+                    <Card.Img src={imagen} className='img-producto-carrito ms-2' />
+                </div>
+                <Card.Body>
+                    <div className='d-flex justify-content-between'>
+                        <Card.Title>{nombre}</Card.Title>
+                        <p className='mb-3 text-black fs-5 ms-1'>${precio}</p>
+                    </div>
+                    <p>Cantidad</p>
+                    <InputGroup className='mb-3' style={{ width: '130px' }}>
+                        <Button className='btn btn-navegacion' onClick={restar}><i className="bi bi-dash-lg"></i></Button>
+                        <Form.Control
+                            value={cantidad}
+                            readOnly
+                            type="number"
+                            min="1"
+                            className='text-center'
+                        />
+                        <Button className='btn btn-navegacion' onClick={sumar}><i className="bi bi-plus-lg"></i></Button>
+                    </InputGroup>
+                    <div className='d-flex justify-content justify-content-md-end'>
+                        {/* Boton para dispositivos large */}
+                        <Button className='btn btn-danger me-2 d-block d-none d-md-none'><i className="bi bi-trash3"></i></Button>
+                        {/* Boton para dispositivos medianos y pequeños */}
+                        <Button className='btn btn-danger me-2 d-lg-block btn-eliminar' onClick={eliminar}><i className="bi bi-trash3"></i></Button>
+                    </div>
+                </Card.Body>
+            </Card>
+        </div>
+    );
+};
+
+export default ItemProducto;

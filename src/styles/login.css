@@ -1,0 +1,272 @@
+.ml-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.18s ease-out;
+  padding: 18px;
+}
+
+.ml-modal {
+  background: #ffffff;
+  width: min(520px, 92vw);
+  border-radius: 18px;
+  padding: 34px 34px 26px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+  position: relative;
+  animation: zoomIn 0.18s ease-out;
+}
+
+.ml-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.ml-close:hover {
+  opacity: 1;
+}
+
+.ml-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  margin: 6px 0 6px;
+  color: #151515;
+}
+.ml-subtitle {
+  text-align: center;
+  margin: 0 0 22px;
+  color: #6b6b6b;
+  font-size: 14px;
+}
+
+.ml-form {
+  margin-top: 6px;
+}
+.ml-block {
+  margin-bottom: 14px;
+}
+
+.ml-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #3a3a3a;
+  margin-bottom: 6px;
+}
+
+.ml-field {
+  position: relative;
+}
+.ml-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7a7a7a;
+  font-size: 16px;
+}
+.ml-input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border-radius: 12px;
+  border: 1px solid #d0d0d0;
+  font-size: 14px;
+  outline: none;
+  transition: 0.18s ease;
+}
+.ml-input:focus {
+  border-color: #3b25a5;
+  box-shadow: 0 0 0 4px rgba(59, 37, 165, 0.14);
+}
+
+.ml-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6px 0 10px;
+  gap: 12px;
+}
+
+.ml-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #4d4d4d;
+}
+.ml-remember input {
+  transform: translateY(1px);
+}
+
+.ml-forgot {
+  font-size: 13px;
+  text-decoration: none;
+  color: #271776;
+  font-weight: 700;
+}
+.ml-forgot:hover {
+  text-decoration: underline;
+}
+
+.ml-error {
+  margin: 8px 0 10px;
+  text-align: center;
+  color: #d32f2f;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.ml-btn {
+  width: 100%;
+  border: none;
+  padding: 13px 14px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #271776, #5930ff);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.18s ease;
+}
+.ml-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.ml-divider {
+  margin: 18px 0 14px;
+  position: relative;
+  text-align: center;
+  color: #7b7b7b;
+  font-size: 13px;
+}
+.ml-divider::before,
+.ml-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 38%;
+  height: 1px;
+  background: #e2e2e2;
+}
+.ml-divider::before {
+  left: 0;
+}
+.ml-divider::after {
+  right: 0;
+}
+.ml-divider span {
+  background: #fff;
+  padding: 0 10px;
+}
+
+.ml-social {
+  display: grid;
+  gap: 10px;
+}
+
+.ml-social-btn {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #d8d8d8;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.18s ease;
+}
+.ml-social-btn i {
+  font-size: 16px;
+}
+
+.ml-social-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.ml-social-btn.google {
+  border-color: #d8d8d8;
+}
+.ml-social-btn.facebook {
+  border-color: #1b74e4;
+  background: #1b74e4;
+  color: #fff;
+}
+.ml-social-btn.facebook:hover {
+  filter: brightness(1.06);
+}
+
+.ml-register {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #555;
+}
+.ml-register a {
+  color: #271776;
+  font-weight: 800;
+  text-decoration: none;
+}
+.ml-register a:hover {
+  text-decoration: underline;
+}
+/* Asegúrate de que este valor sea mayor que el z-index de tu .ml-overlay o .ml-modal
+
+.swal2-container {
+    z-index: 99999 !important; 
+} */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes zoomIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.shake {
+  animation: shakeAnim 0.35s ease;
+}
+@keyframes shakeAnim {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+  75% {
+    transform: translateX(-6px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

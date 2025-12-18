@@ -1,0 +1,13 @@
+.footer-bg-color{
+  background-color: #27187E !important;
+}
+.redes{
+  position: relative;
+  bottom: 15px;
+}
+/*Media query para dispositivos medianos*/
+@media(min-width: 768px){
+  .redes{
+    bottom: 8px;
+  }
+}
