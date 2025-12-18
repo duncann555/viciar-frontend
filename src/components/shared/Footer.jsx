@@ -9,9 +9,9 @@ const Footer = () => {
                     <h5>Categorias</h5>
                     <Link to="/contacto" className='text-white text-decoration-none mt-1 underline-hover'>Contacto</Link>
                     <Link to="/Nosotros" className='text-white text-decoration-none mt-3'>Quienes Somos</Link>
-                    <Link className='text-white text-decoration-none mt-3'>Trabaja con nosotros</Link>
-                    <Link className='text-white text-decoration-none mt-3'>Preguntas frecuentes</Link>
-                    <Link className='text-white text-decoration-none mt-3'>Terminos y condiciones</Link>
+                    <Link to="/Error404" className='text-white text-decoration-none mt-3'>Trabaja con nosotros</Link>
+                    <Link to="/Error404" className='text-white text-decoration-none mt-3'>Preguntas frecuentes</Link>
+                    <Link to="/Error404" className='text-white text-decoration-none mt-3'>Terminos y condiciones</Link>
                 </div>
                 <div className="col-12 col-md-4 mt-2">
                     <h5>Contactanos</h5>

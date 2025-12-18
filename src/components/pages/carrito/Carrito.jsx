@@ -6,7 +6,8 @@ import ItemProducto from "./ItemProducto";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import { Breadcrumb } from "react-bootstrap";
-import { obtenerUsuarioIDAPI } from "../../../helpers/queries";
+import { crearPedidoAPI, obtenerUsuarioIDAPI } from "../../../helpers/queries";
+import Swal from "sweetalert2";
 
 const Carrito = () => {
   const [paso, SetPaso] = useState(1);
@@ -27,14 +28,51 @@ const Carrito = () => {
     formState: { errors },
   } = useForm();
 
-  const postValidaciones = (data) => {
-    console.log(data);
-    reset();
+  const postValidaciones = async (data) => {
+    const idUsuarioStorge = JSON.parse(sessionStorage.getItem("usuarioKey")).id;
+
+    const pedido = {
+      detallePedido: {
+        usuario: idUsuarioStorge,
+        provincia: data.provincia,
+        ciudad: data.ciudad,
+        domicilio: data.domicilio,
+        codigoPostal: Number(data.codigoPostal),
+        cuotas: data.cuotas,
+      },
+      productos: productosCarrito.map((p) => ({
+        producto: p._id,
+        cantidad: p.cantidad
+      }))
+    }
+
+    const respuesta = await crearPedidoAPI(pedido);
+    if (respuesta.status === 201) {
+      Swal.fire({
+        icon: "success",
+        title: "¡Pedido creado!",
+        text: "Tu pedido fue creado correctamente.",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#198754", // verde Bootstrap
+      });
+      localStorage.removeItem("carrito");
+      setProductosCarrito([]);
+      reset();
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error al crear el pedido",
+        text: "Ocurrió un problema al procesar tu pedido. Intentá nuevamente.",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#dc3545", // rojo Bootstrap
+      });
+    }
   };
 
   const [productosCarrito, setProductosCarrito] = useState(
     JSON.parse(localStorage.getItem("carrito")) || []
   );
+
 
   const totalPedido = productosCarrito.reduce(
     (acc, prod) => acc + prod.precio * prod.cantidad,
@@ -56,21 +94,18 @@ const Carrito = () => {
     localStorage.setItem("carrito", JSON.stringify(carritoFiltrado));
   };
 
-  
-  
 
   useEffect(() => {
     const usuarioStorage = sessionStorage.getItem("usuarioKey");
     if (usuarioStorage) {
       const idUsuario = JSON.parse(usuarioStorage).id;
-      console.log("ID del usuario cargado:", idUsuario);
       obtenerUsuarioID(idUsuario);
     }
   }, []);
 
   const obtenerUsuarioID = async (id) => {
     const respuesta = await obtenerUsuarioIDAPI(id);
-    
+
     if (respuesta.status === 200) {
       const datos = await respuesta.json();
       setValue("nombre", datos.nombre);
@@ -324,7 +359,7 @@ const Carrito = () => {
                           <Form.Control
                             type="text"
                             placeholder="ej: 7895"
-                            {...register("codigopostal", {
+                            {...register("codigoPostal", {
                               required:
                                 "El codigo postal es un dato obligatorio",
                               minLength: {
@@ -338,7 +373,7 @@ const Carrito = () => {
                                   "El codigo postal debe contener maximo 8 caracteres",
                               },
                             })}
-                            onChange={() => clearErrors("codigopostal")}
+                            onChange={() => clearErrors("codigoPostal")}
                           />
                           <Form.Text className="text-danger">
                             {errors.codigopostal?.message}
@@ -428,10 +463,10 @@ const Carrito = () => {
                             onChange={() => clearErrors("cuotas")}
                           >
                             <option value="">Cantidad a pagar</option>
-                            <option value="1">Pago unico</option>
-                            <option value="3">3 Cuotas sin interes</option>
-                            <option value="6">6 Cuotas sin interes</option>
-                            <option value="12">12 Cuotas sin interes</option>
+                            <option value="Pago unico">Pago unico</option>
+                            <option value="3 cuotas sin interes">3 Cuotas sin interes</option>
+                            <option value="6 cuotas sin interes">6 Cuotas sin interes</option>
+                            <option value="12 cuotas sin interes">12 Cuotas sin interes</option>
                           </Form.Select>
                           <Form.Text className="text-danger">
                             {errors.cuotas?.message}

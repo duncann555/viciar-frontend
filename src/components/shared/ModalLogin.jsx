@@ -24,7 +24,6 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
 
     if (respuesta.status === 200) {
       const datos = await respuesta.json();
-      console.log(datos);
 
       const datosUsuario = {
         id: datos._id,
@@ -42,7 +41,7 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
         title: '¡Inicio de sesión exitoso!',
         text: `Bienvenido`,
         showConfirmButton: false,
-        timer: 2000, 
+        timer: 2000,
         timerProgressBar: true
       })
 
@@ -56,7 +55,7 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
       Swal.fire({
         icon: 'error',
         title: 'Acceso Denegado',
-        text: datosError.mensaje, 
+        text: datosError.mensaje,
         confirmButtonColor: '#d33'
       });
     } else {
@@ -65,11 +64,13 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
   }
 
   const handleGoogle = () => {
-    alert("Google login (demo)");
+    onClose();
+    navigate("/Error404")
   };
 
   const handleFacebook = () => {
-    alert("Facebook login (demo)");
+    onClose();
+    navigate("/Error404");
   };
 
   return (
