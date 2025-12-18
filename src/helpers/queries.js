@@ -282,6 +282,20 @@ export const cambiarEstadoPedidoAPI = async (id, estado) => {
 };
 
 export const agregarAlCarrito = (producto, cantidadDeseada = 1) => {
+  const usuarioLogueado = JSON.parse(sessionStorage.getItem("usuarioKey"));
+  console.log(usuarioLogueado);
+
+  if (!usuarioLogueado) {
+    Swal.fire({
+      icon: "warning",
+      title: "Atención",
+      text: "Debes iniciar sesión para realizar esta acción",
+      confirmButtonText: "Entendido",
+      confirmButtonColor: "#f0ad4e",
+    });
+    return;
+  }
+
   const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
   const indice = carritoActual.findIndex((item) => item._id === producto._id);
   if (indice !== -1) {
