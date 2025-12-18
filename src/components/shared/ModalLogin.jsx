@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../styles/login.css";
 import { useForm } from "react-hook-form";
 import { login } from "../../helpers/queries";
@@ -27,6 +27,7 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
       console.log(datos);
 
       const datosUsuario = {
+        id: datos._id,
         rol: datos.rol,
         token: datos.token
       }

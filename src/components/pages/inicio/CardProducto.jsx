@@ -1,8 +1,9 @@
 import { Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router";
+import { agregarAlCarrito } from "../../../helpers/queries.js";
 
 const CardProducto = ({ producto }) => {
-  const { id } = producto;
+  
 
   return (
       <Col xs={6} md={4} lg={3} className="g-3">
@@ -24,11 +25,11 @@ const CardProducto = ({ producto }) => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="text-end bg-white border-top-0 mt-auto btn-card">
-          <Button variant="success" size="sm" className="me-2 ">
+          <Button variant="success" size="sm" className="me-2 " onClick={() => agregarAlCarrito(producto, 1)}>
             <i className="bi bi-cart-plus-fill"></i> Agregar
           </Button>
           <Link
-            to={`/detalleproducto/${id}`}
+            to={`/detalleproducto/${producto._id}`}
             className="btn btn-primary btn-sm"
           >
             Ver más

@@ -233,6 +233,7 @@ export const listarPedidosAPI = async () => {
 };
 
 export const obtenerUsuarioIDAPI = async (id) => {
+  console.log(`es el id del usuario ${id}`)
   try {
     const respuesta = await fetch(`${usuariosBackend}/${id}`, {
       headers: {
@@ -276,4 +277,16 @@ export const cambiarEstadoPedidoAPI = async (id, estado) => {
     console.error(err);
     return null;
   }
+};
+
+ export const agregarAlCarrito = (producto, cantidadDeseada = 1) => {
+  const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
+  const indice = carritoActual.findIndex((item) => item._id === producto._id);
+  if (indice !== -1) {
+    carritoActual[indice].cantidad += cantidadDeseada;
+  } else {
+    carritoActual.push({ ...producto, cantidad: cantidadDeseada });
+  }
+  localStorage.setItem("carrito", JSON.stringify(carritoActual));
+  alert("Producto agregado al carrito");
 };
