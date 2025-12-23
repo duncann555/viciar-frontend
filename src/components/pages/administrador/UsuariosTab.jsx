@@ -23,7 +23,7 @@ function UsuariosTab({ usuarios, actualizarLista }) {
 
   const [showModal, setShowModal] = useState(false);
   const [usuarioForm, setUsuarioForm] = useState();
-  const [modoUsuario, setModoUsuario] = useState("crear");
+  const [modoUsuario, setModoUsuario] = useState();
 
   const q = busqueda.toLowerCase().trim();
 
