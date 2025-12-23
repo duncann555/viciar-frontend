@@ -40,6 +40,12 @@
   color: #00ff88 !important; 
 }
 
+.opcion-nav.active {
+    color: #00ff88 !important; 
+    border-bottom: 1px solid #00ff88;
+    opacity: 1;
+}
+
 .icono-user {
   font-size: 26px; 
   line-height: 1;  
