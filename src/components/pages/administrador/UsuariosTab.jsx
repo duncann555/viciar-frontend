@@ -22,13 +22,7 @@ function UsuariosTab({ usuarios, actualizarLista }) {
   const usuarioLogueado = JSON.parse(sessionStorage.getItem("usuarioKey")) || {};
 
   const [showModal, setShowModal] = useState(false);
-  const [usuarioForm, setUsuarioForm] = useState({
-    nombre: "",
-    apellido: "",
-    email: "",
-    rol: "Usuario",
-    estado: "Activo",
-  });
+  const [usuarioForm, setUsuarioForm] = useState();
   const [modoUsuario, setModoUsuario] = useState("crear");
 
   const q = busqueda.toLowerCase().trim();
@@ -109,7 +103,7 @@ function UsuariosTab({ usuarios, actualizarLista }) {
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
             />
-            <Button className="btn-primary" onClick={() => {}}>
+            <Button className="btn-primary" onClick={() => { }}>
               Buscar
             </Button>
           </InputGroup>
@@ -133,7 +127,7 @@ function UsuariosTab({ usuarios, actualizarLista }) {
             </thead>
             <tbody className="text-center">
               {usuariosFiltrados.map((user) => {
-              
+
                 const esMismoUsuario = user._id === usuarioLogueado._id;
 
                 return (
@@ -156,8 +150,8 @@ function UsuariosTab({ usuarios, actualizarLista }) {
                           user.estado === "Activo"
                             ? "success"
                             : user.estado === "Suspendido"
-                            ? "warning"
-                            : "secondary"
+                              ? "warning"
+                              : "secondary"
                         }
                       >
                         {user.estado}

@@ -235,7 +235,6 @@ export const listarPedidosAPI = async () => {
 };
 
 export const obtenerUsuarioIDAPI = async (id) => {
-  console.log(`es el id del usuario ${id}`);
   try {
     const respuesta = await fetch(`${usuariosBackend}/${id}`, {
       headers: {
@@ -283,7 +282,6 @@ export const cambiarEstadoPedidoAPI = async (id, estado) => {
 
 export const agregarAlCarrito = (producto, cantidadDeseada = 1) => {
   const usuarioLogueado = JSON.parse(sessionStorage.getItem("usuarioKey"));
-  console.log(usuarioLogueado);
 
   if (!usuarioLogueado) {
     Swal.fire({
