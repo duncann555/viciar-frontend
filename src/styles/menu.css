@@ -14,7 +14,7 @@
 }
 
 .img-navbar {
-  width: 100px;
+  width: 125px;
   height: auto;
 }
 
@@ -38,6 +38,12 @@
 
 .opcion-nav:hover {
   color: #00ff88 !important; 
+}
+
+.opcion-nav.active {
+    color: #00ff88 !important; 
+    border-bottom: 1px solid #00ff88;
+    opacity: 1;
 }
 
 .icono-user {
