@@ -10,7 +10,12 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
 
   const [shake, setShake] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    clearErrors,
+  } = useForm();
 
   const navigate = useNavigate();
 
@@ -20,52 +25,60 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
   };
 
   const postValidaciones = async (data) => {
-    const respuesta = await login(data);
-
-    if (respuesta.status === 200) {
+    try {
+      const respuesta = await login(data);
       const datos = await respuesta.json();
 
-      const datosUsuario = {
-        id: datos._id,
-        rol: datos.rol,
-        token: datos.token
+      if (respuesta.status === 200) {
+        const datosUsuario = {
+          id: datos._id,
+          rol: datos.rol,
+          token: datos.token,
+        };
+
+        sessionStorage.setItem("usuarioKey", JSON.stringify(datosUsuario));
+        setUsuarioLogueado(datosUsuario);
+        onClose();
+
+        Swal.fire({
+          icon: "success",
+          title: "¡Inicio de sesión exitoso!",
+          text: "Bienvenido",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+
+        navigate("/");
+      } else if (respuesta.status === 404) {
+        triggerShake();
+        Swal.fire({
+          icon: "error",
+          title: "Usuario no encontrado",
+          text: "El correo ingresado no está registrado",
+          confirmButtonColor: "#d33",
+        });
+      } else if (respuesta.status === 401 || respuesta.status === 403) {
+        triggerShake();
+        Swal.fire({
+          icon: "error",
+          title: "Acceso denegado",
+          text: datos.mensaje,
+          confirmButtonColor: "#d33",
+        });
       }
-
-      sessionStorage.setItem("usuarioKey", JSON.stringify(datosUsuario));
-      setUsuarioLogueado(datosUsuario);
-
-      onClose();
-
-      Swal.fire({
-        icon: 'success',
-        title: '¡Inicio de sesión exitoso!',
-        text: `Bienvenido`,
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true
-      })
-
-      navigate("/");
-
-    } else if (respuesta.status === 403) {
-      const datosError = await respuesta.json()
-
-      onClose()
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Acceso Denegado',
-        text: datosError.mensaje,
-        confirmButtonColor: '#d33'
-      });
-    } else {
+    } catch (error) {
       triggerShake();
+      Swal.fire({
+        icon: "error",
+        title: "Error de conexión",
+        text: "No se pudo conectar con el servidor",
+      });
     }
-  }
+  };
 
   const handleGoogle = () => {
     onClose();
-    navigate("/Error404")
+    navigate("/Error404");
   };
 
   const handleFacebook = () => {
@@ -92,8 +105,9 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
         </p>
 
         <form onSubmit={handleSubmit(postValidaciones)} className="ml-form">
+          {/* EMAIL */}
           <div className="ml-block">
-            <label className="ml-label">Correo Electronico</label>
+            <label className="ml-label">Correo electrónico</label>
             <div className="ml-field">
               <i className="bi bi-person ml-icon" />
               <input
@@ -102,18 +116,19 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
                 className="ml-input"
                 autoFocus
                 {...register("email", {
-                  required: "El email es un dato obligatorio",
+                  required: "El email es obligatorio",
                   pattern: {
-                    value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
-                    message: "El email ingresado no es valido"
-                  }
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "El email ingresado no es válido",
+                  },
                 })}
                 onChange={() => clearErrors("email")}
               />
-              <p className="text-danger">{errors.email?.message}</p>
             </div>
+            <p className="text-danger">{errors.email?.message}</p>
           </div>
 
+          {/* PASSWORD */}
           <div className="ml-block">
             <label className="ml-label">Contraseña</label>
             <div className="ml-field">
@@ -123,27 +138,40 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
                 placeholder="Tu contraseña"
                 className="ml-input"
                 {...register("password", {
-                  required: "La contraseña es un dato obligatorio",
+                  required: "La contraseña es obligatoria",
+                  minLength: {
+                    value: 8,
+                    message: "Debe tener al menos 8 caracteres",
+                  },
                   pattern: {
-                    value: /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])\S{8,64}$/,
-                    message: "Contraseña no valida"
-                  }
+                    value:
+                      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
+                    message:
+                      "Debe incluir mayúscula, minúscula, número y carácter especial",
+                  },
                 })}
                 onChange={() => clearErrors("password")}
               />
-              <p className="text-danger">{errors.password?.message}</p>
             </div>
+            <p className="text-danger">{errors.password?.message}</p>
           </div>
 
+          {/* RECORDAR / OLVIDO CONTRASEÑA */}
           <div className="ml-row">
             <label className="ml-remember">
-              <input
-                type="checkbox"
-              />
+              <input type="checkbox" />
               Recordarme
             </label>
 
-            <a className="ml-forgot" href="/forgot-password">
+            <a
+              className="ml-forgot"
+              href="/Error404"
+              onClick={(e) => {
+                e.preventDefault();
+                onClose();
+                navigate("/Error404");
+              }}
+            >
               ¿Olvidaste tu contraseña?
             </a>
           </div>
