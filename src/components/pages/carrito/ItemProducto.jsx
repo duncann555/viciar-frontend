@@ -14,7 +14,7 @@ const ItemProducto = ({ nombre, precio, imagen, cantidad, sumar, restar, elimina
                 <Card.Body>
                     <div className='d-flex justify-content-between'>
                         <Card.Title>{nombre}</Card.Title>
-                        <p className='mb-3 text-black fs-5 ms-1'>${precio}</p>
+                        <p className='mb-3 text-black fs-5 ms-1'>${precio * cantidad}</p>
                     </div>
                     <p>Cantidad</p>
                     <InputGroup className='mb-3' style={{ width: '130px' }}>
