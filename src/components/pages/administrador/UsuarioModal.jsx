@@ -15,24 +15,22 @@ function UsuarioModal({
     register,
     handleSubmit,
     formState: { errors },
-    reset, 
+    reset,
+    setValue
   } = useForm({
     mode: "onTouched",
   });
 
- 
   useEffect(() => {
-    if (show) {
-      reset({
-        nombre: usuarioForm.nombre || "", 
-        apellido: usuarioForm.apellido || "",
-        email: usuarioForm.email || "",
-        dni: usuarioForm.dni || "",
-        telefono: usuarioForm.telefono || "",
-        rol: usuarioForm.rol || "Usuario",
-      });
+    if (modoUsuario === "editar" && usuarioForm) {
+      setValue("nombre", usuarioForm.nombre);
+      setValue("apellido", usuarioForm.apellido)
+      setValue("dni", usuarioForm.dni)
+      setValue("telefono", usuarioForm.telefono)
+      setValue("email", usuarioForm.email)
+      setValue("rol", usuarioForm.rol)
     }
-  }, [show, usuarioForm, reset]);
+  }, [modoUsuario, usuarioForm, setValue])
 
   const onSubmit = (data) => {
     handleGuardarUsuario(data);
@@ -48,7 +46,7 @@ function UsuarioModal({
 
       <Modal.Body>
         <Form id="formUsuario" onSubmit={handleSubmit(onSubmit)}>
-          
+
           <Form.Group className="mb-3">
             <Form.Label>Nombre</Form.Label>
             <Form.Control
@@ -68,7 +66,7 @@ function UsuarioModal({
             </Form.Control.Feedback>
           </Form.Group>
 
-          
+
           <Form.Group className="mb-3">
             <Form.Label>Apellido</Form.Label>
             <Form.Control
@@ -97,8 +95,8 @@ function UsuarioModal({
               {...register("dni", {
                 required: "El DNI es obligatorio",
                 pattern: {
-                   value: /^\d{7,8}$/,
-                   message: "Debe tener 7 u 8 dígitos"
+                  value: /^\d{7,8}$/,
+                  message: "Debe tener 7 u 8 dígitos"
                 }
               })}
             />
