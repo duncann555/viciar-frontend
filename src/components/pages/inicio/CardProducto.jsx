@@ -1,12 +1,44 @@
 import { Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router";
-import { agregarAlCarrito } from "../../../helpers/queries.js";
+import Swal from "sweetalert2";
+
 
 const CardProducto = ({ producto }) => {
+  const agregarAlCarrito = (producto, cantidadDeseada = 1) => {
+      const usuarioLogueado = JSON.parse(sessionStorage.getItem("usuarioKey"));
   
+      if (!usuarioLogueado) {
+        Swal.fire({
+          icon: "warning",
+          title: "Atención",
+          text: "Debes iniciar sesión para realizar esta acción",
+          confirmButtonText: "Entendido",
+          confirmButtonColor: "#f0ad4e",
+        });
+        return;
+      }
+  const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
+      const indice = carritoActual.findIndex((item) => item._id === producto._id);
+      
+      if (indice !== -1) {
+        carritoActual[indice].cantidad += cantidadDeseada;
+      } else {
+        carritoActual.push({ ...producto, cantidad: cantidadDeseada });
+      }
+      
+      localStorage.setItem("carrito", JSON.stringify(carritoActual));
+      
+      Swal.fire({
+        icon: "success",
+        title: "Producto agregado",
+        text: "El producto fue agregado al carrito correctamente.",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    };
 
   return (
-      <Col xs={6} md={4} lg={3} className="g-3">
+      <Col xs={12} md={4} lg={3} className="g-3">
       <Card className="h-100 shadow">
         <div className="contenedorImg">
           <Card.Img
