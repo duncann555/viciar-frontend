@@ -49,25 +49,35 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
         });
 
         navigate("/");
-      } else if (respuesta.status === 404) {
+        return;
+      }
+
+      if (respuesta.status === 404) {
         triggerShake();
+        onClose();
         Swal.fire({
           icon: "error",
           title: "Usuario no encontrado",
           text: "El correo ingresado no está registrado",
           confirmButtonColor: "#d33",
         });
-      } else if (respuesta.status === 401 || respuesta.status === 403) {
+        return;
+      }
+
+      if (respuesta.status === 401 || respuesta.status === 403) {
         triggerShake();
+        onClose();
         Swal.fire({
           icon: "error",
           title: "Acceso denegado",
           text: datos.mensaje,
           confirmButtonColor: "#d33",
         });
+        return;
       }
     } catch (error) {
       triggerShake();
+      onClose();
       Swal.fire({
         icon: "error",
         title: "Error de conexión",
@@ -105,7 +115,6 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
         </p>
 
         <form onSubmit={handleSubmit(postValidaciones)} className="ml-form">
-          {/* EMAIL */}
           <div className="ml-block">
             <label className="ml-label">Correo electrónico</label>
             <div className="ml-field">
@@ -128,7 +137,6 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
             <p className="text-danger">{errors.email?.message}</p>
           </div>
 
-          {/* PASSWORD */}
           <div className="ml-block">
             <label className="ml-label">Contraseña</label>
             <div className="ml-field">
@@ -144,8 +152,7 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
                     message: "Debe tener al menos 8 caracteres",
                   },
                   pattern: {
-                    value:
-                      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
+                    value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
                     message:
                       "Debe incluir mayúscula, minúscula, número y carácter especial",
                   },
@@ -156,7 +163,6 @@ export default function ModalLogin({ show, onClose, setUsuarioLogueado }) {
             <p className="text-danger">{errors.password?.message}</p>
           </div>
 
-          {/* RECORDAR / OLVIDO CONTRASEÑA */}
           <div className="ml-row">
             <label className="ml-remember">
               <input type="checkbox" />
