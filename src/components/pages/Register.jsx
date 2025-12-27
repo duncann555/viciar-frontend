@@ -47,12 +47,15 @@ function validateField(name, value, allValues) {
       return "";
 
     case "password":
-      if (!v) return "La contraseña es obligatoria.";
-      if (v.length < 8) return "Mínimo 8 caracteres.";
-      if (!/[A-Z]/.test(v)) return "Debe incluir una mayúscula.";
-      if (!/[a-z]/.test(v)) return "Debe incluir una minúscula.";
-      if (!/\d/.test(v)) return "Debe incluir un número.";
-      return "";
+  if (!v) return "La contraseña es obligatoria.";
+  if (v.length < 8) return "Mínimo 8 caracteres.";
+  if (!/[A-Z]/.test(v)) return "Debe incluir una mayúscula.";
+  if (!/[a-z]/.test(v)) return "Debe incluir una minúscula.";
+  if (!/\d/.test(v)) return "Debe incluir un número.";
+  if (!/[@$!%*?&]/.test(v))
+    return "Debe incluir un carácter especial (@, $, !, %, etc.).";
+  return "";
+
 
     case "confirmPassword":
       if (!v) return "Repetí la contraseña.";

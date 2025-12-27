@@ -93,7 +93,7 @@ function Menu() {
                   </NavLink>
 
                   <div
-                    className="nav-link opcion-nav fw-bold"
+                    className="nav-item nav-link opcion-nav fw-bold"
                     onClick={() => setShowLogin(true)}
                   >
                     <i className="bi bi-person-circle icono-user"></i>
