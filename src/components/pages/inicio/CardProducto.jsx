@@ -38,7 +38,7 @@ const CardProducto = ({ producto }) => {
     };
 
   return (
-      <Col xs={12} md={4} lg={3} className="g-3">
+      <Col xs={12} md={4} lg={3} className="g-4">
       <Card className="h-100 shadow">
         <div className="contenedorImg">
           <Card.Img
