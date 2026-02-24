@@ -24,10 +24,10 @@ function AdminStatus({ totalProductos, productosSinStock, totalUsuarios }) {
         <Card className="shadow-sm h-100">
           <Card.Body>
             <Card.Title className="fw-semibold">Sin stock</Card.Title>
-            <Card.Text className="fs-3 fw-bold text-warning">
+            <Card.Text className="fs-3 fw-bold text-danger">
               {productosSinStock}
             </Card.Text>
-            <Badge bg="warning">Revisar</Badge>
+            <Badge bg="danger">Revisar</Badge>
           </Card.Body>
         </Card>
       </Col>
