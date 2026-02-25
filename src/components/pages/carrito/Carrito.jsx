@@ -62,7 +62,7 @@ const Carrito = () => {
       Swal.fire({
         icon: "error",
         title: "Error al crear el pedido",
-        text: "Ocurrió un problema al procesar tu pedido. Intentá nuevamente.",
+        text: "Ocurrió un problema al procesar tu pedido. Por favor complete todos los campos.",
         confirmButtonText: "Aceptar",
         confirmButtonColor: "#dc3545", // rojo Bootstrap
       });
