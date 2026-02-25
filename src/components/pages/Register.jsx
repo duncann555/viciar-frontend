@@ -19,15 +19,19 @@ const initialValues = {
 function validateField(name, value, allValues) {
   const v = typeof value === "string" ? value.trim() : value;
 
+  const soloLetras = /^[a-zA-ZÀ-ÿ\s]+$/;
+
   switch (name) {
     case "nombre":
       if (!v) return "El nombre es obligatorio.";
       if (v.length < 3) return "Mínimo 3 caracteres.";
+      if (!soloLetras.test(v)) return "El nombre solo puede contener letras.";
       return "";
 
     case "apellido":
       if (!v) return "El apellido es obligatorio.";
       if (v.length < 3) return "Mínimo 3 caracteres.";
+      if (!soloLetras.test(v)) return "El apellido solo puede contener letras.";
       return "";
 
     case "email":
@@ -43,19 +47,18 @@ function validateField(name, value, allValues) {
 
     case "telefono":
       if (!v) return "El teléfono es obligatorio.";
-      if (!/^\d{8,15}$/.test(v)) return "Número inválido.";
+      if (!/^\d{8,15}$/.test(v)) return "Número inválido (solo números).";
       return "";
 
     case "password":
-  if (!v) return "La contraseña es obligatoria.";
-  if (v.length < 8) return "Mínimo 8 caracteres.";
-  if (!/[A-Z]/.test(v)) return "Debe incluir una mayúscula.";
-  if (!/[a-z]/.test(v)) return "Debe incluir una minúscula.";
-  if (!/\d/.test(v)) return "Debe incluir un número.";
-  if (!/[@$!%*?&]/.test(v))
-    return "Debe incluir un carácter especial (@, $, !, %, etc.).";
-  return "";
-
+      if (!v) return "La contraseña es obligatoria.";
+      if (v.length < 8) return "Mínimo 8 caracteres.";
+      if (!/[A-Z]/.test(v)) return "Debe incluir una mayúscula.";
+      if (!/[a-z]/.test(v)) return "Debe incluir una minúscula.";
+      if (!/\d/.test(v)) return "Debe incluir un número.";
+      if (!/[@$!%*?&]/.test(v))
+        return "Debe incluir un carácter especial (@, $, !, %, etc.).";
+      return "";
 
     case "confirmPassword":
       if (!v) return "Repetí la contraseña.";
@@ -136,29 +139,28 @@ export default function Register() {
 
       if (respuesta && respuesta.status === 201) {
         Swal.fire({
-          icon: 'success',
-          title: '¡Cuenta creada!',
-          text: 'Ahora puedes iniciar sesión',
+          icon: "success",
+          title: "¡Cuenta creada!",
+          text: "Ahora puedes iniciar sesión",
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         });
         setValues(initialValues);
-        // CAMBIO: Ahora redirige al Inicio (Home)
         navigate("/");
       } else {
         const resultado = await respuesta.json();
         Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: resultado.mensaje || 'No se pudo crear el usuario',
+          icon: "error",
+          title: "Error",
+          text: resultado.mensaje || "No se pudo crear el usuario",
         });
       }
     } catch (error) {
       console.error(error);
       Swal.fire({
-        icon: 'error',
-        title: 'Error de conexión',
-        text: 'Intente nuevamente más tarde',
+        icon: "error",
+        title: "Error de conexión",
+        text: "Intente nuevamente más tarde",
       });
     }
   };
@@ -170,7 +172,6 @@ export default function Register() {
         <p className="reg-sub">Completá los datos para registrarte.</p>
 
         <form className="reg-form" onSubmit={handleSubmit}>
-
           <div className="reg-row">
             <div className="reg-field">
               <label>Nombre</label>
@@ -290,12 +291,12 @@ export default function Register() {
             <p className="reg-error">{errors.terms}</p>
           )}
 
-          {/* Botón corregido: type="submit" y sin 'to' */}
-          <Button className="reg-btn" type="submit">Crear cuenta</Button>
+          <Button className="reg-btn" type="submit">
+            Crear cuenta
+          </Button>
 
           <div className="reg-login-link">
             ¿Ya tenés cuenta?
-            {/* Link corregido: NavLink en vez de <a> */}
             <NavLink to="/login"> Iniciar sesión</NavLink>
           </div>
         </form>
