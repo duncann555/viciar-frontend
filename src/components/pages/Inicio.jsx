@@ -79,7 +79,7 @@ const Inicio = () => {
               </div>
             </Col>
           </Row>
-          <Row className="mb-5">
+          <Row className="mb-5 d-flex justify-content-around">
             {productosSeccion1.map((prod, index) => (
               <CardProducto key={prod.id || index} producto={prod} />
             ))}
@@ -95,7 +95,7 @@ const Inicio = () => {
               </div>
             </Col>
           </Row>
-          <Row className="mb-5">
+          <Row className="mb-5 d-flex justify-content-around">
             {productosSeccion2.map((prod, index) => (
               <CardProducto key={prod.id || index} producto={prod} />
             ))}
@@ -111,7 +111,7 @@ const Inicio = () => {
               </div>
             </Col>
           </Row>
-          <Row className="mb-5">
+          <Row className="mb-5 d-flex justify-content-around">
             {productosSeccion3.map((prod, index) => (
               <CardProducto key={prod.id || index} producto={prod} />
             ))}
@@ -130,7 +130,7 @@ const Inicio = () => {
               </div>
             </Col>
           </Row>
-          <Row className="mb-5">
+          <Row className="mb-5 d-flex justify-content-around">
             {productosSeccion4.map((prod, index) => (
               <CardProducto key={prod.id || index} producto={prod} />
             ))}
@@ -146,7 +146,7 @@ const Inicio = () => {
               </div>
             </Col>
           </Row>
-          <Row className="mb-5">
+          <Row className="mb-5 d-flex justify-content-around">
             {productosSeccion5.map((prod, index) => (
               <CardProducto key={prod.id || index} producto={prod} />
             ))}
@@ -162,7 +162,7 @@ const Inicio = () => {
               </div>
             </Col>
           </Row>
-          <Row className="mb-5">
+          <Row className="mb-5 d-flex justify-content-around">
             {productosSeccion6.map((prod, index) => (
               <CardProducto key={prod.id || index} producto={prod} />
             ))}
