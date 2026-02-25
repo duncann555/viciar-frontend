@@ -32,7 +32,7 @@ function Menu() {
 
   return (
     <>
-      <Navbar expand="lg" className="navbar-bg-color py-lg-3 py-md-2">
+      <Navbar variant="dark" expand="lg" className="navbar-bg-color py-lg-3 py-md-2">
         <Container className="position-relative">
           <Navbar.Brand href="/" className="pb-2">
             <img src={logoS2} alt="Logo" className="img-navbar" />
